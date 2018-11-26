@@ -5,9 +5,9 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  export default {
+    name: 'App'
+  }
 </script>
 
 <style>
@@ -16,21 +16,22 @@ export default {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
   }
+  html {
+    font-size: 100px;
+    height: 100vh;
+  }
   body {
     padding: 0;
     margin: 0;
-    font-size: 14px;
+    font-size: 0.12rem;
     color: #555;
     min-height: 100vh;
-    background: #f3f3f3;
+  }
+  #app {
+    min-height: 100vh;
   }
   a {
     text-decoration: none;
     color: #333;
   }
-/*#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}*/
 </style>

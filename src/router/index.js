@@ -9,7 +9,7 @@ import newsList from '@/view/news/list.vue'
 import newsDetail from '@/view/news/detail.vue'
 
 //  商品相关
-import purchase from '@/view/goods/purchase.vue'
+import goodlist from '@/view/goods/goodlist.vue'
 import goodsdetail from '@/view/goods/detail.vue'
 import customized from '@/view/goods/customized.vue'
 import design from '@/view/goods/design.vue'
@@ -25,6 +25,12 @@ import password from '@/view/mine/password.vue'
 //  订单
 import orderlist from '@/view/order/list.vue'
 import orderdetail from '@/view/order/detail.vue'
+
+//  登录相关
+import login from '@/view/login/login.vue'
+import register from '@/view/login/register.vue'
+import findpassword from '@/view/login/findpassword.vue'
+
 
 Vue.use(Router)
 
@@ -46,9 +52,9 @@ export default new Router({
       component: newsDetail
     },
     {
-      path: '/purchase',
-      name: 'purchase',
-      component: purchase
+      path: '/goodlist',
+      name: 'goodlist',
+      component: goodlist
     },
     {
       path: '/customized',
@@ -104,6 +110,21 @@ export default new Router({
       path: '/orderdetail',
       name: 'orderdetail',
       component: orderdetail
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
+    },
+    {
+      path: '/findpassword',
+      name: 'findpassword',
+      component: findpassword
     }
   ]
 })

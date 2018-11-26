@@ -1,43 +1,40 @@
 <template>
-  <div class="body">
+  <div class="main-content">
     <head-bar :back="true" title="商品详情" :menu="true"></head-bar>
 
     <swiper :options="swiperOption">
       <swiper-slide v-for="item,i in detail.imgs" :key="i" style="text-align: center;">
-        <img height="200px" :src="item">
+        <img width="100%" :src="item">
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
 
-    <div class="tag">
-      <span class="new">新品爆款</span>
-      <span class="title">{{detail.title||''}}</span>
+    <div class="summary">
+      <h1 class="title">宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20</h1>
+      <div class="tag">
+        <span class="item" v-for="el,k in detail.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+      </div>
     </div>
+
 
     <div class="section">
       <div class="sec-title">定制流程</div>
-      <div class="content">
-        <img :src="detail.process">
-      </div>
+      <div class="content" v-html="detail.process"></div>
     </div>
 
     <div class="section">
       <div class="sec-title">规则说明</div>
-      <div class="content">
-        <img :src="detail.rules">
-      </div>
+      <div class="content" v-html="detail.rules"></div>
     </div>
 
     <div class="section">
       <div class="sec-title">详细介绍</div>
-      <div class="content">
-        <img :src="detail.detail">
-      </div>
+      <div class="content" v-html="detail.detail"></div>
     </div>
 
     <div class="foot">
-      <div class="item"><span class="fa fa-comment-o"></span>在线客服</div>
-      <div class="item"><span class="fa fa-shopping-cart" @click="$router.push({name: 'design', query: {id: detail.id}})"></span>定制购买</div>
+      <div class="item"><img height="22px" :src="require('@/assets/icons/icon_kefu.png')" alt="">在线客服</div>
+      <div class="item"><img height="22px" :src="require('@/assets/icons/icon_cart.png')"  @click="$router.push({name: 'design', query: {id: detail.id}})" alt="">定制购买</div>
     </div>
 
   </div>
@@ -57,12 +54,13 @@
         },
         detail: {
           id: 1,
-          imgs: ['../../../static/imgs/goods.png',  '../../../static/imgs/ad1.jpg'],
+          imgs: ['../../../static/img/g3.jpg',  '../../../static/img/ad3.jpg'],
+          tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
           category: ['new'],
           title: '宝宝生辰定制牌',
-          process: '../../../static/imgs/d1.png',
-          rules: '../../../static/imgs/d2.png',
-          detail: '../../../static/imgs/d3.png',
+          process: '<img src="../../../static/img/d1.png" />',
+          rules: '<img src="../../../static/img/d2.png" />',
+          detail: '<img src="../../../static/img/d3.jpg" />',
         },
       }
     },
@@ -73,37 +71,44 @@
   }
 </script>
 
+<style>
+ img {
+   max-width: 100%;
+ }
+</style>
 <style lang="less" scoped>
-  .body {
-    padding-bottom: 3rem;
+  .main-content {
+    padding-bottom: .52rem;
   }
-  .tag {
-    background: #fff;
-    height: 3rem;
-    line-height: 3rem;
-    padding: 0 10px;
-  }
-  .new, .hot {
-    color: #fff;
-    padding: 2px 4px;
-  }
-  .new {
-    background: orange;
-  }
-  .hot {
-    background: red;
+  .summary {
+    padding: 18px 20px 25px 15px;
+    .title {
+      margin: 0;
+      line-height: 20px;
+      font-size: 15px;
+      color: #000;
+    }
+    .tag {
+      margin-top: 10px;
+      .item {
+        margin-right: 4px;
+        border-radius: 2px;
+        color: #fff;
+        font-size: 13px;
+        padding: 0 4px;
+        line-height: 20px;
+        display: inline-block;
+        white-space: nowrap;
+      }
+    }
   }
 
   .section {
-    background: #fff;
-    margin-top: 10px;
+    border-top: 5px solid #ededed;
     .sec-title {
-      border-bottom: 1px solid #ccc;
-      padding: 0 10px;
-      line-height: 30px;
-    }
-    .content {
-      text-align: center;
+      border-bottom: 1px solid rgba(237, 237, 237, 1);
+      padding: 0 12px;
+      line-height: 45px;
     }
     img {
       max-width: 100%;
@@ -114,24 +119,27 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    height: 3rem;
+    height: .52rem;
     display: flex;
     width: 100vw;
-    text-align: center;
-    color: #fff;
+    color: #000;
     font-size: 16px;
+    background: #fff;
     .item {
-      flex: 1;
-      height: 100%;
-      line-height: 3rem;
-      span {
-        margin-right: 5px;
+      line-height: .52rem;
+      text-align: center;
+      img {
+        margin-right: 8px;
+        vertical-align: middle;
+        margin-top: -3px;
       }
       &:first-child {
-        background: #aaa;
+        width: 40vw;
       }
       &:last-child {
-        background: red;
+        background: #fa5858;
+        width: 60vw;
+        color: #fff;
       }
     }
   }

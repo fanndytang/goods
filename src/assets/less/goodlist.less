@@ -1,0 +1,74 @@
+.goods-list {
+  display: flex;
+  flex-wrap: wrap;
+  background: #eaeaea;
+  padding: 5px 0;
+  .item {
+    width: 50vw;
+    &:nth-child(even) {
+      padding: 5px 0 5px 5px;
+    }
+    &:nth-child(odd) {
+      padding: 5px 5px 5px 0;
+    }
+  }
+  .content {
+    min-height: calc(50vw - 5px);
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    .img {
+      flex: 1;
+      text-align: center;
+      img {
+        max-height: 95%;
+        max-width: 90%;
+      }
+    }
+    .text {
+      margin: 8px 2px 0 2px;
+      font-size: .14rem;
+    }
+    .tag {
+      color: #fff;
+      font-size: 12px;
+      line-height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      span {
+        border-radius: 3px;
+        padding: 0 3px;
+        margin: 0 2px 2px 2px;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .tip {
+    color: #ccc;
+    font-size: 14px;
+    text-align: center;
+    width: 100vw;
+    line-height: .5rem;
+    span {
+      margin: 0 4px;
+    }
+  }
+  .text {
+    display: block;
+    white-space: normal;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+}

@@ -1,0 +1,100 @@
+//  定制参数样式
+
+.design-list-box {
+  .section {
+    border-top: 8px solid #eaeaea;
+  }
+
+  .sec-title {
+    line-height: 40px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(230, 230, 230, 1);
+  }
+
+  .list-item {
+    display: flex;
+    align-items: flex-start;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 0;
+    .label {
+      margin-right: 34px;
+      color: #ccc;
+      white-space: nowrap;
+    }
+    input[type="text"] {
+      border: none;
+    }
+    textarea {
+      padding: 5px;
+      border: none;
+    }
+    &.xingzuo {
+      .label .modal {
+        color: #6ca4b6;
+        font-size: 12px;
+        text-align: center;
+      }
+      .xz-box {
+        background: rgba(229, 229, 229, 1);
+        overflow: auto;
+        white-space: nowrap;
+        font-size: 12px;
+        line-height: 18px;
+        padding: 10px 2px;
+
+        .item {
+          display: inline-block;
+          text-align: center;
+          margin: 0 4px;
+          &.active .img {
+            border: solid 2px rgba(220, 182, 61, 1);
+          }
+          .img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            img {
+              max-width: 100%;
+              max-height: 100%;
+            }
+          }
+        }
+      }
+    }
+    .tag {
+      .item {
+        color: #0c0c0c;
+        font-size: 14px;
+        background: #e5e5e5;
+        display: inline-block;
+        margin: 0 5px 5px 5px;
+        padding: 0 5px;
+        line-height: 22px;
+        border-radius: 4px;
+        border: 1px solid transparent;
+
+        &.active {
+          color: #dcb63d;
+          border-color: #dcb63d;
+          background: #edda9e;
+        }
+      }
+    }
+  }
+
+  .purchase, .dict {
+    padding: 0 10px 60px 18px;
+    .sec-title {
+      margin-bottom: 5px;
+    }
+  }
+  .dict .list-item {
+    padding: 5px 0;
+    .label {
+      margin-right: 12px;
+    }
+  }
+}

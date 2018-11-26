@@ -1,7 +1,8 @@
 <template>
   <header class="head-bar">
-    <span v-if="back" class="fa fa-chevron-left back" @click="$router.go(-1)"></span>
+    <img v-if="back" :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="$router.go(-1)">
     <span v-if="title" class="title">{{title}}</span>
+    <slot name="menu-left"></slot>
     <head-menu v-if="menu"></head-menu>
     <slot></slot>
   </header>
@@ -19,8 +20,8 @@
 
 <style lang="less" scoped>
   .head-bar {
-    height: 2.5rem;
-    line-height: 2.5rem;
+    height: .5rem;
+  //  line-height: .5rem;
     padding: 0 10px;
     text-align: center;
     background: #fff;
@@ -28,11 +29,8 @@
     align-items: center;
     .title {
       flex: 1;
-      font-weight: bold;
-    }
-    .back {
-      font-size: 20px;
-      color: #999;
+      color: #000;
+      font-size: 18px;
     }
   }
 </style>

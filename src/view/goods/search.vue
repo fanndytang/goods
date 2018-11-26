@@ -1,61 +1,52 @@
 <template>
-  <div>
-    <div class="bar">
-      <input type="search" v-model="key" placeholder="搜索商品关键字" v-focus @change="search()" @focus="showResult = false">
-      <span @click="$router.go(-1)">取消</span>
+  <div class="full-gray">
+    <div class="header">
+      <img :src="require('@/assets/icons/icon_fanhui.png')" height="15px" @click="$router.go(-1)">
+      <div class="good-search">
+        <img :src="require('@/assets/icons/search1.png')" height="20px">
+        <span class="text">{{value || place}}</span>
+        <input type="search" class="input-search" v-focus v-model="value" @change="search()" />
+      </div>
+      <span @click="search()">搜索</span>
     </div>
 
-    <div class="history" v-if="history.length && !showResult">
+    <div class="history" v-show="history.length">
       <div class="item">
         <div class="title">历史记录</div>
-        <span class="fa fa-trash"></span>
+        <img :src="require('@/assets/icons/icon_shanchu.png')" height="22px" @click="clear()">
       </div>
       <div class="item" v-for="item,i in history" :key="i">{{item}}</div>
     </div>
-
-    <div class="list" v-show="showResult">
-      <router-link v-for="item,i in list" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
-        <div class="content">
-          <div class="img"><img :src="item.imgUrl"></div>
-          <p>{{item.title || ''}}</p>
-        </div>
-      </router-link>
-    </div>
-
-    <div class="more">上拉显示更多</div>
-
-    <span class="fa fa-arrow-circle-up top"></span>
 
   </div>
 </template>
 
 <script>
   export default {
-      data () {
-          return {
-              showResult: false,
-              history: [
-                '宝宝生辰', '公司节日定制'
-              ],
-            list: [
-              {id: '1', imgUrl: '../../../static/imgs/goods.png', title: '宝宝生辰定制牌'},
-              {id: '2', imgUrl: '../../../static/imgs/goods.png', title: '宝宝生辰定制牌'},
-              {id: '3', imgUrl: '../../../static/imgs/goods.png', title: '宝宝生辰定制牌'},
-              {id: '4', imgUrl: '../../../static/imgs/goods.png', title: '宝宝生辰定制牌'},
-            ],
-            key: '',
-          }
-      },
+    data () {
+      return {
+         // c: false,
+        place: '搜索品牌或关键词',
+        value: '',
+        history: []
+      }
+    },
+    created() {
+      this.history = (localStorage.getItem('mysgyjhistory') || '').split('**&&**')
+     // console.log(this.history)
+    },
     methods: {
-          // 搜索
-          search() {
-              this.showResult = true
-
-          }
+      search() {
+          if(this.value) this.history.push(this.value)
+        localStorage.setItem('mysgyjhistory', this.history.join('**&&**'))
+        this.$router.push({name: 'goodlist', query: {keyword: this.value}})
+      },
+      clear() {
+        localStorage.removeItem('mysgyjhistory')
+      },
     },
     directives: {
       focus: {
-        // 指令的定义
         inserted: function (el) {
           el.focus()
         }
@@ -65,61 +56,37 @@
 </script>
 
 <style lang="less" scoped>
-  .bar {
-    background: #fff;
-    padding: 5px 10px;
+  .header {
     display: flex;
-    line-height: 30px;
-    input {
+    align-items: center;
+    padding: 3px 10px;
+    font-size: 14px;
+    color: #0b0b0b;
+    background: #fff;
+
+    .good-search {
+      width: auto;
       flex: 1;
-      margin-right: 10px;
-      text-align: center;
+      margin-left: 5px;
+      margin-right: 5px;
     }
   }
 
   .history {
-    padding: 0 10px;
+    background: #fff;
     .item {
       display: flex;
       justify-content: space-between;
       line-height: 40px;
+      padding: 0 10px;
       align-items: center;
-      &:not(:first-child) {
-        border-top: 1px solid #ccc;
+      border-top: 1px solid rgba(237, 237, 237, 1);
+      color: #ccc;
+      font-size: 13px;
+      &:first-child {
+        font-size: 15px;
+        color: #0b0b0b;
       }
     }
-  }
-
-  .list {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    .item {
-      width: 50%;
-      padding: 10px;
-      text-align: center;
-      .img {
-      //  border: 1px solid #ccc;
-        background: #fff;
-        img {
-          max-width: 80%;
-        }
-      }
-      p {
-        margin: 0;
-      }
-    }
-  }
-
-  .more {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-  .top {
-    position: fixed;
-    right: 10px;
-    bottom: 10px;
-    font-size: 26px;
   }
 </style>
