@@ -117,40 +117,19 @@
 
     <div class="section dict">
       <div class="sec-title">商品参数</div>
-      <div class="list-item">
-        <div class="label">成色</div>
-        <div class="tag">
-          <span class="item active">Au999</span>
-          <span class="item">Ag999</span>
-          <span class="item">银镀金</span>
-          <span class="item">银镀金</span>
-          <span class="item">银镀金</span>
-          <span class="item">银镀金</span>
-          <span class="item">银镀金</span>
+      <div class="list-item" v-for="item,i in dict" :key="i">
+        <div class="label">{{item.title}}</div>
+
+        <div class="tag" v-for="el,k in item.list" :key="k">
+          <span :class="{'active': item.activeIndex == k}" class="item"
+                @click="item.activeIndex = k;dict.splice(i,1,item);"
+                style="white-space: nowrap;">{{el}}</span>
         </div>
-      </div>
-      <div class="list-item">
-        <div class="label">重量</div>
-        <div class="tag">
-          <span class="item">20g</span>
-          <span class="item">30g</span>
-        </div>
-      </div>
-      <div class="list-item">
-        <div class="label">规格</div>
-        <div class="tag">
-          <span class="item">20*23.8mm</span>
-          <span class="item">20*10.4mm</span>
-        </div>
-      </div>
-      <div class="list-item">
-        <div class="label">数量</div>
-        <form-number></form-number>
       </div>
 
     </div>
 
-    <button class="btn btn-red btn-block" type="button">提交订单</button>
+    <button class="btn btn-red btn-block" type="button" @click="confirm()">提交订单</button>
 
     <div class="modal-box" v-show="showModal">
       <div class="modal-body">
@@ -191,7 +170,8 @@
         back: {backgroundImg: '', params: []},     //  定制参数背面
         detail: {},                                //  详情数据
         wordFront: '',
-        wordBack: ''
+        wordBack: '',
+        dict: [],                                 //  商品参数
       }
     },
     mounted () {
@@ -295,7 +275,21 @@
                   }
                 ]
               }
-            }
+            },
+          dict: [
+            {
+              title: '成色',
+        text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'
+            },
+        {
+          title:  '重量',
+            text: '20g,30g'
+        },
+        {
+          title: '规格',
+            text: '20*23.8mm,20*10.4mm'
+        }
+          ]
           }
 
           this.dataFormat()
@@ -308,14 +302,30 @@
           front = purchase.front || {},
           back = purchase.back || {},
           frontFormat = {backgroundImg : front.backgroundImg || '', params: front.params || []},
-          backFormat = {backgroundImg: back.backgroundImg || '', params: back.params || []}
+          backFormat = {backgroundImg: back.backgroundImg || '', params: back.params || []},
+          dict = this.detail.dict || []
 
         this.purchase = purchase
 
+        //  商品参数格式化
+        this.dict = dict.map(item => {
+          item.list = (item.text || '').toString().replace(/，/g, ',').split(',')   // 替换中文的逗号
+        item.activeIndex = -1
+         // item.list = arr.map(el => return { id: el, name: el})
+       // item.list = arr.map(el => {
+         // el.isActive = false
+       // return el
+       // })
+        return item
+        })
+       // console.log(this.dict)
+
+
+        //  定制参数格式化
         paramsFormat(frontFormat, (data) => {
           this.front = data
           that.$nextTick(() => {
-            that.wordFront = $('.design-box.front .item > span')
+            that.wordFront = $('.design-box.front .item')
             that.wordFront.each(function(i) {
                     console.log(i)
               new MyDrag({el: $(this)[0]})
@@ -326,7 +336,7 @@
         paramsFormat(backFormat, (data) => {
           this.back = data
           that.$nextTick(() => {
-            that.wordBack = $('.design-box.back .item > span')
+            that.wordBack = $('.design-box.back .item')
             that.wordBack.each(function(i) {
               new MyDrag({el: $(this)[0]})
               that.setDesign(that.back, i, that.wordBack)
@@ -367,7 +377,7 @@
               if(item.type == 2) {   //  设置下拉选框列表
                 let arr = (item.text || '').toString().replace(/，/g, ',').split(',')   // 替换中文的逗号
                 item.selText = arr[0] || ''
-                item.selList = arr.map(item => {return {id: item, name: item}})
+                item.selList = arr.map(el => {return {id: el, name: el}})
               }
               return item
             })
@@ -398,7 +408,12 @@
           let radio = p.radio, radius
           if(p.type == 2)  ele.params.splice(i, 1, p)
           if(word.eq(i).find('span').length > 0)  word.eq(i).arctext('destroy')
-          word.eq(i).text(p.text)
+          if(p.type == 1){
+            word.eq(i).text(p.text)
+          }else if(p.type == 2) {
+            word.eq(i).text(p.selText)
+          }
+
           if(radio) {
             radius = word.eq(i).width() * 180 / (Math.PI * radio)
             word.eq(i).arctext({radius: parseFloat(radius)})
@@ -453,6 +468,22 @@
               title: '其它图标',
             }
           ]
+        }, 500)
+      },
+      // 提交订单
+      confirm() {
+        this.loading.show()
+
+        this.$http.post('/api/goods/order', {}).then(res => {
+          this.loading.hide()
+        this.$router.push('/orderdetail')
+        }).catch(err => {
+          this.loading.hide()
+        })
+
+        //  测试数据
+        setTimeout(() => {
+          this.$router.push('/orderdetail')
         }, 500)
       }
     }

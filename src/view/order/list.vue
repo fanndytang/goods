@@ -36,7 +36,7 @@
   export default {
       data () {
           return {
-              active: 1,
+              active: this.$route.query.type || 1,
             list: [
               {
                 id: 1,
