@@ -32,6 +32,9 @@
         loading: new this.Loading('登陆中')
       }
     },
+    mounted () {
+      sessionStorage.removeItem('mysgyj_history_page')
+    },
     methods: {
       //  登陆
       login() {

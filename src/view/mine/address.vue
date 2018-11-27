@@ -10,9 +10,9 @@
       <div class="address">{{item.address}}</div>
       <div class="bar">
         <div class="flex">
-          <span class="check-box"><input name="defaultAddress" type="radio" :checked="item.isDefault"><span class="icon"></span> 设为默认</span>
+          <span class="check-box"><input @change="setDefault(item)" type="checkbox" v-model="item.isDefault"><span class="icon"></span> 设为默认</span>
         </div>
-        <img class="del" height="22px" :src="require('@/assets/icons/icon_del.png')" alt="" @click="list.splice(i,1)">
+        <img class="del" height="22px" :src="require('@/assets/icons/icon_del.png')" alt="" @click="del(item, i)">
         <img class="edit" height="22px" :src="require('@/assets/icons/icon_edit.png')" alt="" @click="$router.push({name: 'editaddress', query: {id: item.id}})">
       </div>
     </div>
@@ -24,12 +24,56 @@
   export default {
       data () {
           return {
+            loading: new this.Loading('删除中'),
               list: [
                 {id: '1', name: '张三', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: true},
                 {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
               ]
           }
+      },
+    methods: {
+        //  删除地址
+        del(item, index) {
+
+          this.loading.show()
+          this.$http.post('/api/user/address', {
+            id: item.id
+          }).then(res => {
+
+            this.loading.hide()
+          this.list.splice(index, 1)
+           this.$message.success('删除成功')
+
+          }).catch(err => {
+            this.loading.hide()
+
+            this.$message.error('删除失败，请重试')
+
+          })
+
+        },
+      //  设置默认地址
+      setDefault(item) {
+
+          this.loading.show()
+          this.$http.post('/api/user/address', {
+            id: item.id
+          }).then(res => {
+            this.loading.hide()
+           // this.$message.success('设置成功')
+           for(let k in this.list) {
+              if(this.list[k].isDefault && this.list[k].id != item.id) {
+                this.list[k].isDefault = false
+              }
+           }
+
+          }).catch(err => {
+            this.loading.hide()
+            this.$message.error('设置失败，请重试')
+            item.isDefault = false
+        })
       }
+    }
   }
 </script>
 

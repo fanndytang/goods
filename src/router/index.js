@@ -7,6 +7,8 @@ import home from '@/view/home/index.vue'
 // 公告页
 import newsList from '@/view/news/list.vue'
 import newsDetail from '@/view/news/detail.vue'
+import join from '@/view/news/join.vue'
+import concat from '@/view/news/concat.vue'
 
 //  商品相关
 import goodlist from '@/view/goods/goodlist.vue'
@@ -50,6 +52,16 @@ export default new Router({
       path: '/newsdetail',
       name: 'newsdetail',
       component: newsDetail
+    },
+    {
+      path: '/join',
+      name: 'join',
+      component: join
+    },
+    {
+      path: '/concat',
+      name: 'concat',
+      component: concat
     },
     {
       path: '/goodlist',

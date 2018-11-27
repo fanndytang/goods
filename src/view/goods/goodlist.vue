@@ -1,7 +1,7 @@
 <!-- 商品定购 -->
 <template>
   <div>
-    <head-bar title="商品订购" :menu="true">
+    <head-bar title="&emsp;&emsp;&emsp;商品订购" :menu="true">
       <span slot="menu-left" class="search-top">
         <input type="text" @focus="$router.push('/search')">
         <img style="margin-right:11px;" height="22px" :src="require('@/assets/icons/search2.png')">

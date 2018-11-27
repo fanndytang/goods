@@ -5,8 +5,8 @@
     <div class="select" v-show="show">
       <router-link class="item" to=""><img :src="require('@/assets/icons/icon_kefu.png')" />在线客服</router-link>
       <router-link class="item" to="/newslist"><img :src="require('@/assets/icons/icon_gonggao.png')" />公告通知</router-link>
-      <router-link class="item" to=""><img :src="require('@/assets/icons/icon_jiam.png')" />加盟合作</router-link>
-      <router-link class="item" to=""><img :src="require('@/assets/icons/tel.png')" />联系我们</router-link>
+      <router-link class="item" to="/join"><img :src="require('@/assets/icons/icon_jiam.png')" />加盟合作</router-link>
+      <router-link class="item" to="/concat"><img :src="require('@/assets/icons/tel.png')" />联系我们</router-link>
     </div>
   </div>
 </template>
@@ -28,6 +28,7 @@
 
     .select {
       position: absolute;
+      min-width: 135px;
       top: 100%;
       right: -10px;
       z-index: 10;

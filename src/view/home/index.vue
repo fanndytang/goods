@@ -19,10 +19,10 @@
     </swiper>
 
     <div class="tools">
-      <div class="item"><span class="fa fa-check-circle-o"></span> 照片定制</div>
-      <div class="item"><span class="fa fa-check-circle-o"></span> 一件起订</div>
-      <div class="item"><span class="fa fa-check-circle-o"></span> 免模具费</div>
-      <div class="item"><span class="fa fa-check-circle-o"></span> 免设计稿</div>
+      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 照片定制</div>
+      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 一件起订</div>
+      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免模具费</div>
+      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免设计稿</div>
     </div>
 
     <h2 class="sec-title">新品专区 <small>好货持续上新</small></h2>
@@ -191,6 +191,10 @@
     .item {
       flex: 1;
       text-align: center;
+      img {
+        vertical-align: middle;
+        margin-top: -4px;
+      }
     }
   }
   .sec-title {

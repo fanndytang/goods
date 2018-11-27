@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-bar :back="true" title="公告通知"></head-bar>
+    <head-bar :back="true" title="加盟合作"></head-bar>
 
     <h3 class="title">{{data.title || ''}}</h3>
     <div class="date">{{data.date}}</div>
@@ -14,7 +14,7 @@
       return {
         loading: new this.Loading(),
         data:  {
-          id: '1',
+          //id: '1',
           date: '2018.11.15 12:00',
           title: '关于商家加盟最新条款事宜',
           describe: '<img src="../../../static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
@@ -23,17 +23,13 @@
     },
     mounted() {
       this.loading.show()
-      this.$http.get('/api/news/detail', {
-        params: {
-          id: this.$route.query.id || ''
-        }
-      }).then(res => {
+      this.$http.get('/api/news/join').then(res => {
         this.data = res.data
       this.loading.hide()
-      }).catch(err => {
+    }).catch(err => {
         this.loading.hide()
-   //   this.data = {}
-      })
+      //   this.data = {}
+    })
     }
   }
 </script>

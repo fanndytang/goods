@@ -1,7 +1,7 @@
 <template>
   <header class="head-bar">
     <img v-if="back" :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="$router.go(-1)">
-    <span v-if="title" class="title">{{title}}</span>
+    <span v-if="title" class="title" v-html="title"></span>
     <slot name="menu-left"></slot>
     <head-menu v-if="menu"></head-menu>
     <slot></slot>
@@ -27,6 +27,7 @@
     background: #fff;
     display: flex;
     align-items: center;
+    padding-right: 30px;
     .title {
       flex: 1;
       color: #000;

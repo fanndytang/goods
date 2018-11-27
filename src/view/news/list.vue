@@ -17,12 +17,30 @@
   export default {
       data () {
           return {
+            page: {
+              current: 1,  // 当前页
+              pages: 0,  //  总共多少页
+            },
               list: [
                 {id: '1', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
                 {id: '2', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
               ]
           }
-      }
+      },
+    mounted () {
+        this.getData()
+
+    },
+    methods: {
+        getData() {
+          this.$http.get('/api/news/list').then(res => {
+            this.list.push(res.data)
+
+          }).catch(err => {
+
+          })
+        }
+    }
   }
 </script>
 
