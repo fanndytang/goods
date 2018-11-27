@@ -2,11 +2,11 @@
   <div class="main-content">
     <head-bar :back="true" title="商品详情" :menu="true"></head-bar>
 
-    <swiper :options="swiperOption">
+    <swiper :options="swiperOption" style="position: relative;">
       <swiper-slide v-for="item,i in detail.imgs" :key="i" style="text-align: center;">
         <img width="100%" :src="item">
       </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
+      <div class="swiper-pagination goods" slot="pagination"></div>
     </swiper>
 
     <div class="summary">
@@ -34,7 +34,7 @@
 
     <div class="foot">
       <div class="item"><img height="22px" :src="require('@/assets/icons/icon_kefu.png')" alt="">在线客服</div>
-      <div class="item"><img height="22px" :src="require('@/assets/icons/icon_cart.png')"  @click="$router.push({name: 'design', query: {id: detail.id}})" alt="">定制购买</div>
+      <div class="item"  @click="$router.push({name: 'design', query: {id: detail.id}})"><img height="22px" :src="require('@/assets/icons/icon_cart.png')" alt="">定制购买</div>
     </div>
 
   </div>
@@ -49,19 +49,48 @@
       return {
         swiperOption: {
           pagination: {
+            type: 'fraction',
             el: '.swiper-pagination'
           }
         },
-        detail: {
-          id: 1,
-          imgs: ['../../../static/img/g3.jpg',  '../../../static/img/ad3.jpg'],
-          tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
-          category: ['new'],
-          title: '宝宝生辰定制牌',
-          process: '<img src="../../../static/img/d1.png" />',
-          rules: '<img src="../../../static/img/d2.png" />',
-          detail: '<img src="../../../static/img/d3.jpg" />',
-        },
+        loading: new this.Loading(),
+        detail: {},
+      }
+    },
+    mounted () {
+      this.getDetail()
+    },
+    methods: {
+      getDetail () {
+        let id = this.$route.query.id
+        if(id) {
+          this.loading.show()
+          this.$http.get('/api/good/detail', {
+            params: {
+              id: id
+            }
+          }).then(res => {
+            this.loading.hide()
+            this.detail = res.data
+          }).catch(err => {
+            this.loading.hide()
+          })
+        }
+
+
+        //  测试数据
+        setTimeout(() => {
+          this.detail = {
+            id: 1,
+            imgs: ['../../../static/img/g3.jpg',  '../../../static/img/ad3.jpg'],
+            tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
+            category: ['new'],
+            title: '宝宝生辰定制牌',
+            process: '<img src="../../../static/img/d1.png" />',
+            rules: '<img src="../../../static/img/d2.png" />',
+            detail: '<img src="../../../static/img/d3.jpg" />',
+          }
+        }, 1000)
       }
     },
     components: {
@@ -72,14 +101,31 @@
 </script>
 
 <style>
- img {
-   max-width: 100%;
- }
+  img {
+    max-width: 100%;
+  }
+
+  .swiper-pagination.goods {
+    position: absolute;
+    height: 15px;
+    color: #fff;
+    background: rgba(0, 0, 0, .5);
+    border-radius: 4px;
+    display: inline-block;
+    width: auto;
+    left: auto;
+    right: 13px;
+    bottom: 14px;
+    padding: 0 5px;
+    line-height: 15px;
+    letter-spacing: -1px;
+  }
 </style>
 <style lang="less" scoped>
   .main-content {
     padding-bottom: .52rem;
   }
+
   .summary {
     padding: 18px 20px 25px 15px;
     .title {

@@ -5,6 +5,7 @@ import scrollTop from './scroll-top.vue'
 import select from './select.vue'
 import uploadImg1 from './upload-img-1.vue'
 import formNumber from './number.vue'
+import selectCountry from './select-country.vue'
 
 export default {
   install: function(Vue){
@@ -15,5 +16,6 @@ export default {
     Vue.component('form-select', select)
     Vue.component('upload-img-1', uploadImg1)
     Vue.component('form-number', formNumber)
+    Vue.component('select-country', selectCountry)
   }
 }

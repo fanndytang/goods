@@ -1,6 +1,15 @@
 //  定制参数样式
 
 .design-list-box {
+  .design-box {
+    height: 100%;
+    display: inline-block;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+
   .section {
     border-top: 8px solid #eaeaea;
   }
@@ -21,6 +30,12 @@
       margin-right: 34px;
       color: #ccc;
       white-space: nowrap;
+      min-width: 60px;
+      .other-modal {
+        color: #6ca4b6;
+        font-size: 12px;
+        text-align: center;
+      }
     }
     input[type="text"] {
       border: none;
@@ -29,37 +44,31 @@
       padding: 5px;
       border: none;
     }
-    &.xingzuo {
-      .label .modal {
-        color: #6ca4b6;
-        font-size: 12px;
-        text-align: center;
-      }
-      .xz-box {
-        background: rgba(229, 229, 229, 1);
-        overflow: auto;
-        white-space: nowrap;
-        font-size: 12px;
-        line-height: 18px;
-        padding: 10px 2px;
+    .xz-box {
+      background: rgba(229, 229, 229, 1);
+      overflow: auto;
+      white-space: nowrap;
+      font-size: 12px;
+      line-height: 18px;
+      padding: 10px 2px;
+   //   margin-right: 10px;
 
-        .item {
-          display: inline-block;
-          text-align: center;
-          margin: 0 4px;
-          &.active .img {
-            border: solid 2px rgba(220, 182, 61, 1);
-          }
-          .img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto;
-            img {
-              max-width: 100%;
-              max-height: 100%;
-            }
+      .item {
+        display: inline-block;
+        text-align: center;
+        margin: 0 4px;
+        &.active .img {
+          border: solid 2px rgba(220, 182, 61, 1);
+        }
+        .img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          overflow: hidden;
+          margin: 0 auto;
+          img {
+            max-width: 100%;
+            max-height: 100%;
           }
         }
       }
