@@ -1,6 +1,6 @@
 <template>
   <header class="head-bar">
-    <img v-if="back" :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="$router.go(-1)">
+    <img v-if="back" :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="backTo()">
     <span v-if="title" class="title" v-html="title"></span>
     <slot name="menu-left"></slot>
     <head-menu v-if="menu"></head-menu>
@@ -13,7 +13,20 @@
     props: {
       back: Boolean,
       menu: Boolean,
-      title: String
+      title: String,
+      backpath: String, // 返回的路径
+      backstep: Number   // 返回的步数
+    },
+    methods: {
+      backTo() {
+        if(this.backstep) {
+          this.$router.go(this.backstep)
+        }else if(this.backpath) {
+          this.$router.push(backpath)
+        }else {
+          this.$router.go(-1)
+        }
+      }
     }
   }
 </script>
@@ -21,13 +34,12 @@
 <style lang="less" scoped>
   .head-bar {
     height: .5rem;
-  //  line-height: .5rem;
-    padding: 0 10px;
+    //  line-height: .5rem;
+    padding: 0 30px 0 10px;
     text-align: center;
     background: #fff;
     display: flex;
     align-items: center;
-    padding-right: 30px;
     .title {
       flex: 1;
       color: #000;

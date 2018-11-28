@@ -27,12 +27,12 @@ import password from '@/view/mine/password.vue'
 //  订单
 import orderlist from '@/view/order/list.vue'
 import orderdetail from '@/view/order/detail.vue'
+import orderresult from '@/view/order/result.vue'
 
 //  登录相关
 import login from '@/view/login/login.vue'
 import register from '@/view/login/register.vue'
 import findpassword from '@/view/login/findpassword.vue'
-
 
 Vue.use(Router)
 
@@ -122,6 +122,11 @@ export default new Router({
       path: '/orderdetail',
       name: 'orderdetail',
       component: orderdetail
+    },
+    {
+      path: '/orderresult',
+      name: 'orderresult',
+      component: orderresult
     },
     {
       path: '/login',

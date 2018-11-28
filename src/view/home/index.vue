@@ -1,48 +1,52 @@
 <template>
-  <div>
-    <header class="top">
-      <div class="logo"><img src="../../../static/img/logo.jpg" alt=""></div>
-      <head-menu></head-menu>
-    </header>
+  <div style="padding-bottom:.5rem;">
+    <my-scroll :on-infinite="getHotData"
+               :loading="loading"
+               :nodata="hotGoods.data.length >= hotGoods.totals"
+               nodatatext="没有更多商品啦"
+               class="home-index-scroll">
+      <header class="top">
+        <div class="logo"><img src="../../../static/img/logo.jpg" alt=""></div>
+        <head-menu></head-menu>
+      </header>
 
-    <div class="good-search">
-      <img :src="require('@/assets/icons/search1.png')" height="20px">
-      <span class="text">搜索品牌或关键词</span>
-      <input type="search" class="input-search" @focus="$router.push('/search')" />
-    </div>
+      <div class="good-search">
+        <img :src="require('@/assets/icons/search1.png')" height="20px">
+        <span class="text">搜索品牌或关键词</span>
+        <input type="search" class="input-search" @focus="$router.push('/search')" />
+      </div>
 
-    <swiper :options="swiperOption">
-      <swiper-slide v-for="item,i in ads" :key="i">
-        <router-link :to="item.link"><img width="100%" :src="item.imgUrl"></router-link>
-      </swiper-slide>
-      <div class="swiper-pagination" slot="pagination"></div>
-    </swiper>
+      <swiper :options="swiperOption">
+        <swiper-slide v-for="item,i in ads.banner" :key="i">
+          <router-link :to="item.link"><img width="100%" :src="item.imgUrl"></router-link>
+        </swiper-slide>
+        <div class="swiper-pagination home" slot="pagination"></div>
+      </swiper>
 
-    <div class="tools">
-      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 照片定制</div>
-      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 一件起订</div>
-      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免模具费</div>
-      <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免设计稿</div>
-    </div>
+      <div class="tools">
+        <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 照片定制</div>
+        <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 一件起订</div>
+        <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免模具费</div>
+        <div class="item"><img height="13px" :src="require('@/assets/icons/icon_sign.png')" /> 免设计稿</div>
+      </div>
 
-    <h2 class="sec-title">新品专区 <small>好货持续上新</small></h2>
-    <img class="list-img" src="../../../static/img/ad2.png" alt="">
-    <div class="new-list">
-      <router-link v-for="item,i in newGoods" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
-        <div class="content">
-          <img class="mark" height="20px" :src="require('@/assets/icons/sign_hot.png')" alt="">
-          <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
-          <span class="text">{{item.title || ''}}</span>
-        </div>
-      </router-link>
-    </div>
+      <h2 class="sec-title">新品专区 <small>好货持续上新</small></h2>
+      <img class="list-img" :src="ads.news" alt="">
+      <div class="new-list">
+        <router-link v-for="item,i in newGoods" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
+          <div class="content">
+            <img class="mark" height="20px" :src="require('@/assets/icons/sign_hot.png')" alt="">
+            <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
+            <span class="text">{{item.title || ''}}</span>
+          </div>
+        </router-link>
+      </div>
 
-    <h2 class="sec-title">热卖专区 <small>双11年购物节，疯狂优惠享不断</small></h2>
-    <img class="list-img"  id="test" src="../../../static/img/ad3.jpg" alt="">
+      <h2 class="sec-title">热卖专区 <small>双11年购物节，疯狂优惠享不断</small></h2>
+      <img class="list-img"  id="test" :src="ads.hot" alt="">
 
-    <div class="wrap" style="height: 80vh;">
       <div class="goods-list">
-        <router-link v-for="item,i in hotGoods" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
+        <router-link v-for="item,i in hotGoods.data" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
           <div class="content">
             <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
             <div class="tag">
@@ -52,12 +56,17 @@
           </div>
         </router-link>
 
-        <div class="tip"> ——<span>没有更多商品啦</span>——  </div>
+      <!--  <div slot="loadmore">
+          <div class="tip" v-show="!loading"> ——<span>{{hotGoods.data.length >= hotGoods.totals ? '没有更多商品啦' : '上拉显示更多'}}</span>——  </div>
+        </div>-->
+
       </div>
-    </div>
+
+    </my-scroll>
+
 
     <foot-bar></foot-bar>
-    <scroll-top></scroll-top>
+    <scroll-top el=".home-index-scroll"></scroll-top>
   </div>
 </template>
 
@@ -67,93 +76,120 @@
   import BScroll from 'better-scroll'
 
   export default {
-      data () {
-          return {
-            swiperOption: {
-              pagination: {
-                el: '.swiper-pagination'
-              }
-            },
-            ads: [], //  广告位
-            newGoods: [], //  新品专区
-            hotGoods: []  // 热卖专区
+    data () {
+      return {
+        swiperOption: {
+          pagination: {
+            el: '.swiper-pagination'
           }
-      },
+        },
+        ads: {   //  广告位
+          banner: [],  //  顶部轮播广告位
+          news: '',     //  新品专区广告位
+          hot: ''       //  特价热卖广告位
+        },
+        newGoods: [], //  新品专区
+        hotGoods: {  // 热卖专区
+          rows: 10,   // 一次显示多少条
+          current: 0,  // 当前显示的页数
+          totals: 0,   // 总共有多少条
+          data: []
+        },
+        loading: false,
+      }
+    },
     mounted () {
       this.getAds()
       this.getMewData()
       this.getHotData()
-      this.scrollInit()
     },
     methods: {
-      getAds() { //  广告位
-        this.ads = [
-          {id: '1', link: '', imgUrl: '../../../static/img/ad1.jpg'},
-          {id: '2', link: '', imgUrl: '../../../static/img/ad1.jpg'},
-        ]
-      },
-      getMewData() {  //  新品专区
-        let data = [
-          {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌'},
-          {id: '2', imgUrl: '../../../static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
-          {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌'},
-          {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
-        ]
-        this.newGoods = this.newGoods.concat(data)
-      },
-      getHotData() {  //  热卖专区  获取下一页数据
-        let data = [
-          {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
-          {id: '2', imgUrl: '../../../static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
-          {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
-          {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
-          {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
-          {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
-        ]
-        this.hotGoods = this.hotGoods.concat(data)
-      },
-      scrollInit() {
-          let scroll = new BScroll(".wrap", {
-          click: true,
-          taps: true,
-          probeType: 2,
-          pullUpLoad: {  //上拉加载
-            threshold: 10
-          },
-          mouseWheel: {    // pc端同样能滑动
-            speed: 20,
-            invert: false
-          },
-          useTransition:false  // 防止iphone微信滑动卡顿
-        });
+      //  广告位
+      getAds() {
+        this.$http.get('/api/index/banner').then(res => {
+          this.ads = res.data
+        }).catch(err => {
 
-        //  上拉加载
-        scroll.on("pullingUp",() =>{
-          //alert('已到最底部');
-          console.log('加载ajax数据');
-          this.getHotData()
-
-          scroll.finishPullUp();//可以多次执行上拉刷新
-        });
-
-        // 下拉时辅助一段上移距离
-        scroll.on('touchEnd', function(obj) {
-          if(obj.y > 0) {
-            let scrollTop = document.documentElement.scrollTop ||
-                window.pageYOffset || document.body.scrollTop || 0,
-              ch = 500, a = 0
-
-            function play () {
-              if(a < ch){
-                a+=20
-                window.scrollTo(0, scrollTop - a)
-                requestAnimFrame (() => {play()})
-              }
-            }
-            play()
-          }
         })
-        scroll.refresh();
+
+        // 测试数据
+        setTimeout(() => {
+          this.ads = {
+            banner: [
+              {id: '1', link: '', imgUrl: '../../../static/img/ad1.jpg'},
+              {id: '2', link: '', imgUrl: '../../../static/img/ad1.jpg'},
+            ],
+            news: '../../../static/img/ad2.png',
+            hot: '../../../static/img/ad3.jpg'
+          }
+        }, 50)
+      },
+      //  新品专区
+      getMewData() {
+        this.$http.get('/api/list/new').then(res => {
+          this.newGoods = res.data
+        }).catch(err => {
+
+        })
+
+        // 测试数据
+        setTimeout(() => {
+          this.newGoods = [
+            {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌'},
+            {id: '2', imgUrl: '../../../static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
+            {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌'},
+            {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
+          ]
+        }, 50)
+
+      },
+      //  热卖专区
+      getHotData(done) {
+        if(this.hotGoods.data.length > 0 && this.hotGoods.data.length >= this.hotGoods.totals) return false
+        this.loading = true
+        ++ this.hotGoods.current
+        this.$http.get('/api/get/hot', {
+          params: {
+            rows: this.hotGoods.rows,
+            current: this.hotGoods.current
+          }
+        }).then(res => {
+        //  this.loading = false
+          this.hotGoods.data = this.hotGoods.concat(res.data)
+          this.hotGoods.totals = res.page.totals
+
+          if(done) done()
+        }).catch(err => {
+         // this.loading = false
+         // if(done) done()
+        })
+
+        // 测试数据
+        setTimeout(() => {
+          let res = {
+            data : [
+              {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
+              {id: '2', imgUrl: '../../../static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
+              {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
+              {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
+              {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
+            ],
+            page: {
+              totals: 35
+            }
+          }
+
+          this.hotGoods.data = this.hotGoods.data.concat(res.data)
+          this.hotGoods.totals = res.page.totals
+          this.loading = false
+          if(done)done();
+        }, 200)
+
       }
     },
     components: {
@@ -163,6 +199,16 @@
   }
 </script>
 
+<style lang="less">
+  .swiper-pagination.home .swiper-pagination-bullet{
+    background: rgba(248, 248, 248, 1);
+    opacity: .5;
+    &.swiper-pagination-bullet-active {
+      opacity: 1;
+      background:rgba(199, 56, 52, 1);
+    }
+  }
+</style>
 
 <style lang="less" scoped>
   img {

@@ -6,9 +6,10 @@
 </template>
 
 <script>
-  import BScroll from 'better-scroll'
-
   export default {
+    props: {
+      el: String
+    },
     data() {
       return {
         scrollTop: null,     // 定义滚动条默认位置
@@ -20,27 +21,28 @@
       window.addEventListener('scroll', () => {
         this.scrollTop = document.documentElement.scrollTop ||
           window.pageYOffset ||
-          document.body.scrollTop || 0
+          document.body.scrollTop || document.querySelector(this.el).scrollTop
 
         // 控制滚动按钮的隐藏或显示
         this.isScrollTop = this.scrollTop > 150
-
-        console.log(this.isScrollTop)
       }, true);
     },
     methods: {
       scrollToTop() {  //  滚动到顶部
-        let scrollTop = this.scrollTop
+        let scrollTop = this.scrollTop,
+          scrollEle = document.querySelector(this.el) || window,
+          speed = 40   // 速度初始值
 
         function play () {
           if(scrollTop > 0){
-            scrollTop -= 40
-            window.scrollTo(0, scrollTop)
+            scrollTop -= speed
+            scrollTop = Math.max(scrollTop, 0)
+            speed += 20
+            scrollEle.scrollTo(0, scrollTop)
             requestAnimFrame (() => {play()})
           }
         }
         play()
-
       }
     }
   };

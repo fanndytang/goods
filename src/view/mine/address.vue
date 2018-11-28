@@ -5,15 +5,17 @@
     </head-bar>
 
     <div class="list" v-for="item,i in list" :key="i">
-      <span class="name">{{item.name}}</span>
-      <span class="tel">{{item.tel}}</span>
-      <div class="address">{{item.address}}</div>
+      <div @click="selectAddress(item)">
+        <span class="name">{{item.name}}</span>
+        <span class="tel">{{item.tel}}</span>
+        <div class="address">{{item.address}}</div>
+      </div>
       <div class="bar">
         <div class="flex">
           <span class="check-box"><input @change="setDefault(item)" type="checkbox" v-model="item.isDefault"><span class="icon"></span> 设为默认</span>
         </div>
         <img class="del" height="22px" :src="require('@/assets/icons/icon_del.png')" alt="" @click="del(item, i)">
-        <img class="edit" height="22px" :src="require('@/assets/icons/icon_edit.png')" alt="" @click="$router.push({name: 'editaddress', query: {id: item.id}})">
+        <img class="edit" height="22px" :src="require('@/assets/icons/icon_edit.png')" alt="" @click="$router.push({name: 'editaddress', query: {id: item.id, orderid: orderid}})">
       </div>
     </div>
 
@@ -28,22 +30,36 @@
               list: [
                 {id: '1', name: '张三', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: true},
                 {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
-              ]
+              ],
+            orderid: this.$route.query.orderid || false   // 是否需要选择地址
           }
       },
     methods: {
+              // 选择地址
+      selectAddress(item) {
+              if(this.orderid) {
+                      sessionStorage.setItem('siyj-orderaddressid'+this.orderid, item.id)
+                      sessionStorage.setItem('siyj-orderaddressname'+this.orderid, item.name)
+                      sessionStorage.setItem('siyj-orderaddresstel'+this.orderid, item.tel)
+                      sessionStorage.setItem('siyj-orderaddressaddress'+this.orderid, item.address)
+                      this.$router.go(-1)
+              }
+      },
         //  删除地址
         del(item, index) {
-
           this.loading.show()
           this.$http.post('/api/user/address', {
             id: item.id
           }).then(res => {
-
             this.loading.hide()
+            if(this.orderid && (sessionStorage.getItem('siyj-orderaddressid'+this.orderid) == item.id)) {  // 如果删除了当前订单所选的地址，则对应清空订单重新选择的地址
+                    sessionStorage.removeItem('siyj-orderaddressid'+this.orderid)
+                    sessionStorage.removeItem('siyj-orderaddressname'+this.orderid)
+                    sessionStorage.removeItem('siyj-orderaddresstel'+this.orderid)
+                    sessionStorage.removeItem('siyj-orderaddressaddress'+this.orderid)
+            }
           this.list.splice(index, 1)
            this.$message.success('删除成功')
-
           }).catch(err => {
             this.loading.hide()
 

@@ -4,37 +4,42 @@
        @touchmove="touchMove($event)"
        @scroll="(onInfinite || infiniteLoading) ? onScroll($event) : undefined">
     <section class="inner">
+  <!--    <div style="position:fixed;top:40px;left:40px;color:red;z-index:100;">{{infiniteLoading}}</div>-->
       <slot></slot>
       <footer class="load-more">
-        <slot name="load-more">
-          <div style="height: 30px;">loading中</div>
-        <!--  <vue-loading v-if="loading" type="spin" color="rgba(0,0,0,0.4)" :size="{ width: '30px', height: '30px' }"></vue-loading>-->
-          <span>{{loadingText}}</span>
+        <div class="loading" v-show="loading"></div>
+        <slot name="loadmore">
+          <div class="tip" v-show="!loading"> ——<span>{{nodata ? nodatatext : '上拉显示更多'}}</span>——  </div>
         </slot>
       </footer>
     </section>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
- /* import vueLoading from 'vue-loading-template';*/
+<script>
   export default {
     props: {
-      offset: {
-        type: Number,
-        default: 30
-      },
       onInfinite: {
         type: Function,
         default: undefined,
         require: false
       },
-      loadingText: {
-        type: String
-      },
       loading: {
         type: Boolean,
         default: true
+      },
+      nodatatext: {
+              type: String,
+        default: '没有更多数据啦'
+      },
+      nodata: {
+        type: Boolean,
+        default: false
+      }
+    },
+    watch: {
+      loading(val) {
+        if(!val) this.infiniteLoading = false
       }
     },
     data () {
@@ -60,7 +65,6 @@
         this.infiniteLoading = true;
         this.onInfinite(this.infiniteDone);
       },
-
       infiniteDone () {
         this.infiniteLoading = false;
       },
@@ -76,40 +80,49 @@
         let bottom = innerHeight - outerHeight - scrollTop;
         if (bottom < infiniteHeight) this.infinite();
       }
-    },
-    components: {
-     // vueLoading
     }
-  };
+  }
 </script>
 
-<style>
+<style lang="less" scoped>
   .scroll-loadmore {
-    background: #6ca4b6;
     position: relative;
- /* //  position: absolute;
-    top: 0;
-    right: 0;*/
-/*  //  bottom: 0;*/
     height: 100vh;
-   /* left: 0;*/
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-/*    //background-color: #f4f4f4;*/
   }
-
   .scroll-loadmore .inner {
     position: absolute;
+    left: 0;
     top: 0;
     width: 100%;
     transition-duration: 300ms;
   }
+  .tip {
+    color: #ccc;
+    font-size: 14px;
+    text-align: center;
+    width: 100vw;
+    line-height: .5rem;
+    background: #eaeaea;
+    span {
+      margin: 0 4px;
+    }
+  }
+  .loading {
+    text-align: center;
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 10px auto;
+    border: 2px solid #9d9d9d;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: circle 1s infinite;
+  }
 
-  .scroll-loadmore .load-more {
-    height: 1rem;
-    font-size: 0.4rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  @keyframes circle {
+    0% {transform: rotate(0)}
+    100% {transform: rotate(360deg)}
   }
 </style>

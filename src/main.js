@@ -16,9 +16,6 @@ Vue.use(message)
 import loading from '@/plugin/loading'
 Vue.use(loading)
 
-
-import BScroll from 'better-scroll'
-Vue.prototype.BScroll = BScroll
 Vue.prototype.$http = axios
 
 Vue.config.productionTip = false

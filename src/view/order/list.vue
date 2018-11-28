@@ -10,7 +10,7 @@
     </div>
 
     <div class="list" v-for="item,i in list" :key="i">
-      <router-link :to="{name: 'orderdetail', query: {id: item.id}}">
+      <router-link :to="{name: 'orderdetail', query: {orderid: item.sn}}">
         <div class="top">
           <span>订单编号：{{item.sn}}</span>
           <span>{{item.date}}</span>

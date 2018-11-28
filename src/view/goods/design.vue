@@ -476,14 +476,14 @@
 
         this.$http.post('/api/goods/order', {}).then(res => {
           this.loading.hide()
-        this.$router.push('/orderdetail')
+          this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
         }).catch(err => {
           this.loading.hide()
         })
 
         //  测试数据
         setTimeout(() => {
-          this.$router.push('/orderdetail')
+          this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
         }, 500)
       }
     }

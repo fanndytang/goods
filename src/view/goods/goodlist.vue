@@ -1,132 +1,167 @@
 <!-- 商品定购 -->
 <template>
   <div>
-    <head-bar title="&emsp;&emsp;&emsp;商品订购" :menu="true">
+    <my-scroll :on-infinite="getData"
+               :loading="loading"
+               :nodata="showData.data.length >= showData.totals"
+               nodatatext="没有更多商品啦"
+               class="goodlist-scroll">
+
+      <head-bar title="&emsp;&emsp;&emsp;商品订购" :menu="true">
       <span slot="menu-left" class="search-top">
         <input type="text" @focus="$router.push('/search')">
         <img style="margin-right:11px;" height="22px" :src="require('@/assets/icons/search2.png')">
       </span>
-    </head-bar>
+      </head-bar>
 
-    <img src="../../../static/img/banner.jpg" alt="" class="banner">
+      <img src="../../../static/img/banner.jpg" alt="" class="banner">
 
-    <div class="nav-bar">
+      <div class="nav-bar">
       <span class="item"
             v-for="item,i in nav" :key="i"
-            @click="type = item.type; getData()"
+            @click="clickNav(item)"
             :class="{'active': item.type == type}">
         <span>{{item.title}}</span>
       </span>
-    </div>
+      </div>
 
-    <div class="wrap" style="height: 80vh;">
       <div class="goods-list">
-        <router-link v-for="item,i in current" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
+        <router-link v-for="item,i in showData.data" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
           <div class="content">
-            <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
-            <div class="tag">
-              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
-            </div>
-            <div class="text">{{item.title || ''}}</div>
+          <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
+          <div class="tag">
+            <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
           </div>
+          <div class="text">{{item.title || ''}}</div>
+        </div>
         </router-link>
 
-        <div class="tip"> ——<span>没有更多商品啦</span>——  </div>
+       <!-- <div class="tip" v-show="!loading"> ——<span>{{showData.data.length >= showData.totals ? '没有更多商品啦' : '上拉显示更多'}}</span>——  </div>-->
       </div>
-    </div>
 
-    <scroll-top></scroll-top>
-    <foot-bar></foot-bar>
+      <scroll-top el=".goodlist-scroll"></scroll-top>
+      <foot-bar></foot-bar>
+    </my-scroll>
 
   </div>
 </template>
 
 <script>
-  import BScroll from 'better-scroll'
 
   export default {
-      data () {
-          return {
-              type: 1,
-              nav: [],
-            dataAll: {},   //  总数据列表
-            current: []   // 当前显示的数据列表
-          }
-      },
+    data () {
+      return {
+        type: 1,
+        nav: [],
+        keyword: this.$route.query.keyword || '',  //  搜索关键词
+        loading: false,
+        dataAll: {},   //  总数据列表
+        showData: {      // 当前显示的数据列表
+          rows: 10,   // 一次显示多少条
+          current: 0,  // 当前显示的页数
+          totals: 0,   // 总共有多少条
+          data: []
+        }
+      }
+    },
     mounted () {
-          this.getNav()
+      this.getNav()
       this.getData()
-      this.scrollInit()
     },
     methods: {
-          getNav() {
-              this.nav = [
-                {title: '新品上牌', type: 1},
-                {title: '节日限定', type: 2},
-                {title: '情侣定制', type: 3},
-                {title: '宝宝定制', type: 4},
-                {title: '父母父母', type: 5},
-              ]
-            for(let k in this.nav) {
-                  this.dataAll[this.nav[k].type] = {
-                      data: []
-                  }
+      // 点击商品类别
+      clickNav(item) {
+        this.type = item.type
+        this.showData = this.dataAll[this.type]
+        let len = this.showData.data.length
+        if(len <= 0) {
+          this.getData()
+        }else if(len > 0 && len < this.showData.totals) {
+          this.loading = true
+          setTimeout(() => {this.loading = false}, 50)
+        }
+      },
+      // 获取商品类别
+      getNav() {
+        this.$http.get('/api/good/category').then(res => {
+
+        }).catch(err => {
+
+        })
+
+        //  测试数据
+        setTimeout(() => {
+          this.nav = [
+            {title: '新品上牌', type: 1},
+            {title: '节日限定', type: 2},
+            {title: '情侣定制', type: 3},
+            {title: '宝宝定制', type: 4},
+            {title: '父母父母', type: 5},
+          ]
+          for(let k in this.nav) {
+            this.dataAll[this.nav[k].type] = {
+              rows: 10,   // 一次显示多少条
+              current: 0,  // 当前显示的页数
+              totals: 0,   // 总共有多少条
+              data: []
             }
-          },
-          getData() {
-            let data = [
+          }
+        }, 50)
+      },
+      //  获取商品数据
+      getData(done) {
+        if(this.showData.data.length > 0 && this.showData.data.length >= this.showData.totals)   return false
+
+        this.loading = true
+        ++ this.showData.current
+        this.$http.get('/api/get/hot', {
+          params: {
+            rows: this.showData.rows,
+            current: this.showData.current,
+            keyword: this.keyword
+          }
+        }).then(res => {
+          //  this.loading = false
+          this.showData.data = this.showData.concat(res.data)
+          this.showData.totals = res.page.totals
+
+          this.dataAll[this.type] = this.showData
+
+          if(done) done()
+        }).catch(err => {
+          // this.loading = false
+          //   if(done) done()
+        })
+
+        // 测试数据
+        setTimeout(() => {
+          let res = {
+            data : [
               {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
               {id: '2', imgUrl: '../../../static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
               {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
               {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
               {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
               {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
-            ]
-            this.dataAll[this.type].data = this.dataAll[this.type].data.concat(data)
-            this.current = this.dataAll[this.type].data
-          },
-      scrollInit() {
-        let scroll = new BScroll(".wrap", {
-          click: true,
-          taps: true,
-          probeType: 2,
-          pullUpLoad: {  //上拉加载
-            threshold: 10
-          },
-          mouseWheel: {    // pc端同样能滑动
-            speed: 20,
-            invert: false
-          },
-          useTransition:false  // 防止iphone微信滑动卡顿
-        });
-
-        //  上拉加载
-        scroll.on("pullingUp",() =>{
-          //alert('已到最底部');
-          console.log('加载ajax数据');
-          this.getData()
-
-          scroll.finishPullUp();//可以多次执行上拉刷新
-        });
-
-        // 下拉时辅助一段上移距离
-        scroll.on('touchEnd', function(obj) {
-          if(obj.y > 0) {
-            let scrollTop = document.documentElement.scrollTop ||
-                window.pageYOffset || document.body.scrollTop || 0,
-              ch = 500, a = 0
-
-            function play () {
-              if(a < ch){
-                a+=20
-                window.scrollTo(0, scrollTop - a)
-                requestAnimFrame (() => {play()})
-              }
+              {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
+            ],
+            page: {
+              totals: 35
             }
-            play()
           }
-        })
-        scroll.refresh();
+
+          this.showData.data = this.showData.data.concat(res.data)
+          this.showData.totals = res.page.totals
+
+          this.dataAll[this.type] = this.showData
+
+          this.loading = false
+          if(done)done();
+        }, 200)
+
       }
     }
   }
@@ -171,9 +206,6 @@
       }
     }
   }
-
-
-
 
   .list {
     display: flex;
