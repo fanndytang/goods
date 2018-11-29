@@ -24,85 +24,76 @@
 
 <script>
   export default {
-      data () {
-          return {
-                  loading: false,
-            /*page: {
-              current: 1,  // 当前页
-              pages: 0,  //  总共多少页
-            },*/
+    data () {
+      return {
+        loading: false,
+        /*page: {
+          current: 1,  // 当前页
+          pages: 0,  //  总共多少页
+        },*/
 
-              list: {
-                rows: 10,   // 一次显示多少条
-                current: 0,  // 当前显示的页数
-                totals: 0,   // 总共有多少条
-                          data:[
-                            {id: '1', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
-                            {id: '2', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
-                          ]
-              }
-          }
-      },
+        list: {
+          rows: 10,   // 一次显示多少条
+          current: 0,  // 当前显示的页数
+          totals: 0,   // 总共有多少条
+          data:[]
+        }
+      }
+    },
     mounted () {
-        this.getData()
+      this.getData()
 
     },
     methods: {
-        getData(done) {
-          this.$http.get('/api/news/list').then(res => {
-            this.list.push(res.data)
+      getData(done) {
+        if(this.list.data.length > 0 && this.list.data.length >= this.list.totals) return false
+        this.loading = true
+        ++ this.list.current
+        this.$http.get('/api/news/list', {
+          params: {
+            rows: this.list.rows,
+            current: this.list.current
+          }
+        }).then(res => {
+          //  this.loading = false
+          this.list.data = this.list.data.concat(res.data)
+        this.list.totals = res.page.totals
 
-          }).catch(err => {
+        if(done) done()
+      }).catch(err => {
+          // this.loading = false
+          // if(done) done()
+        })
 
-          })
-
-          if(this.hotGoods.data.length > 0 && this.hotGoods.data.length >= this.hotGoods.totals) return false
-          this.loading = true
-          ++ this.hotGoods.current
-          this.$http.get('/api/get/hot', {
-            params: {
-              rows: this.hotGoods.rows,
-              current: this.hotGoods.current
+        // 测试数据
+        setTimeout(() => {
+          let res = {
+            data : [
+              {id: '1', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '2', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '3', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '4', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '5', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '6', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '7', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '8', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '9', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '10', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+            ],
+            page: {
+              totals: 35
             }
-          }).then(res => {
-            //  this.loading = false
-            this.hotGoods.data = this.hotGoods.concat(res.data)
-            this.hotGoods.totals = res.page.totals
+          }
 
-            if(done) done()
-          }).catch(err => {
-            // this.loading = false
-            // if(done) done()
-          })
+        this.list.data = this.list.data.concat(res.data)
+        this.list.totals = res.page.totals
+        this.loading = false
 
-          // 测试数据
-          setTimeout(() => {
-            let res = {
-              data : [
-                {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
-                {id: '2', imgUrl: '../../../static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
-                {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
-                {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
-                {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
-                {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
-                {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
-                {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
-                {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
-                {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
-              ],
-              page: {
-                totals: 35
-              }
-            }
-
-            this.hotGoods.data = this.hotGoods.data.concat(res.data)
-            this.hotGoods.totals = res.page.totals
-            this.loading = false
-            if(done)done();
-          }, 200)
+        if(done)done();
+      }, 200)
 
 
-        }
+      }
     }
   }
 </script>

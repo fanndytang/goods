@@ -155,7 +155,7 @@
           }
         }).then(res => {
         //  this.loading = false
-          this.hotGoods.data = this.hotGoods.concat(res.data)
+          this.hotGoods.data = this.hotGoods.data.concat(res.data)
           this.hotGoods.totals = res.page.totals
 
           if(done) done()

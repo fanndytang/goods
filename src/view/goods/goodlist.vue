@@ -122,7 +122,7 @@
           }
         }).then(res => {
           //  this.loading = false
-          this.showData.data = this.showData.concat(res.data)
+          this.showData.data = this.showData.data.concat(res.data)
           this.showData.totals = res.page.totals
 
           this.dataAll[this.type] = this.showData

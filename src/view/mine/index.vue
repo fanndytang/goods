@@ -57,7 +57,7 @@
           {label: '待确认', type: 1, icon: require('@/assets/icons/icon_daiqueren.png')},
           {label: '生产中', type: 2, icon: require('@/assets/icons/icon_scz.png')},
           {label: '已发货', type: 3, icon: require('@/assets/icons/icon_yifahuo.png')},
-          {label: '已取消', type: 4, icon: require('@/assets/icons/icon_yiquxiao.png')}
+          {label: '已取货', type: 4, icon: require('@/assets/icons/icon_yiquxiao.png')}
         ]
       }
     },

@@ -8,7 +8,7 @@
       <img class="full-img" src="../../../static/img/minecenter.jpg" alt="">
       <div class="upload">
         <input type="file">
-        <img class="useimg" :src="params.avatar || require('@/assets/icons/img_moren.png')" alt="">
+        <img id="image" class="useimg" :src="params.avatar || require('@/assets/icons/img_moren.png')" alt="">
         <img class="icon-plus" :src="require('@/assets/icons/icon_add.png')" alt="">
       </div>
     </div>
@@ -54,6 +54,9 @@
 </template>
 
 <script>
+
+  import Cropper from 'cropperjs';
+
   export default {
     data () {
       return {
@@ -72,6 +75,11 @@
           usertel: '',   //  联系电话
         }
       }
+    },
+    mounted () {
+     this.$nextTick(() => {
+
+     })
     },
     methods: {
       // 提交

@@ -34,10 +34,17 @@ import login from '@/view/login/login.vue'
 import register from '@/view/login/register.vue'
 import findpassword from '@/view/login/findpassword.vue'
 
+import test from '@/test.vue'
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/test',
+      name: 'test',
+      component: test
+    },
     {
       path: '/',
       name: 'home',
