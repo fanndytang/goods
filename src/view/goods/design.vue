@@ -25,7 +25,9 @@
 
       </div>-->
 
-      <div class="design-box back" v-show="active == 2">
+      <preview-box id="back-box" :box="back" v-show="active==2"></preview-box>
+
+     <!-- <div class="design-box back" v-show="active == 2">
         <img :src="back.backgroundImg" alt="">
         <div class="item" v-for="item,i in back.params" :key="i" :style="(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
           <span v-if="item.type == 1">{{item.text}}</span>
@@ -39,7 +41,7 @@
         </div>
 
 
-      </div>
+      </div>-->
 
       <img height="35px" :src="require('@/assets/icons/download.png')" alt="" class="download">
     </div>
@@ -47,9 +49,11 @@
     <div class="section purchase">
       <div class="sec-title">定制参数</div>
 
-      <div v-show="active == 1">
-      <!--  <set-box :box="front"></set-box>-->
-      <!--  <div class="list-item" v-for="item,i in front.params" :key="i">
+      <set-box v-show="active == 1" :box="front" :word-ele="wordFront"></set-box>
+
+     <!-- <div v-show="active == 1">
+
+      &lt;!&ndash;  <div class="list-item" v-for="item,i in front.params" :key="i">
           <div class="label">
             {{item.title}}
             <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, front)">其它模板</div>
@@ -73,10 +77,13 @@
           <input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">
 
 
-        </div>-->
-      </div>
+        </div>&ndash;&gt;
+      </div>-->
 
-      <div v-show="active == 2">
+      <set-box v-show="active == 2" :box="back" :word-ele="wordBack"></set-box>
+
+
+    <!--  <div v-show="active == 2">
         <div class="list-item" v-for="item,i in back.params" :key="i">
           <div class="label">
             {{item.title}}
@@ -104,16 +111,16 @@
 
         </div>
 
-      </div>
+      </div>-->
 
 
       <div class="list-item">
         <div class="label">定制字体</div>
-        <form-select style="width: 65vw;" :list="fontList"></form-select>
+        <form-select style="width: 65vw;" :list="fontList" v-model="purchase.fontFamily"></form-select>
       </div>
       <div class="list-item">
         <div class="label">定制备注</div>
-        <textarea class="textarea" cols="30" rows="3" placeholder="请备注想说的话"></textarea>
+        <textarea v-model="purchase.remark" class="textarea" cols="30" rows="3" placeholder="请备注想说的话"></textarea>
       </div>
     </div>
 
@@ -135,7 +142,7 @@
 
     <button class="btn btn-red btn-block" type="button" @click="confirm()">提交订单</button>
 
-    <div class="modal-box" v-show="showModal">
+   <!-- <div class="modal-box" v-show="showModal">
       <div class="modal-body">
         <div class="title">选择图标<img @click="showModal = false" class="close" height="20px" :src="require('@/assets/icons/icon_guanbi.png')" alt=""></div>
         <div class="item" v-for="item,i in icons.list" :key="i">
@@ -147,7 +154,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
 
   </div>
@@ -155,29 +162,29 @@
 
 <script>
   import previewBox from './design/preview.vue'
-  //import setbox from './design/setbox.vue'
+  import setbox from './design/setbox.vue'
 
   export default {
     data () {
       return {
         active: 1,
         loading: new this.Loading(),
-        showModal: false,                            //  其它模板显示隐藏
+       // showModal: false,                            //  其它模板显示隐藏
         fontList: [                                  // 字体列表
           {id: '宋体', name: '宋体'},
           {id: '微软雅黑', name: '微软雅黑'}
         ],
-        icons: {                                     // 其它模板列表
+        /*icons: {                                     // 其它模板列表
           index: '',                            // 当前数据所属的定制参数索引值
           ele: {params: []},                              // 当前数据所属的定制正面或背面
           list: []
-        },
+        },*/
         purchase: {},                              // 其他一些公共定制参数
         front: {backgroundImg: '', params: [], scale: 1},    // 定制参数正面
         back: {backgroundImg: '', params: [], scale: 1},     //  定制参数背面
         detail: {},                                //  详情数据
-        wordFront: '',
-        wordBack: '',
+        wordFront: {},
+        wordBack: {},
         dict: [],                                 //  商品参数
       }
     },
@@ -282,21 +289,21 @@
           this.front = data
           that.$nextTick(() => {
             that.wordFront = $('#front-box .item')
-            console.log(that.wordFront)
-            that.wordFront.each(function(i) {
+          //  console.log(that.wordFront)
+           /* that.wordFront.each(function(i) {
               new MyDrag({el: $(this)[0]})
               that.setDesign(that.front, i, that.wordFront)
-            })
+            })*/
           })
         })
         paramsFormat(backFormat, (data) => {
           this.back = data
           that.$nextTick(() => {
             that.wordBack = $('.design-box.back .item')
-            that.wordBack.each(function(i) {
+           /* that.wordBack.each(function(i) {
               new MyDrag({el: $(this)[0]})
               that.setDesign(that.back, i, that.wordBack)
-            })
+            })*/
           })
         })
 
@@ -369,7 +376,7 @@
         return sty
       },
       // 选择不同的图标，更新显示
-      setIconUrl(i, url, ele) {
+     /* setIconUrl(i, url, ele) {
         let p = ele.params[i]
         p.url = url
         ele.params.splice(i, 1, p)
@@ -443,10 +450,18 @@
             }
           ]
         }, 50)
-      },
+      },*/
       // 提交订单
       confirm() {
         this.loading.show()
+
+        let dict = []
+
+        for(let k in this.dict) {
+          let item = this.dict[k]
+          dict.push(item.list[item.activeIndex] || '')
+
+        }
 
         let data = {
           id: this.$route.query.id,
@@ -454,8 +469,10 @@
           back: this.back,
           fontFamily: this.purchase.fontFamily,
           remark: this.purchase.remark,
-          dict: this.dict
+          dict: dict
         }
+
+      //  console.log(data)
 
         this.$http.post('/api/goods/order',data).then(res => {
           this.loading.hide()
@@ -472,7 +489,7 @@
     },
     components: {
             'preview-box': previewBox,
-   //   'set-box': setbox
+      'set-box': setbox
     }
   }
 </script>
@@ -514,12 +531,12 @@
   }
 
 
-  .design-box {
-    position: relative;
-    .item {
-      position: absolute;
-    }
-  }
+  //.design-box {
+ //   position: relative;
+   // .item {
+  //    position: absolute;
+  //  }
+  //}
   /*
     .sec-title {
       line-height: 40px;
@@ -619,7 +636,7 @@
     font-size: 16px;
   }
 
-  .modal-box {
+  /*.modal-box {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -685,6 +702,6 @@
         }
       }
     }
-  }
+  }*/
 
 </style>

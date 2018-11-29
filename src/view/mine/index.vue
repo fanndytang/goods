@@ -72,7 +72,7 @@
         if(!this.isLogin) return false
         this.loading.show()
         this.$http.get('/api/user/info').then((res) => {
-          this.userinfo = res.data
+          this.userinfo = res.data.data
           this.loading.hide()
         }).catch((err) => {
           this.userinfo = {}

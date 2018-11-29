@@ -51,8 +51,8 @@
           }
         }).then(res => {
           //  this.loading = false
-          this.list.data = this.list.data.concat(res.data)
-        this.list.totals = res.page.totals
+          this.list.data = this.list.data.concat(res.data.data)
+        this.list.totals = res.data.page.totals
 
         if(done) done()
       }).catch(err => {

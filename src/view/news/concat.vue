@@ -24,7 +24,7 @@
     mounted() {
       this.loading.show()
       this.$http.get('/api/news/join').then(res => {
-        this.data = res.data
+        this.data = res.data.data
       this.loading.hide()
     }).catch(err => {
         this.loading.hide()

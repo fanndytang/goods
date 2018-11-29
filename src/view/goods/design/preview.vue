@@ -25,11 +25,13 @@
         //(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style
         let sty = ''
 
-        if(item.fontsize) sty += 'font-size:'+item.fontsize
+        if(item.fontsize) sty += 'font-size:'+item.fontsize+';'
         sty += 'top:'+item.top+'px;'
         sty += 'left:'+item.left+'px;'
         sty += 'transform:rotate('+(item.rotate||0)+'deg;'
         if(item.style) sty += item.style
+
+        //console.log(sty)
 
         return sty
       }

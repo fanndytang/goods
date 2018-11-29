@@ -28,7 +28,7 @@
           id: this.$route.query.id || ''
         }
       }).then(res => {
-        this.data = res.data
+        this.data = res.data.data
       this.loading.hide()
       }).catch(err => {
         this.loading.hide()

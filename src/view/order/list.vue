@@ -32,7 +32,7 @@
           </div>
         </router-link>
 
-        <button class="btn btn-block btn-red" type="button" v-show="type===1">取消订单</button>
+        <button class="btn btn-block btn-red" type="button" v-show="type===1" @click="cancel(item)">取消订单</button>
       </div>
     </my-scroll>
 
@@ -103,8 +103,8 @@
           }
         }).then(res => {
           //  this.loading = false
-          this.showData.data = this.showData.data.concat(res.data)
-        this.showData.totals = res.page.totals
+          this.showData.data = this.showData.data.concat(res.data.data)
+        this.showData.totals = res.data.page.totals
 
         this.dataAll[this.type] = this.showData
 
@@ -144,6 +144,16 @@
         if(done)done();
       }, 200)
 
+      },
+      //  取消订单
+      cancel(item) {
+        this.$http.post('/api/order/cancel', {
+          sn: item.sn
+        }).then(res => {
+
+        }).catch(err => {
+
+        })
       }
     }
   }

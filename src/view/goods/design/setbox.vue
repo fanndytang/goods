@@ -1,32 +1,39 @@
 <template>
-  <div class="list-item" v-for="item,i in box.params" :key="i">
-    <div class="label">
-      {{item.title}}
-            <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板</div>
-    </div>
-    <div style="flex: 1;">
-      <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(box, i, wordEle)" placeholder="请输入">
-
-      <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(box, i, wordEle)" style="display:inline-block;"></form-select>
-
-      <input v-if="item.type == 3 && item.istext" type="text" placeholder="请输入">
-      <upload-img-1 v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
-
-      <div v-if="item.type == 4 && item.iconlist" class="xz-box" style="width:100%;">
-        <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
-          <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
-          {{el.text}}
-            </div>
+  <div>
+    <div class="list-item" v-for="item,i in box.params" :key="i">
+      <div class="label">
+        {{item.title}}
+        <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板</div>
       </div>
+      <div style="flex: 1;">
+        <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(box, i, wordEle)" placeholder="请输入">
+
+        <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(box, i, wordEle)" style="display:inline-block;"></form-select>
+
+        <input v-if="item.type == 3 && item.istext" v-model="item.text" type="text" placeholder="请输入">
+        <upload-img-1 v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
+
+        <div v-if="item.type == 4 && item.iconlist" class="xz-box" style="width:100%;">
+          <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
+            <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
+            {{el.text}}
+          </div>
+        </div>
+      </div>
+
+      <!--<input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">-->
+
+
     </div>
 
-    <input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">
-
-
+    <modal-box :show-modal.sync="showModal" :icons="icons" :setIconUrl="setIconUrl"></modal-box>
   </div>
+
 </template>
 
 <script>
+  import modalBox from './modal.vue'
+
   export default {
           props: {
                   box: Object,
@@ -34,9 +41,26 @@
           },
           data () {
                   return {
-
+                    showModal: false,
+                    icons: {                                     // 其它模板列表
+                      index: '',                            // 当前数据所属的定制参数索引值
+                      ele: {params: []},                              // 当前数据所属的定制正面或背面
+                      list: []
+                    },
                   }
           },
+    watch: {
+            wordEle(val) {
+             // console.log(val)
+              if(val.length) {
+                let that = this
+                val.each(function(i) {
+                  new MyDrag({el: $(this)[0]})
+                  that.setDesign(that.box, i, that.wordEle)
+                })
+              }
+            }
+    },
     methods: {
       // 选择不同的图标，更新显示
       setIconUrl(i, url, ele) {
@@ -114,6 +138,9 @@
           ]
         }, 50)
       },
+    },
+    components: {
+            'modal-box': modalBox
     }
   }
 </script>

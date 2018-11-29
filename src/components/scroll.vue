@@ -9,7 +9,7 @@
       <footer class="load-more">
         <div class="loading" v-show="loading"></div>
         <slot name="loadmore">
-          <div class="tip" v-show="!loading"> ——<span>{{nodata ? nodatatext : '上拉显示更多'}}</span>——  </div>
+          <div class="tip" v-show="!loading && !notip"> ——<span>{{nodata ? nodatatext : '上拉显示更多'}}</span>——  </div>
         </slot>
       </footer>
     </section>
@@ -35,7 +35,8 @@
       nodata: {
         type: Boolean,
         default: false
-      }
+      },
+      notip: Boolean
     },
     watch: {
       loading(val) {
