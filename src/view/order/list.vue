@@ -13,9 +13,6 @@
              @click="clickNav(item)" :class="{'active': type==item.type}">
           <span>{{item.title}}</span>
         </div>
-        <!--<div class="item" @click="clickNav(2)" :class="{'active': type===2}"><span>生产中</span></div>
-        <div class="item" @click="clickNav(3)" :class="{'active': type===3}"><span>已发货</span></div>
-        <div class="item" @click="clickNav(4)" :class="{'active': type===4}"><span>已取消</span></div>-->
       </div>
 
       <div class="list" v-for="item,i in showData.data" :key="i">

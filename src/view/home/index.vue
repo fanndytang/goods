@@ -56,10 +56,6 @@
           </div>
         </router-link>
 
-      <!--  <div slot="loadmore">
-          <div class="tip" v-show="!loading"> ——<span>{{hotGoods.data.length >= hotGoods.totals ? '没有更多商品啦' : '上拉显示更多'}}</span>——  </div>
-        </div>-->
-
       </div>
 
     </my-scroll>
@@ -73,7 +69,6 @@
 <script>
   import 'swiper/dist/css/swiper.css'
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
-  import BScroll from 'better-scroll'
 
   export default {
     data () {
@@ -107,10 +102,8 @@
       //  广告位
       getAds() {
         this.$http.get('/api/index/banner').then(res => {
-          this.ads = res.data
-        }).catch(err => {
-
-        })
+          this.ads = res.data.data
+        }).catch(err => {})
 
         // 测试数据
         setTimeout(() => {
@@ -127,10 +120,8 @@
       //  新品专区
       getMewData() {
         this.$http.get('/api/list/new').then(res => {
-          this.newGoods = res.data
-        }).catch(err => {
-
-        })
+          this.newGoods = res.data.data
+        }).catch(err => {})
 
         // 测试数据
         setTimeout(() => {
@@ -141,7 +132,6 @@
             {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
           ]
         }, 50)
-
       },
       //  热卖专区
       getHotData(done) {
@@ -155,8 +145,8 @@
           }
         }).then(res => {
         //  this.loading = false
-          this.hotGoods.data = this.hotGoods.data.concat(res.data)
-          this.hotGoods.totals = res.page.totals
+          this.hotGoods.data = this.hotGoods.data.concat(res.data.data)
+          this.hotGoods.totals = res.data.page.totals
 
           if(done) done()
         }).catch(err => {

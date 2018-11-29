@@ -9,6 +9,10 @@
         <label class="label">定制字体</label>
         <span>{{purchase.fontFamily || '无'}}</span>
       </div>
+      <div class="list-item" v-if="custom">
+        <label class="label">定制照片</label>
+        <span>{{purchase.fontFamily || '无'}}</span>
+      </div>
       <div class="list-item">
         <label class="label">定制备注</label>
         <span>{{purchase.remark || '无'}}</span>
@@ -16,7 +20,7 @@
 
     </div>
 
-    <div class="box">
+    <div class="box" v-if="!custom">
       <div class="title  flex-between flex-xcenter">
         <span>正面信息</span>
         <img height="20px" :src="require('@/assets/icons/icon_xia.png')" alt="">
@@ -33,7 +37,7 @@
 
     </div>
 
-    <div class="box">
+    <div class="box" v-if="!custom">
       <div class="title  flex-between flex-xcenter">
         <span>背面信息</span>
         <img height="20px" :src="require('@/assets/icons/icon_xia.png')" alt="">
@@ -58,6 +62,7 @@
     },
     data () {
       return {
+              custom: this.$route.query.custom, // 是否是个性定制页面
         type: this.$route.query.type
       }
     }

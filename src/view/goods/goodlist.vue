@@ -36,7 +36,6 @@
         </div>
         </router-link>
 
-       <!-- <div class="tip" v-show="!loading"> ——<span>{{showData.data.length >= showData.totals ? '没有更多商品啦' : '上拉显示更多'}}</span>——  </div>-->
       </div>
 
       <scroll-top el=".goodlist-scroll"></scroll-top>
@@ -47,7 +46,6 @@
 </template>
 
 <script>
-
   export default {
     data () {
       return {
@@ -84,10 +82,16 @@
       // 获取商品类别
       getNav() {
         this.$http.get('/api/good/category').then(res => {
-
-        }).catch(err => {
-
-        })
+          this.nav = res.data.data
+          for(let k in this.nav) {
+            this.dataAll[this.nav[k].type] = {
+              rows: 10,   // 一次显示多少条
+              current: 0,  // 当前显示的页数
+              totals: 0,   // 总共有多少条
+              data: []
+            }
+          }
+        }).catch(err => {})
 
         //  测试数据
         setTimeout(() => {
@@ -118,12 +122,13 @@
           params: {
             rows: this.showData.rows,
             current: this.showData.current,
-            keyword: this.keyword
+            keyword: this.keyword,
+            type: this.type
           }
         }).then(res => {
           //  this.loading = false
-          this.showData.data = this.showData.data.concat(res.data)
-          this.showData.totals = res.page.totals
+          this.showData.data = this.showData.data.concat(res.data.data)
+          this.showData.totals = res.data.page.totals
 
           this.dataAll[this.type] = this.showData
 

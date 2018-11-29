@@ -10,7 +10,7 @@
     </swiper>
 
     <div class="summary">
-      <h1 class="title">宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20</h1>
+      <h1 class="title">{{detail.title}}</h1>
       <div class="tag">
         <span class="item" v-for="el,k in detail.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
       </div>
@@ -71,7 +71,7 @@
             }
           }).then(res => {
             this.loading.hide()
-            this.detail = res.data
+            this.detail = res.data.data
           }).catch(err => {
             this.loading.hide()
           })
@@ -82,15 +82,14 @@
         setTimeout(() => {
           this.detail = {
             id: 1,
+            title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
             imgs: ['../../../static/img/g3.jpg',  '../../../static/img/ad3.jpg'],
             tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
-            category: ['new'],
-            title: '宝宝生辰定制牌',
             process: '<img src="../../../static/img/d1.png" />',
             rules: '<img src="../../../static/img/d2.png" />',
             detail: '<img src="../../../static/img/d3.jpg" />',
           }
-        }, 1000)
+        }, 50)
       }
     },
     components: {

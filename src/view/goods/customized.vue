@@ -8,32 +8,78 @@
 
       <div class="list-item">
         <div class="label">定制照片 <small>请上传图片</small></div>
-        <upload-img-1></upload-img-1>
+        <upload-img-1 v-model="params.imgs"></upload-img-1>
       </div>
 
       <div class="list-item">
         <div class="label">定制字体</div>
-        <form-select style="width: 64vw;"></form-select>
+        <form-select style="width: 64vw;" :list="fontList" v-model="params.fontFamily"></form-select>
       </div>
 
       <div class="list-item">
         <div class="label">定制数量</div>
-        <form-number></form-number>
+        <form-number v-model="params.num"></form-number>
       </div>
 
       <div class="list-item">
         <div class="label">定制备注</div>
         <div class="remark">
-          <textarea cols="30" rows="3" placeholder="请输入您的详细要求"></textarea>
+          <textarea v-model="params.remark" cols="30" rows="3" placeholder="请输入您的详细要求"></textarea>
         </div>
       </div>
     </div>
 
-    <button class="btn btn-block btn-red btn-sub" type="button">提交订单</button>
+    <button class="btn btn-block btn-red btn-sub" type="button" @click="confirm()">提交订单</button>
 
     <foot-bar></foot-bar>
   </div>
 </template>
+
+<script>
+  export default {
+    data () {
+      return {
+        loading: new this.Loading('提交中'),
+        fontList: [                                  // 字体列表
+          {id: '宋体', name: '宋体'},
+          {id: '微软雅黑', name: '微软雅黑'}
+        ],
+        params: {
+          imgs: '',   //  定制照片
+          fontFamily: '',   //  定制字体
+          num: 1,          //  定制数量
+          remark: ''        //  定制备注
+        }
+      }
+    },
+    methods: {
+      //  提交订单
+      confirm() {
+        if(!this.params.imgs) {
+          this.$message.error('请上传定制照片')
+        }else if(!this.params.fontFamily) {
+          this.$message.error('请选择定制字体')
+        }else if(!this.params.num) {
+          this.$message.error('请设置定制数量')
+        }else {
+          this.loading.show()
+          this.$http.post('/api/order', this.params).then(res => {
+            this.loading.hide()
+            this.$router.push({name: 'orderdetail', query: {orderid: '5541515', type: 0}})
+          }).catch(err => {
+            this.loading.hide()
+          })
+
+          //  测试数据
+          setTimeout(() => {
+            this.$router.push({name: 'orderdetail', query: {orderid: '5541515', type: 0, custom: 1}})
+          }, 50)
+        }
+
+      }
+    }
+  }
+</script>
 
 <style lang="less" scoped>
   .box {

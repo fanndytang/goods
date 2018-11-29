@@ -9,9 +9,10 @@
     </div>
 
     <div class="imgs section" :style="setGlobalFont()" ref="design-img-box">
-      <div class="design-box front" v-show="active == 1">
+      <preview-box id="front-box" :box="front" v-show="active==1"></preview-box>
+      <!--<div class="design-box front" v-show="active == 1">
         <img :src="front.backgroundImg" alt="">
-        <div class="item" v-for="item,i in front.params" :key="i" :style="(item.fontSize?'font-size:'+item.fontSize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
+        <div class="item" v-for="item,i in front.params" :key="i" :style="(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
           <span v-if="item.type == 1">{{item.text}}</span>
           <span v-if="item.type == 2">{{item.selText}}</span>
           <span v-if="item.type == 3">
@@ -22,11 +23,11 @@
           </span>
         </div>
 
-      </div>
+      </div>-->
 
       <div class="design-box back" v-show="active == 2">
         <img :src="back.backgroundImg" alt="">
-        <div class="item" v-for="item,i in back.params" :key="i" :style="(item.fontSize?'font-size:'+item.fontSize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
+        <div class="item" v-for="item,i in back.params" :key="i" :style="(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
           <span v-if="item.type == 1">{{item.text}}</span>
           <span v-if="item.type == 2">{{item.selText}}</span>
           <span v-if="item.type == 3">
@@ -47,7 +48,8 @@
       <div class="sec-title">定制参数</div>
 
       <div v-show="active == 1">
-        <div class="list-item" v-for="item,i in front.params" :key="i">
+      <!--  <set-box :box="front"></set-box>-->
+      <!--  <div class="list-item" v-for="item,i in front.params" :key="i">
           <div class="label">
             {{item.title}}
             <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, front)">其它模板</div>
@@ -71,7 +73,7 @@
           <input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">
 
 
-        </div>
+        </div>-->
       </div>
 
       <div v-show="active == 2">
@@ -120,10 +122,12 @@
       <div class="list-item" v-for="item,i in dict" :key="i">
         <div class="label">{{item.title}}</div>
 
-        <div class="tag" v-for="el,k in item.list" :key="k">
+        <div class="flex-xcenter" style="flex-wrap: wrap;">
+          <div class="tag" v-for="el,k in item.list" :key="k">
           <span :class="{'active': item.activeIndex == k}" class="item"
                 @click="item.activeIndex = k;dict.splice(i,1,item);"
                 style="white-space: nowrap;">{{el}}</span>
+          </div>
         </div>
       </div>
 
@@ -150,6 +154,9 @@
 </template>
 
 <script>
+  import previewBox from './design/preview.vue'
+  //import setbox from './design/setbox.vue'
+
   export default {
     data () {
       return {
@@ -166,8 +173,8 @@
           list: []
         },
         purchase: {},                              // 其他一些公共定制参数
-        front: {backgroundImg: '', params: []},    // 定制参数正面
-        back: {backgroundImg: '', params: []},     //  定制参数背面
+        front: {backgroundImg: '', params: [], scale: 1},    // 定制参数正面
+        back: {backgroundImg: '', params: [], scale: 1},     //  定制参数背面
         detail: {},                                //  详情数据
         wordFront: '',
         wordBack: '',
@@ -206,63 +213,27 @@
               fontFamily: 'A',
               back: {
                 backgroundImg: '',
+                scale: 1,
                 params: [
-                  {
-                    enable: true,
-                    fontsize: '',
-                    left: 150,
-                    radio: '',
-                    rotate: '',
-                    text: '哈哈',
-                    title: '祝福',
-                    top: 92,
-                    type: 1
-                  }
+                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
+                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
+                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
+                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
+                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}
                 ]
               },
               front: {
                 backgroundImg: '../../../static/img/goods.png',
+                scale: 0.7967914438502673,
                 params: [
-                  {
-                    enable: true,
-                    fontsize: '12px',
-                    left: 150,
-                    radio: '30',
-                    rotate: '30',
-                    text: '张北海',
-                    title: '姓名',
-                    top: 92,
-                    type: 1
-                  },
-                  {
-                    enable: true,
-                    fontsize: '12px',
-                    left: 150,
-                    radio: '30',
-                    rotate: '30',
-                    text: '男，女',
-                    title: '性别',
-                    top: 92,
-                    type: 2
-                  },
-                  {
-                    enable: true,
-                    left: 150,
-                    rotate: '30',
+                  {enable: true, fontsize: '24px', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
+                  {enable: true, fontsize: '30px', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
+                  {enable: true, fontsize: '24px', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
+                  {enable: true, fontsize: '24px', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
+                  {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
+                  {enable: true, fontsize: '24px', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
+                  {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
                     url: '',
-                    height: '',
-                    width: '',
-                    title: '图片',
-                    top: 92,
-                    type: 3
-                  },
-                  {
-                    enable: true,
-                    left: 150,
-                    rotate: '30',
-                    title: '星座',
-                    top: 92,
-                    type: 4,
                     iconsid: 1,
                     iconlist: [
                       {id: 1, text: '白羊座', url: "../../../static/img/xz/baiyang.png",},
@@ -276,24 +247,15 @@
                 ]
               }
             },
-          dict: [
-            {
-              title: '成色',
-        text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'
-            },
-        {
-          title:  '重量',
-            text: '20g,30g'
-        },
-        {
-          title: '规格',
-            text: '20*23.8mm,20*10.4mm'
-        }
-          ]
+            dict: [
+              {title: '成色', text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'},
+              {title:  '重量', text: '20g,30g'},
+              {title: '规格', text: '20*23.8mm,20*10.4mm'}
+            ]
           }
 
           this.dataFormat()
-        }, 500)
+        }, 50)
       },
       // 处理异步获取的数据
       dataFormat() {
@@ -301,8 +263,8 @@
           purchase = this.detail.purchase || {},
           front = purchase.front || {},
           back = purchase.back || {},
-          frontFormat = {backgroundImg : front.backgroundImg || '', params: front.params || []},
-          backFormat = {backgroundImg: back.backgroundImg || '', params: back.params || []},
+          frontFormat = {backgroundImg : front.backgroundImg || '', params: front.params || [], scale: front.scale || 1},
+          backFormat = {backgroundImg: back.backgroundImg || '', params: back.params || [], scale: front.scale || 1},
           dict = this.detail.dict || []
 
         this.purchase = purchase
@@ -310,24 +272,18 @@
         //  商品参数格式化
         this.dict = dict.map(item => {
           item.list = (item.text || '').toString().replace(/，/g, ',').split(',')   // 替换中文的逗号
-        item.activeIndex = -1
-         // item.list = arr.map(el => return { id: el, name: el})
-       // item.list = arr.map(el => {
-         // el.isActive = false
-       // return el
-       // })
-        return item
+          item.activeIndex = -1
+          return item
         })
-       // console.log(this.dict)
 
 
         //  定制参数格式化
         paramsFormat(frontFormat, (data) => {
           this.front = data
           that.$nextTick(() => {
-            that.wordFront = $('.design-box.front .item')
+            that.wordFront = $('#front-box .item')
+            console.log(that.wordFront)
             that.wordFront.each(function(i) {
-                    console.log(i)
               new MyDrag({el: $(this)[0]})
               that.setDesign(that.front, i, that.wordFront)
             })
@@ -351,7 +307,7 @@
             image.onload = function() {
               let w = image.width, h = image.height,
                 box = that.$refs['design-img-box'],
-                height = box.clientHeight, width = w * height / h
+                height = box.clientHeight - 28, width = w * height / h
 
               if(width > (box.clientWidth)) {
                 width = box.clientWidth
@@ -368,6 +324,7 @@
 
         function elFormat(data, width, height, w, h) {
           let hasBackImg = width && height && w && h,
+            scale = width / w,
             arr = data.params.map(item => {
               if(hasBackImg) {
                 item.top = item.top * height / h
@@ -379,6 +336,23 @@
                 item.selText = arr[0] || ''
                 item.selList = arr.map(el => {return {id: el, name: el}})
               }
+
+              //  判断缩放比
+              if(item.type == 1 || item.type == 2) {
+                if(item.fontsize) {
+                  item.fontsize = parseInt(item.fontsize) * scale / data.scale + 'px'
+                }
+              }else if(item.type == 3 || item.type == 4) {
+                if(item.width) {
+                  item.width = parseInt(item.width) * scale / data.scale + 'px'
+                }
+
+                if(item.height) {
+                  item.height = parseInt(item.height) * scale / data.scale + 'px'
+                }
+              }
+
+
               return item
             })
 
@@ -399,7 +373,7 @@
         let p = ele.params[i]
         p.url = url
         ele.params.splice(i, 1, p)
-       // this.showModal = false
+        // this.showModal = false
       },
       // 更新参数显示
       setDesign(ele, i, word) {
@@ -431,10 +405,10 @@
             id: item.iconsid
           }
         }).then(res => {
-                this.icons.list = res.data
+          this.icons.list = res.data
 
         }).catch(err => {
-                this.icons.list = []
+          this.icons.list = []
         })
 
         //  测试数据
@@ -468,13 +442,22 @@
               title: '其它图标',
             }
           ]
-        }, 500)
+        }, 50)
       },
       // 提交订单
       confirm() {
         this.loading.show()
 
-        this.$http.post('/api/goods/order', {}).then(res => {
+        let data = {
+          id: this.$route.query.id,
+          front: this.front,
+          back: this.back,
+          fontFamily: this.purchase.fontFamily,
+          remark: this.purchase.remark,
+          dict: this.dict
+        }
+
+        this.$http.post('/api/goods/order',data).then(res => {
           this.loading.hide()
           this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
         }).catch(err => {
@@ -484,8 +467,12 @@
         //  测试数据
         setTimeout(() => {
           this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
-        }, 500)
+        }, 50)
       }
+    },
+    components: {
+            'preview-box': previewBox,
+   //   'set-box': setbox
     }
   }
 </script>
@@ -514,6 +501,7 @@
     text-align: center;
     padding: 14px 0;
     height: 2.15rem;
+    // height: 3.14rem;
     img {
       max-width: 100%;
       max-height: 100%;
@@ -524,6 +512,8 @@
       bottom: 13px;
     }
   }
+
+
   .design-box {
     position: relative;
     .item {

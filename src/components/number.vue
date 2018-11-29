@@ -1,16 +1,40 @@
 <template>
-  <div>
-    <div class="form-number">
-      <span class="item icon-minus">-</span>
-      <span class="item num" contenteditable="true">1</span>
-      <!--  <input class="item" type="number">-->
-      <span class="item icon-plus">+</span>
-    </div>
+  <div class="form-number">
+    <input type="hidden" :value="value" @input="value=$event.target.value">
+
+    <span class="item icon-minus" @click="minPlus()">-</span>
+    <input-span class="item num" v-model="val"></input-span>
+    <span class="item icon-plus" @click="plus()">+</span>
   </div>
 </template>
 
 <script>
-
+  export default {
+    props: {
+      value: Number
+    },
+    watch: {
+      val(val) {
+        this.$emit('input', parseInt(val))
+      }
+    },
+    data () {
+      return {
+        val: this.value
+      }
+    },
+    methods: {
+      //  加
+      plus() {
+        this.val = parseInt(this.val) + 1
+      },
+      // 减
+      minPlus() {
+        let v = Math.max(1, parseInt(this.val) - 1)
+        this.val = v
+      }
+    }
+  }
 </script>
 
 <style lang="less" scoped>

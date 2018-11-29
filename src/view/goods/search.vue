@@ -4,7 +4,7 @@
       <img :src="require('@/assets/icons/icon_fanhui.png')" height="15px" @click="$router.go(-1)">
       <div class="good-search">
         <img :src="require('@/assets/icons/search1.png')" height="20px">
-        <child class="text" v-model="value" v-focus placeholder="搜索品牌或关键词" @change="search()"></child>
+        <input-span class="text" v-model="value" v-focus placeholder="搜索品牌或关键词" @change="search()"></input-span>
       </div>
       <span @click="search()">搜索</span>
     </div>
@@ -56,7 +56,7 @@
         }
       }
     },
-    components: {
+  /*  components: {
       child: {
         props:{
           value: String
@@ -84,7 +84,7 @@
         template:`<div contenteditable="true" v-html="innerText" @input="changeTxt" @focus="lock=true" @blur="lock=false;$emit('change')"></div>`
 
       }
-    }
+    }*/
   }
 </script>
 

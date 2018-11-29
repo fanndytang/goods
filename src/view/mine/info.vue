@@ -6,11 +6,15 @@
 
     <div class="avatar">
       <img class="full-img" src="../../../static/img/minecenter.jpg" alt="">
-      <div class="upload">
-        <input type="file">
-        <img id="image" class="useimg" :src="params.avatar || require('@/assets/icons/img_moren.png')" alt="">
-        <img class="icon-plus" :src="require('@/assets/icons/icon_add.png')" alt="">
-      </div>
+
+      <cropper-img v-model="params.avatar">
+        <div slot="up-trigger" slot-scope="p" class="upload">
+          <input type="file" @change="p.upload($event)">
+          <img id="image" class="useimg" :src="params.avatar || require('@/assets/icons/img_moren.png')" alt="">
+          <img class="icon-plus" :src="require('@/assets/icons/icon_add.png')" alt="">
+        </div>
+      </cropper-img>
+
     </div>
 
     <div class="form-box2">
@@ -54,9 +58,6 @@
 </template>
 
 <script>
-
-  import Cropper from 'cropperjs';
-
   export default {
     data () {
       return {
@@ -77,9 +78,6 @@
       }
     },
     mounted () {
-     this.$nextTick(() => {
-
-     })
     },
     methods: {
       // 提交
@@ -114,9 +112,6 @@
   }
 </script>
 <style lang="less" scoped>
-/*  .text-primary {
-    font-size: 14px;
-  }*/
 
   .avatar {
     position: relative;

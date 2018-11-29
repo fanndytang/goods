@@ -8,6 +8,8 @@ import uploadImg2 from './upload-img-2.vue'
 import formNumber from './number.vue'
 import selectCountry from './select-country.vue'
 import myScroll from './scroll.vue'
+import cropperImg from './cropper.vue'
+import inputSpan from './input-span.vue'
 
 export default {
   install: function(Vue){
@@ -21,5 +23,7 @@ export default {
     Vue.component('form-number', formNumber)
     Vue.component('select-country', selectCountry)
     Vue.component('my-scroll', myScroll)
+    Vue.component('cropper-img', cropperImg)
+    Vue.component('input-span', inputSpan)
   }
 }

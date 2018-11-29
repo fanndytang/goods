@@ -27,11 +27,6 @@
     data () {
       return {
         loading: false,
-        /*page: {
-          current: 1,  // 当前页
-          pages: 0,  //  总共多少页
-        },*/
-
         list: {
           rows: 10,   // 一次显示多少条
           current: 0,  // 当前显示的页数

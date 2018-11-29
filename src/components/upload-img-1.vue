@@ -1,42 +1,38 @@
 <template>
   <div class="upload">
     <input type="hidden" :value="value" @input="value = $event.target.value">
-
-    <div class="img-box" v-show="url">
-      <img :src="url" alt="">
-    </div>
+    <div class="img-box" v-show="path || url">
+    <img :src="path || url" alt="">
+  </div>
 
     <div class="up-trigger">
       <input type="file" @change="upload($event)">
-      <img height="76px" :src="require('@/assets/icons/'+(url ? 'icon_reup' : 'icon_up')+'.png')" alt="">
+      <img height="76px" :src="require('@/assets/icons/'+((url||path) ? 'icon_reup' : 'icon_up')+'.png')" alt="">
     </div>
   </div>
 </template>
 
 <script>
   export default {
-          props: {
-                  value: String,
-            url: String
-          },
+    props: {
+      value: String,
+      url: String
+    },
     data () {
-                  return {
-                       //   url: ''
-                  }
+      return {
+        path: ''
+      }
     },
     methods: {
-                  upload(e) {
-                    //      console.log(this)
-                          let file = e.target.files[0]
-                    let url = URL.createObjectURL(file)
-//console.log(url)
-                    this.$emit('input', 'testsetsat')
+      upload(e) {
+        let file = e.target.files[0]
+        let url = URL.createObjectURL(file)
 
-                   // this.url = url
+        this.$emit('input', url)
 
-                    this.$emit('update:url', url)
-                 //   console.log(this.value)
-                  }
+        this.path = url
+        this.$emit('update:url', url)
+      }
     }
   }
 </script>
@@ -46,7 +42,7 @@
     overflow-x: auto;
     display: flex;
     min-height: 80px;
-   // align-items: center;
+    // align-items: center;
     img {
       max-height: 100%;
       max-width: 100%;
@@ -54,10 +50,10 @@
     }
   }
   .img-box {
-  //  min-height: 76px;
+    max-height: 76px;
     margin-right: 6px;
-    overflow: hidden;
-    flex: 1;
+    // overflow: hidden;
+    // flex: 1;
   }
   .up-trigger {
     position: relative;
