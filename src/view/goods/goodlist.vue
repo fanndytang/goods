@@ -16,10 +16,10 @@
 
       <img src="../../../static/img/banner.jpg" alt="" class="banner">
 
-      <div class="nav-bar">
+      <div class="nav-bar" ref="nav-box">
       <span class="item"
             v-for="item,i in nav" :key="i"
-            @click="clickNav(item)"
+            @click="clickNav(item, $event)"
             :class="{'active': item.type == type}">
         <span>{{item.title}}</span>
       </span>
@@ -28,12 +28,12 @@
       <div class="goods-list">
         <router-link v-for="item,i in showData.data" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
           <div class="content">
-          <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
-          <div class="tag">
-            <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+            <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
+            <div class="tag">
+              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+            </div>
+            <div class="text">{{item.title || ''}}</div>
           </div>
-          <div class="text">{{item.title || ''}}</div>
-        </div>
         </router-link>
 
       </div>
@@ -68,7 +68,7 @@
     },
     methods: {
       // 点击商品类别
-      clickNav(item) {
+      clickNav(item, e) {
         this.type = item.type
         this.showData = this.dataAll[this.type]
         let len = this.showData.data.length
@@ -78,6 +78,17 @@
           this.loading = true
           setTimeout(() => {this.loading = false}, 50)
         }
+
+        let parent = this.$refs['nav-box'],
+          offsetLeft = e.target.offsetLeft,
+          scrollLeft = parent.scrollLeft
+
+        if(offsetLeft + e.target.clientWidth > parent.clientWidth + scrollLeft) {
+          parent.scrollTo(scrollLeft + e.target.clientWidth + 50, 0)
+        }else if(scrollLeft > offsetLeft - 50) {
+          parent.scrollTo(scrollLeft-50, 0)
+        }
+
       },
       // 获取商品类别
       getNav() {

@@ -17,7 +17,12 @@
           return {
               show: false
           }
-      }
+      },
+    mounted () {
+      this.$root.eventHub.$on('document-click', (e) => {
+        if (!this.$el.contains(e.target)) this.show = false
+      })
+    }
   }
 
 </script>

@@ -43,7 +43,7 @@
 
       </div>-->
 
-      <img height="35px" :src="require('@/assets/icons/download.png')" alt="" class="download">
+      <img height="35px" :src="require('@/assets/icons/download.png')" alt="" class="download" @click="download()">
     </div>
 
     <div class="section purchase">
@@ -451,6 +451,12 @@
           ]
         }, 50)
       },*/
+     // 下载图片
+      download() {
+              let data = this.active == 1 ? this.front : this.back
+
+        console.log(data)
+      },
       // 提交订单
       confirm() {
         this.loading.show()

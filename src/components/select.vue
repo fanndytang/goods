@@ -33,7 +33,10 @@
       }
     },
     mounted () {
-            this.init()
+      this.init()
+      this.$root.eventHub.$on('document-click', (e) => {
+        if (!this.$el.contains(e.target)) this.show = false
+      })
     },
     methods: {
             init() {

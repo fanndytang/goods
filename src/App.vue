@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="$root.eventHub.$emit('document-click', $event)">
     <router-view/>
   </div>
 </template>

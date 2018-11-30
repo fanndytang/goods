@@ -1,7 +1,7 @@
 <template>
   <div v-show="type != 0">
     <div class="title flex-between flex-xcenter" @click="show = !show">
-      沟通记录<img height="20px" :src="require('@/assets/icons/icon_xia.png')" alt="">
+      沟通记录<img height="20px" :src="require('@/assets/icons/icon_xia.png')" alt="" :style="setStyle(show)">
     </div>
     <div class="chat" v-show="show">
       <div class="item" v-for="item,i in chat" :key="i">
@@ -42,6 +42,18 @@
       }
     },
     methods: {
+      setStyle(val) {
+        if(val) {
+          return ''
+
+        }else {
+          return '-webkit-transform:rotate(180deg);' +
+            '-moz-transform: rotate(180deg);' +
+            '-ms-transform: rotate(180deg);' +
+            '-o-transform: rotate(180deg);' +
+            'transform: rotate(180deg);'
+        }
+      },
       confirm() {
         this.loading.show()
         this.$http.post('/api/kefu', this.form).then(res => {
