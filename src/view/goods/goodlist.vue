@@ -1,6 +1,6 @@
 <!-- 商品定购 -->
 <template>
-  <div>
+  <div style="padding-bottom:.5rem;">
     <my-scroll :on-infinite="getData"
                :loading="loading"
                :nodata="showData.data.length >= showData.totals"

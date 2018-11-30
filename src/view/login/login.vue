@@ -45,7 +45,8 @@
         }else {
           // 测试
           sessionStorage.setItem('Authorization', true)
-          this.$router.push(sessionStorage.getItem('mysgyj_history_page') || '/')
+          this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
+          return
           // 测试 结束
 
           this.loading.show()
@@ -58,7 +59,7 @@
 
             // 判断登陆成功与失败，给出相应提示及下一步
             this.$message.error('登陆成功')
-            this.$router.push(sessionStorage.getItem('mysgyj_history_page') || '/')
+            this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
 
           }).catch(res => {
             this.loading.hide()

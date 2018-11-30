@@ -2,7 +2,7 @@
   <div class="form-select" :class="{'open': show}">
     <input type="hidden" :value="value" @input="value = $event.target.value">
 
-    <div class="sel-text" @click="show = !show">
+    <div class="sel-text" @click="show = !show" :class="{'open':show}">
       <span class="text">{{selItem[sellab]||'' }}</span>
       <span class="icon"></span>
     </div>
@@ -73,6 +73,13 @@
       height: 25px;
       padding: 0 5px 0 10px;
       border-radius: 2px;
+      &.open .icon {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
       .icon {
         display: inline-block;
         border-width: 8px 8px 0 8px;

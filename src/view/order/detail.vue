@@ -179,7 +179,7 @@
 
               // 测试数据
               setTimeout(() => {
-                this.$router.push({name: 'orderresult', query: {orderid: this.$route.query.orderid, status: 1}})
+                this.$router.push({name: 'orderresult', query: {orderid: this.$route.query.orderid, status: 2}})
               }, 500)
             },
       // 取消订单

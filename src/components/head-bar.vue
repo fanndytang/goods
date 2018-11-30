@@ -35,7 +35,7 @@
   .head-bar {
     height: .5rem;
     //  line-height: .5rem;
-    padding: 0 30px 0 10px;
+    padding: 0 15px 0 10px;
     text-align: center;
     background: #fff;
     display: flex;

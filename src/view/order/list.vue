@@ -50,7 +50,7 @@
               {title: '待确认', type: 1},
               {title: '生产中', type: 2},
               {title: '已发货', type: 3},
-              {title: '已取货', type: 4}
+              {title: '已取消', type: 4}
             ],
             loading: false,
             dataAll: {},   //  总数据列表
@@ -196,6 +196,7 @@
       align-items: center;
       border-bottom: 1px solid rgba(230, 230, 230, 1);
       color: #ccc;
+      padding-right: 18px;
   //    line-height: 40px;
 
     /*  .date {

@@ -2,19 +2,20 @@
   <div class="full-gray">
     <div class="header">
       <img :src="require('@/assets/icons/icon_fanhui.png')" height="15px" @click="$router.go(-1)">
-      <div class="good-search">
+      <div class="good-search" @touchend="inputClick()">
         <img :src="require('@/assets/icons/search1.png')" height="20px">
-        <input-span class="text" v-model="value" v-focus placeholder="搜索品牌或关键词" @change="search()"></input-span>
+        <input type="text" v-show="show" style="position: absolute;left: 0;right:0;z-index:1;width:100%;height:100%;opacity:0;" @click="inputClick();">
+        <input-span id="search-span-box" ref="test" class="text" v-model="value" v-focus placeholder="搜索品牌或关键词" @change="search()"></input-span>
       </div>
-      <span @click="search()">搜索</span>
+      <span @click="show=false;canSearch=true; search()">搜索</span>
     </div>
-
+    <!--{{show}}{{canSearch}}-->
     <div class="history" v-show="history.length">
     <div class="item">
       <div class="title">历史记录</div>
-      <img :src="require('@/assets/icons/icon_shanchu.png')" height="22px" @click="clear()" @touchend="touch()" @mouseup="touch()">
+      <img ref="history" :src="require('@/assets/icons/icon_shanchu.png')" height="22px" @click="clear()" @touchend="touch()" @mouseup="touch()">
     </div>
-    <div class="item" v-for="item,i in history" :key="i">{{item}}</div>
+    <div class="item" v-for="item,i in history" :key="i" v-html="item"></div>
   </div>
 
   </div>
@@ -24,29 +25,44 @@
   export default {
     data () {
       return {
+        show: false,
         value: '',
         history: [],
         canSearch: true  // 是否可以搜索
       }
     },
     created() {
-      this.history = (localStorage.getItem('mysgyjhistory') || '').split('**&&**')
+      let history = (localStorage.getItem('mysgyjhistory') || '').split('**&&**')
+      for(let k in history) {
+        let item = history[k]
+        if(item && !this.history.includes(item)) this.history.push(item)
+      }
     },
     methods: {
+      inputClick() {
+        this.show = false
+        this.canSearch = false
+        document.querySelector('#search-span-box').focus()
+      },
       touch() {
         this.canSearch = false
       },
       search() {
+        if(this.show) return
+        this.show = true
+   //     console.log('blur')
         if(!this.canSearch) {
           setTimeout(() => {this.canSearch = true}, 500)
           return false
         }
-        if(this.value) this.history.push(this.value)
+        if(this.value) this.history.push(this.value.toString().replace(/<br>/g, ''))
         localStorage.setItem('mysgyjhistory', this.history.join('**&&**'))
         this.$router.push({name: 'goodlist', query: {keyword: this.value}})
       },
       clear() {
         localStorage.removeItem('mysgyjhistory')
+        this.history = []
+        this.show = true
       },
     },
     directives: {
@@ -55,36 +71,7 @@
           el.focus()
         }
       }
-    },
-  /*  components: {
-      child: {
-        props:{
-          value: String
-        },
-        data:function(){
-          return {
-            innerText:this.value,
-            lock:false
-          }
-        },
-        watch:{
-          value:{
-            handler(newValue, oldValue) {
-              if(!this.lock) {
-                this.innerText=this.value;
-              }
-            }
-          }
-        },
-        methods:{
-          changeTxt:function(e){
-            this.$emit('input', this.$el.innerHTML);
-          }
-        },
-        template:`<div contenteditable="true" v-html="innerText" @input="changeTxt" @focus="lock=true" @blur="lock=false;$emit('change')"></div>`
-
-      }
-    }*/
+    }
   }
 </script>
 

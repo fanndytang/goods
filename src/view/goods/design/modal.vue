@@ -3,8 +3,8 @@
     <div class="modal-body">
       <div class="title">选择图标<img @click="$emit('update:showModal', false)" class="close" height="20px" :src="require('@/assets/icons/icon_guanbi.png')" alt=""></div>
       <div class="item" v-for="item,i in icons.list" :key="i">
-        <div class="item-tit">{{item.title}}<img height="22px" :src="require('@/assets/icons/icon_xia1.png')" alt=""></div>
-        <div class="content">
+        <div class="item-tit" @click="hide.splice(i, 1, !hide[i])">{{item.title}}<img height="22px" :src="require('@/assets/icons/'+(hide[i] ? 'icon_shang.png' : 'icon_xia1.png' ))" alt=""></div>
+        <div class="content" v-show="!hide[i]">
           <div class="item" v-for="el,k in item.list" :key="k" :class="{'active': icons.ele.params[icons.index].url == el.url}">
             <div class="img" @click="setIconUrl(icons.index, el.url, icons.ele)"><img :src="el.url" alt=""></div>{{el.text}}
           </div>
@@ -20,6 +20,11 @@
       showModal: Boolean,
       icons: Object,
       setIconUrl: Function
+    },
+    data() {
+      return {
+        hide: []
+      }
     }
   }
 </script>

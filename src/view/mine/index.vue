@@ -11,7 +11,7 @@
         <div class="text">
           <div class="tel">{{isLogin ? userinfo.tel : '您还未登陆？请先登录'}}</div>
           <router-link v-if="isLogin" to="/mineinfo" class="link">修改资料> </router-link>
-          <router-link v-if="!isLogin" to="/login" class="link">去登陆</router-link>
+          <router-link v-if="!isLogin" :to="{name: 'login', query:{path: '/mine'}}" class="link">去登陆</router-link>
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
           {label: '待确认', type: 1, icon: require('@/assets/icons/icon_daiqueren.png')},
           {label: '生产中', type: 2, icon: require('@/assets/icons/icon_scz.png')},
           {label: '已发货', type: 3, icon: require('@/assets/icons/icon_yifahuo.png')},
-          {label: '已取货', type: 4, icon: require('@/assets/icons/icon_yiquxiao.png')}
+          {label: '已取消', type: 4, icon: require('@/assets/icons/icon_yiquxiao.png')}
         ]
       }
     },

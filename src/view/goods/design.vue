@@ -10,38 +10,8 @@
 
     <div class="imgs section" :style="setGlobalFont()" ref="design-img-box">
       <preview-box id="front-box" :box="front" v-show="active==1"></preview-box>
-      <!--<div class="design-box front" v-show="active == 1">
-        <img :src="front.backgroundImg" alt="">
-        <div class="item" v-for="item,i in front.params" :key="i" :style="(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
-          <span v-if="item.type == 1">{{item.text}}</span>
-          <span v-if="item.type == 2">{{item.selText}}</span>
-          <span v-if="item.type == 3">
-            <img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt="">
-          </span>
-          <span v-if="item.type == 4">
-            <img :src="item.url" alt="">
-          </span>
-        </div>
-
-      </div>-->
 
       <preview-box id="back-box" :box="back" v-show="active==2"></preview-box>
-
-     <!-- <div class="design-box back" v-show="active == 2">
-        <img :src="back.backgroundImg" alt="">
-        <div class="item" v-for="item,i in back.params" :key="i" :style="(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style">
-          <span v-if="item.type == 1">{{item.text}}</span>
-          <span v-if="item.type == 2">{{item.selText}}</span>
-          <span v-if="item.type == 3">
-            <img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt="">
-          </span>
-          <span v-if="item.type == 4">
-            <img :src="item.url" alt="">
-          </span>
-        </div>
-
-
-      </div>-->
 
       <img height="35px" :src="require('@/assets/icons/download.png')" alt="" class="download" @click="download()">
     </div>
@@ -51,68 +21,7 @@
 
       <set-box v-show="active == 1" :box="front" :word-ele="wordFront"></set-box>
 
-     <!-- <div v-show="active == 1">
-
-      &lt;!&ndash;  <div class="list-item" v-for="item,i in front.params" :key="i">
-          <div class="label">
-            {{item.title}}
-            <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, front)">其它模板</div>
-          </div>
-          <div style="flex: 1;">
-            <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(front, i, wordFront)" placeholder="请输入">
-
-            <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(front, i, wordFront)" style="display:inline-block;"></form-select>
-
-            <input v-if="item.type == 3 && item.istext" type="text" placeholder="请输入">
-            <upload-img-1 v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
-
-            <div v-if="item.type == 4 && item.iconlist" class="xz-box" style="width:100%;">
-              <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
-                <div class="img" @click="setIconUrl(i, el.url, front)"><img :src="el.url" alt=""></div>
-                {{el.text}}
-            </div>
-            </div>
-          </div>
-
-          <input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">
-
-
-        </div>&ndash;&gt;
-      </div>-->
-
       <set-box v-show="active == 2" :box="back" :word-ele="wordBack"></set-box>
-
-
-    <!--  <div v-show="active == 2">
-        <div class="list-item" v-for="item,i in back.params" :key="i">
-          <div class="label">
-            {{item.title}}
-            <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, back)">其它模板</div>
-          </div>
-          <div style="flex: 1;">
-            <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(back, i, wordBack)" placeholder="请输入">
-
-            <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(back, i, wordBack)" style="display:inline-block;"></form-select>
-
-            <input v-if="item.type == 3 && item.istext" type="text" placeholder="请输入">
-            <upload-img-1 v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
-
-            <div v-if="item.type == 4 && item.iconlist" class="xz-box">
-
-              <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
-                <div class="img" @click="setIconUrl(i, el.url, back)"><img :src="el.url" alt=""></div>
-                {{el.text}}
-            </div>
-            </div>
-          </div>
-
-          <input type="text" placeholder="旋转角度" v-model="item.rotate" style="width: 30px;">
-
-
-        </div>
-
-      </div>-->
-
 
       <div class="list-item">
         <div class="label">定制字体</div>
@@ -142,21 +51,6 @@
 
     <button class="btn btn-red btn-block" type="button" @click="confirm()">提交订单</button>
 
-   <!-- <div class="modal-box" v-show="showModal">
-      <div class="modal-body">
-        <div class="title">选择图标<img @click="showModal = false" class="close" height="20px" :src="require('@/assets/icons/icon_guanbi.png')" alt=""></div>
-        <div class="item" v-for="item,i in icons.list" :key="i">
-          <div class="item-tit">{{item.title}}<img height="22px" :src="require('@/assets/icons/icon_xia1.png')" alt=""></div>
-          <div class="content">
-            <div class="item" v-for="el,k in item.list" :key="k" :class="{'active': icons.ele.params[icons.index].url == el.url}">
-              <div class="img" @click="setIconUrl(icons.index, el.url, icons.ele)"><img :src="el.url" alt=""></div>{{el.text}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
-
-
   </div>
 </template>
 
@@ -169,16 +63,10 @@
       return {
         active: 1,
         loading: new this.Loading(),
-       // showModal: false,                            //  其它模板显示隐藏
         fontList: [                                  // 字体列表
           {id: '宋体', name: '宋体'},
           {id: '微软雅黑', name: '微软雅黑'}
         ],
-        /*icons: {                                     // 其它模板列表
-          index: '',                            // 当前数据所属的定制参数索引值
-          ele: {params: []},                              // 当前数据所属的定制正面或背面
-          list: []
-        },*/
         purchase: {},                              // 其他一些公共定制参数
         front: {backgroundImg: '', params: [], scale: 1},    // 定制参数正面
         back: {backgroundImg: '', params: [], scale: 1},     //  定制参数背面
@@ -219,7 +107,7 @@
               fontColor: 'blue',
               fontFamily: 'A',
               back: {
-                backgroundImg: '',
+                backgroundImg: '../../../static/img/g1.png',
                 scale: 1,
                 params: [
                   {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
@@ -287,24 +175,11 @@
         //  定制参数格式化
         paramsFormat(frontFormat, (data) => {
           this.front = data
-          that.$nextTick(() => {
-            that.wordFront = $('#front-box .item')
-          //  console.log(that.wordFront)
-           /* that.wordFront.each(function(i) {
-              new MyDrag({el: $(this)[0]})
-              that.setDesign(that.front, i, that.wordFront)
-            })*/
-          })
+          that.$nextTick(() => {that.wordFront = $('#front-box .item')})
         })
         paramsFormat(backFormat, (data) => {
           this.back = data
-          that.$nextTick(() => {
-            that.wordBack = $('.design-box.back .item')
-           /* that.wordBack.each(function(i) {
-              new MyDrag({el: $(this)[0]})
-              that.setDesign(that.back, i, that.wordBack)
-            })*/
-          })
+          that.$nextTick(() => {that.wordBack = $('#back-box .item')})
         })
 
         function paramsFormat(data, callback) {
@@ -375,85 +250,9 @@
         if(this.purchase.fontFamily) sty += 'color:'+this.purchase.fontFamily+';'
         return sty
       },
-      // 选择不同的图标，更新显示
-     /* setIconUrl(i, url, ele) {
-        let p = ele.params[i]
-        p.url = url
-        ele.params.splice(i, 1, p)
-        // this.showModal = false
-      },
-      // 更新参数显示
-      setDesign(ele, i, word) {
-        let p = ele.params[i]
-        if(p.type == 1 || p.type == 2) {
-          let radio = p.radio, radius
-          if(p.type == 2)  ele.params.splice(i, 1, p)
-          if(word.eq(i).find('span').length > 0)  word.eq(i).arctext('destroy')
-          if(p.type == 1){
-            word.eq(i).text(p.text)
-          }else if(p.type == 2) {
-            word.eq(i).text(p.selText)
-          }
-
-          if(radio) {
-            radius = word.eq(i).width() * 180 / (Math.PI * radio)
-            word.eq(i).arctext({radius: parseFloat(radius)})
-          }
-        }
-
-      },
-      //  获取其它模板
-      getIcon(item, i, ele) {
-        this.showModal = true
-        this.icons.index = i
-        this.icons.ele = ele
-        this.$http.get('/api/good/icon', {
-          params: {
-            id: item.iconsid
-          }
-        }).then(res => {
-          this.icons.list = res.data
-
-        }).catch(err => {
-          this.icons.list = []
-        })
-
-        //  测试数据
-        setTimeout(() => {
-          this.icons.list = [
-            {
-              title: '生肖图标',
-              list: [
-                {url: "../../../static/img/sx/su.png", text: '老鼠'},
-                {url: "../../../static/img/sx/niu.png", text: '牛'},
-                {url: "../../../static/img/sx/hu.png", text: '老虎'},
-                {url: "../../../static/img/sx/tu.png", text: '兔子'},
-                {url: "../../../static/img/sx/long.png", text: '龙'},
-                {url: "../../../static/img/sx/se.png", text: '蛇'},
-                {url: "../../../static/img/sx/ma.png", text: '马'},
-                {url: "../../../static/img/sx/yang.png", text: '羊'},
-                {url: "../../../static/img/sx/hou.png", text: '猴'},
-                {url: "../../../static/img/sx/ji.png", text: '鸡'},
-                {url: "../../../static/img/sx/gou.png", text: '狗'},
-                {url: "../../../static/img/sx/zhu.png", text: '猪'},
-              ]
-            },
-            {
-              title: '性别图标',
-              list: [
-                {url: "../../../static/img/gender/nanhai.png", text: '男孩'},
-                {url: "../../../static/img/gender/nvhai.png", text: '女孩'},
-              ]
-            },
-            {
-              title: '其它图标',
-            }
-          ]
-        }, 50)
-      },*/
-     // 下载图片
+      // 下载图片
       download() {
-              let data = this.active == 1 ? this.front : this.back
+        let data = this.active == 1 ? this.front : this.back
 
         console.log(data)
       },
@@ -478,8 +277,6 @@
           dict: dict
         }
 
-      //  console.log(data)
-
         this.$http.post('/api/goods/order',data).then(res => {
           this.loading.hide()
           this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
@@ -494,7 +291,7 @@
       }
     },
     components: {
-            'preview-box': previewBox,
+      'preview-box': previewBox,
       'set-box': setbox
     }
   }
@@ -516,15 +313,11 @@
     }
   }
 
-  /* .section {
-     border-top: 8px solid #eaeaea;
-   }*/
   .imgs {
     position: relative;
     text-align: center;
     padding: 14px 0;
     height: 2.15rem;
-    // height: 3.14rem;
     img {
       max-width: 100%;
       max-height: 100%;
@@ -536,178 +329,9 @@
     }
   }
 
-
-  //.design-box {
- //   position: relative;
-   // .item {
-  //    position: absolute;
-  //  }
-  //}
-  /*
-    .sec-title {
-      line-height: 40px;
-      font-size: 14px;
-      border-bottom: 1px solid rgba(230, 230, 230, 1);
-    }*/
-  /*
-    .purchase, .dict {
-      padding: 0 10px 60px 18px;
-      .sec-title {
-        margin-bottom: 5px;
-      }
-    }
-    .dict .list-item {
-      padding: 5px 0;
-      .label {
-        margin-right: 12px;
-      }
-    }*/
-  /*
-    .list-item {
-      display: flex;
-      align-items: flex-start;
-      font-size: 14px;
-      line-height: 20px;
-      padding: 4px 0;
-      .label {
-        margin-right: 34px;
-        color: #ccc;
-        white-space: nowrap;
-      }
-      input[type="text"] {
-        border: none;
-      }
-      textarea {
-        padding: 5px;
-        border: none;
-      }
-      &.xingzuo {
-        .label .modal {
-          color: #6ca4b6;
-          font-size: 12px;
-          text-align: center;
-        }
-        .xz-box {
-          background: rgba(229, 229, 229, 1);
-          overflow: auto;
-          white-space: nowrap;
-          font-size: 12px;
-          line-height: 18px;
-          padding: 10px 2px;
-
-          .item {
-            display: inline-block;
-            text-align: center;
-            margin: 0 4px;
-            &.active .img {
-              border: solid 2px rgba(220, 182, 61, 1);
-            }
-            .img {
-              width: 32px;
-              height: 32px;
-              border-radius: 50%;
-              overflow: hidden;
-              margin: 0 auto;
-              img {
-                max-width: 100%;
-                max-height: 100%;
-              }
-            }
-          }
-        }
-      }
-      .tag {
-        .item {
-          color: #0c0c0c;
-          font-size: 14px;
-          background: #e5e5e5;
-          display: inline-block;
-          margin: 0 5px 5px 5px;
-          padding: 0 5px;
-          line-height: 22px;
-          border-radius: 4px;
-          border: 1px solid transparent;
-
-          &.active {
-            color: #dcb63d;
-            border-color: #dcb63d;
-            background: #edda9e;
-          }
-        }
-      }
-    }*/
   .btn-red {
     width: 100vw;
     height: .45rem;
     font-size: 16px;
   }
-
-  /*.modal-box {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, .5);
-    z-index: 10;
-    color: #000;
-    .modal-body {
-      position: absolute;
-      background: #fff;
-      bottom: 0;
-      max-height: 75%;
-      width: 100%;
-    }
-    .title {
-      line-height: 42px;
-      font-size: 18px;
-      text-align: center;
-      border-bottom: 1px solid rgba(234, 234, 234, 1);
-      padding: 0 15px;
-      .close {
-        float: right;
-        margin-top: 10px;
-      }
-    }
-    .item {
-      .item-tit {
-        margin: 0 0 0 10px;
-        font-size: 14px;
-        padding-right: 15px;
-        height: 45px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(234, 234, 234, 1);
-      }
-      .content {
-        padding: 3px 7px 20px 7px;
-        border-bottom: 1px solid rgba(234, 234, 234, 1);
-        .item {
-          display: inline-block;
-          width: 56px;
-          font-size: 14px;
-          line-height: 20px;
-          text-align: center;
-          .img {
-            height: 47px;
-            width: 47px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #e9e9e9;
-            margin: 12px auto 5px auto;
-            border: solid 1px transparent;
-            img {
-              max-width: 100%;
-              max-height: 100%;
-            }
-          }
-          &.active .img {
-            border: solid 1px rgba(220, 182, 61, 1);
-          }
-        }
-      }
-    }
-  }*/
-
 </style>
