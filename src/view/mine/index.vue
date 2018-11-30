@@ -4,7 +4,7 @@
     <head-bar title="商家中心" :menu="true"></head-bar>
 
     <div class="userinfo">
-      <img class="full-img" src="../../../static/img/minecenter.jpg" alt="">
+      <img class="full-img" :src="'./static/img/minecenter.jpg'" alt="">
       <div class="content flex-xcenter full-absolute">
         <img class="avatar" :src="userinfo.avatar || require('@/assets/icons/img_moren.png')" alt="">
 
@@ -82,7 +82,7 @@
         //  测试数据
         setTimeout(() => {
           this.userinfo = {
-            avatar: '../../../static/img/g1.png',
+            avatar: './static/img/g1.png',
             tel: '13800138000',
           }
         }, 500)

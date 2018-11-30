@@ -62,7 +62,7 @@
             id: 1,
             sn: '20181115093150001',
             date: '2018.11.15 09:31:50',
-            imgUrl: '../../../static/img/goods.png',
+            imgUrl: './static/img/goods.png',
             title: '宝宝生辰定制牌',
             number: '100',
             size: 'Au999 20g 20*23.8mm',
@@ -90,7 +90,7 @@
                 ]
               },
               front: {
-                backgroundImg: '../../../static/img/goods.png',
+                backgroundImg: './static/img/goods.png',
                 params: [
                   {
                     enable: true,
@@ -118,7 +118,7 @@
                     enable: true,
                     left: 150,
                     rotate: '30',
-                    url: '../../../static/img/g1.png',
+                    url: './static/img/g1.png',
                     height: '',
                     width: '',
                     title: '图片',
@@ -132,15 +132,15 @@
                     title: '星座',
                     top: 92,
                     type: 4,
-                    url: '../../../static/img/xz/baiyang.png',
+                    url: './static/img/xz/baiyang.png',
                     iconsid: 1,
                     iconlist: [
-                      {id: 1, text: '白羊座', url: "../../../static/img/xz/baiyang.png",},
-                      {id: 2, text: '金牛座', url: "../../../static/img/xz/jinniu.png",},
-                      {id: 3, text: '双子座', url: "../../../static/img/xz/shuangzi.png",},
-                      {id: 4, text: '巨蟹座', url: "../../../static/img/xz/jujie.png",},
-                      {id: 5, text: '狮子座', url: "../../../static/img/xz/shizi.png",},
-                      {id: 6, text: '处女座', url: "../../../static/img/xz/chunv.png",},
+                      {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
+                      {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
+                      {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
+                      {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
+                      {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
+                      {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
                     ]
                   }
                 ]
@@ -150,7 +150,7 @@
               {
                 name: '客服',
                 date: '2018.11.15 09:31:50',
-                content: '<p>最新设计效果图，请确认是否可以进行生产</p><img width="100px" src="../../../../static/img/goods.png" alt=""> <img width="100px" src="../../../../static/img/goods.png" alt="">'
+                content: '<p>最新设计效果图，请确认是否可以进行生产</p><img width="100px" src="./static/img/goods.png" alt=""> <img width="100px" src="./static/img/goods.png" alt="">'
               },
               {
                 name: '我',

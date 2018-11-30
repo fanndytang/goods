@@ -118,16 +118,16 @@
         setTimeout(() => {
           let res = {
             data : [
-              {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+              {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
 
             ],
             page: {

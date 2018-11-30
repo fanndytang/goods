@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-bar :back="true" title="加盟合作"></head-bar>
+    <head-bar :back="true" title="联系我们"></head-bar>
 
     <h3 class="title">{{data.title || ''}}</h3>
     <div class="date">{{data.date}}</div>
@@ -17,7 +17,7 @@
           //id: '1',
           date: '2018.11.15 12:00',
           title: '关于商家加盟最新条款事宜',
-          describe: '<img src="../../../static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
+          describe: '<img src="./static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
         },
       }
     },

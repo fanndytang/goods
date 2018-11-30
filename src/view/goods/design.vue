@@ -107,7 +107,7 @@
               fontColor: 'blue',
               fontFamily: 'A',
               back: {
-                backgroundImg: '../../../static/img/g1.png',
+                backgroundImg: './static/img/g1.png',
                 scale: 1,
                 params: [
                   {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
@@ -118,7 +118,7 @@
                 ]
               },
               front: {
-                backgroundImg: '../../../static/img/goods.png',
+                backgroundImg: './static/img/goods.png',
                 scale: 0.7967914438502673,
                 params: [
                   {enable: true, fontsize: '24px', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
@@ -131,12 +131,12 @@
                     url: '',
                     iconsid: 1,
                     iconlist: [
-                      {id: 1, text: '白羊座', url: "../../../static/img/xz/baiyang.png",},
-                      {id: 2, text: '金牛座', url: "../../../static/img/xz/jinniu.png",},
-                      {id: 3, text: '双子座', url: "../../../static/img/xz/shuangzi.png",},
-                      {id: 4, text: '巨蟹座', url: "../../../static/img/xz/jujie.png",},
-                      {id: 5, text: '狮子座', url: "../../../static/img/xz/shizi.png",},
-                      {id: 6, text: '处女座', url: "../../../static/img/xz/chunv.png",},
+                      {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
+                      {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
+                      {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
+                      {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
+                      {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
+                      {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
                     ]
                   }
                 ]

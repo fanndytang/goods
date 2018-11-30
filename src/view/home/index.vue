@@ -6,7 +6,7 @@
                nodatatext="没有更多商品啦"
                class="home-index-scroll">
       <header class="top">
-        <div class="logo"><img src="../../../static/img/logo.jpg" alt=""></div>
+        <div class="logo"><img :src="'./static/img/logo.jpg'" alt=""></div>
         <head-menu></head-menu>
       </header>
 
@@ -109,11 +109,11 @@
         setTimeout(() => {
           this.ads = {
             banner: [
-              {id: '1', link: '', imgUrl: '../../../static/img/ad1.jpg'},
-              {id: '2', link: '', imgUrl: '../../../static/img/ad1.jpg'},
+              {id: '1', link: '', imgUrl: './static/img/ad1.jpg'},
+              {id: '2', link: '', imgUrl: './static/img/ad1.jpg'},
             ],
-            news: '../../../static/img/ad2.png',
-            hot: '../../../static/img/ad3.jpg'
+            news: './static/img/ad2.png',
+            hot: './static/img/ad3.jpg'
           }
         }, 50)
       },
@@ -126,9 +126,9 @@
         // 测试数据
         setTimeout(() => {
           this.newGoods = [
-            {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌'},
-            {id: '2', imgUrl: '../../../static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
-            {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌'},
+            {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
+            {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
+            {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
             {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
           ]
         }, 50)
@@ -158,9 +158,9 @@
         setTimeout(() => {
           let res = {
             data : [
-              {id: '1', imgUrl: '../../../static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
-              {id: '2', imgUrl: '../../../static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
-              {id: '3', imgUrl: '../../../static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
+              {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
+              {id: '2', imgUrl: './static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
+              {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
               {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
               {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
               {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},

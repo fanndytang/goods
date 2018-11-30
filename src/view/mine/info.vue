@@ -5,7 +5,7 @@
     </head-bar>
 
     <div class="avatar">
-      <img class="full-img" src="../../../static/img/minecenter.jpg" alt="">
+      <img class="full-img" :src="'./static/img/minecenter.jpg'" alt="">
 
       <cropper-img v-model="params.avatar">
         <div slot="up-trigger" slot-scope="p" class="upload">
@@ -65,7 +65,7 @@
         isLogin: true,
         positiontext: '',
         params: {
-          avatar: '../../../static/img/g1.png',  // 用户头像
+          avatar: './static/img/g1.png',  // 用户头像
          // tel: '13800138000',
 
           companyname: '',  // 公司名称
