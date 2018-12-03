@@ -1,10 +1,11 @@
 <template>
   <div class="full-gray">
     <my-scroll :on-infinite="getData"
-               :loading="loading"
-               :nodata="showData.data.length >= showData.totals"
+               :loading.sync="loading"
+               :list.sync="showData"
+               url="/api/get/order"
                nodatatext="没有更多商品啦"
-               class="orderlist-scroll">
+               ref="scroll">
 
       <head-bar :back="true" title="订单列表"></head-bar>
 
@@ -36,7 +37,7 @@
       </div>
     </my-scroll>
 
-    <scroll-top el=".orderlist-scroll"></scroll-top>
+    <scroll-top></scroll-top>
 
   </div>
 </template>
@@ -64,7 +65,6 @@
       },
     mounted () {
         this.setNav()
-      this.getData()
     },
     methods: {
       // 点击类别
@@ -73,7 +73,7 @@
         this.showData = this.dataAll[this.type]
         let len = this.showData.data.length
         if(len <= 0) {
-          this.getData()
+          this.$refs.scroll.getData()
         }else if(len > 0 && len < this.showData.totals) {
           this.loading = true
           setTimeout(() => {this.loading = false}, 50)
@@ -91,59 +91,8 @@
         }
       },
       //  获取数据
-      getData(done) {
-        if(this.showData.data.length > 0 && this.showData.data.length >= this.showData.totals)   return false
-
-        this.loading = true
-        ++ this.showData.current
-        this.$http.get('/api/get/order', {
-          params: {
-            rows: this.showData.rows,
-            current: this.showData.current
-          }
-        }).then(res => {
-          //  this.loading = false
-          this.showData.data = this.showData.data.concat(res.data.data)
-        this.showData.totals = res.data.page.totals
-
+      getData() {
         this.dataAll[this.type] = this.showData
-
-        if(done) done()
-      }).catch(err => {
-          // this.loading = false
-          //   if(done) done()
-        })
-
-        // 测试数据
-        setTimeout(() => {
-          let res = {
-            data : [
-              {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-              {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-
-            ],
-            page: {
-              totals: 35
-            }
-          }
-
-          this.showData.data = this.showData.data.concat(res.data)
-        this.showData.totals = res.page.totals
-
-        this.dataAll[this.type] = this.showData
-
-        this.loading = false
-        if(done)done();
-      }, 200)
-
       },
       //  取消订单
       cancel(item) {
@@ -197,12 +146,6 @@
       border-bottom: 1px solid rgba(230, 230, 230, 1);
       color: #ccc;
       padding-right: 18px;
-  //    line-height: 40px;
-
-    /*  .date {
-        font-size: 12px;
-        color: #999;
-      }*/
     }
 
     .content {

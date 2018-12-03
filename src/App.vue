@@ -25,7 +25,12 @@
     margin: 0;
     font-size: 0.12rem;
     color: #555;
-    min-height: 100vh;
+/* //   min-height: 100vh;*/
+
+    height: 100vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    transition-duration: 300ms;
   }
   #app {
     min-height: 100vh;

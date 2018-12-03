@@ -8,7 +8,7 @@
 <script>
   export default {
     props: {
-      el: String
+   //   el: String
     },
     data() {
       return {
@@ -19,9 +19,7 @@
     mounted() {
       // 监听滚动事件
       window.addEventListener('scroll', () => {
-        this.scrollTop = document.documentElement.scrollTop ||
-          window.pageYOffset ||
-          document.body.scrollTop || document.querySelector(this.el).scrollTop
+        this.scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop || 0
 
         // 控制滚动按钮的隐藏或显示
         this.isScrollTop = this.scrollTop > 150
@@ -30,7 +28,7 @@
     methods: {
       scrollToTop() {  //  滚动到顶部
         let scrollTop = this.scrollTop,
-          scrollEle = document.querySelector(this.el) || window,
+          //scrollEle = document.querySelector(this.el) || window,
           speed = 40   // 速度初始值
 
         function play () {
@@ -38,7 +36,7 @@
             scrollTop -= speed
             scrollTop = Math.max(scrollTop, 0)
             speed += 20
-            scrollEle.scrollTo(0, scrollTop)
+            window.scrollTo(0, scrollTop)
             requestAnimFrame (() => {play()})
           }
         }
