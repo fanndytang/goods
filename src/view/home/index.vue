@@ -11,9 +11,11 @@
       </header>
 
       <div class="good-search">
-        <img :src="require('@/assets/icons/search1.png')" height="20px">
-        <span class="text">搜索品牌或关键词</span>
-        <input type="search" class="input-search" @focus="$router.push('/search')" />
+        <div class="input-bg">
+          <img :src="require('@/assets/icons/search1.png')" height="20px">
+          <span>搜索品牌或关键词</span>
+        </div>
+        <input type="search" class="input-search" placeholder="搜索品牌或关键词" @focus="$router.push('/search')" />
       </div>
 
       <swiper :options="swiperOption">

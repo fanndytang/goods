@@ -2,20 +2,23 @@
   <div class="full-gray">
     <div class="header">
       <img :src="require('@/assets/icons/icon_fanhui.png')" height="15px" @click="$router.go(-1)">
-      <div class="good-search" @touchend="inputClick()">
-        <img :src="require('@/assets/icons/search1.png')" height="20px">
-        <input type="text" v-show="show" style="position: absolute;left: 0;right:0;z-index:1;width:100%;height:100%;opacity:0;" @click="inputClick();">
-        <input-span id="search-span-box" ref="test" class="text" v-model="value" v-focus placeholder="搜索品牌或关键词" @change="search()"></input-span>
+      <div class="good-search">
+        <div class="input-bg">
+          <img :src="require('@/assets/icons/search1.png')" height="20px">
+          <span>{{spanVal || '搜索品牌或关键词'}}</span>
+        </div>
+
+        <input class="input-search" @input="inputVal($event)" type="text" v-model="value" placeholder="搜索品牌或关键词" v-focus @blur="search()">
       </div>
-      <span @click="show=false;canSearch=true; search()">搜索</span>
+      <span @click="canSearch=true; search()">搜索</span>
     </div>
-    <!--{{show}}{{canSearch}}-->
+
     <div class="history" v-show="history.length">
     <div class="item">
       <div class="title">历史记录</div>
       <img ref="history" :src="require('@/assets/icons/icon_shanchu.png')" height="22px" @click="clear()" @touchend="touch()" @mouseup="touch()">
     </div>
-    <div class="item" v-for="item,i in history" :key="i" v-html="item"></div>
+    <div class="item" v-for="item,i in history" :key="i" v-html="item" @click="value=item;canSearch=true;search();" @touchend="touch()" @mouseup="touch()"></div>
   </div>
 
   </div>
@@ -25,7 +28,7 @@
   export default {
     data () {
       return {
-        show: false,
+              spanVal: '',
         value: '',
         history: [],
         canSearch: true  // 是否可以搜索
@@ -39,18 +42,13 @@
       }
     },
     methods: {
-      inputClick() {
-        this.show = false
-        this.canSearch = false
-        document.querySelector('#search-span-box').focus()
-      },
+      inputVal(e) {
+              this.spanVal = e.target.value
+            },
       touch() {
         this.canSearch = false
       },
       search() {
-        if(this.show) return
-        this.show = true
-   //     console.log('blur')
         if(!this.canSearch) {
           setTimeout(() => {this.canSearch = true}, 500)
           return false
@@ -62,7 +60,6 @@
       clear() {
         localStorage.removeItem('mysgyjhistory')
         this.history = []
-        this.show = true
       },
     },
     directives: {
