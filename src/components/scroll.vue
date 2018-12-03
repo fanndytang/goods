@@ -22,13 +22,14 @@
       },
       loading: {
         type: Boolean,
-        default: true
+        default: false
       },
       nodatatext: {
         type: String,
         default: '没有更多数据啦'
       },
       notip: Boolean,
+      params: Object,
       list: {
         type: Object,
         default: {
@@ -62,11 +63,20 @@
         this.$emit('update:loading', true)
 
         ++ this.list.current
+
+
+        let params = {
+          rows: this.list.rows,
+          current: this.list.current
+        }
+        if(this.params) {
+          for(let k in this.params) {
+            params[k] = this.params[k]
+          }
+        }
+
         /*   this.$http.get(this.url, {
-         params: {
-         rows: this.list.rows,
-         current: this.list.current
-         }
+         params: params
          }).then(res => {*/
 
         setTimeout(() => {
@@ -86,7 +96,61 @@
               {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', size: 'Au999 20g 20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
 
             ]
-          }
+          }else if(this.$route.path == '/address') {
+            data = [
+              {id: '1', name: '张三', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: true},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+              {id: '2', name: '李四', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金广东省深圳市罗湖区田贝路金利1102室利1102室', isDefault: false},
+            ]
+        }else if(this.$route.path == '/goodlist') {
+            data = [
+              {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
+              {id: '2', imgUrl: './static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
+              {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
+              {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
+              {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
+            ]
+        }else if(this.$route.path == '/') {
+            data = [
+              {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
+              {id: '2', imgUrl: './static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
+              {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
+              {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
+              {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
+              {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
+            ]
+        }else if(this.$route.path == '/newslist') {
+            data = [
+              {id: '1', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '2', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '3', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '4', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '5', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '6', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '7', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '8', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '9', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+              {id: '10', date: '2018.11.15 12:00', title: '关于商家加盟最新条款事宜', describe: '关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'},
+            ]
+        }
+
+
           let res = {
             data: {
               data : data,
@@ -98,7 +162,9 @@
           this.list.data = this.list.data.concat(res.data.data)
           this.list.totals = res.data.page.totals
 
-          this.onInfinite()
+        if(this.onInfinite) {
+            this.onInfinite()
+        }
 
           this.infiniteLoading = false
           this.$emit('update:loading', false)

@@ -1,10 +1,9 @@
 <template>
   <div style="padding-bottom:.5rem;">
-    <my-scroll :on-infinite="getHotData"
-               :loading="loading"
-               :nodata="hotGoods.data.length >= hotGoods.totals"
-               nodatatext="没有更多商品啦"
-               class="home-index-scroll">
+    <my-scroll :list.sync="hotGoods"
+               url=""
+               nodatatext="没有更多商品啦">
+
       <header class="top">
         <div class="logo"><img :src="'./static/img/logo.jpg'" alt=""></div>
         <head-menu></head-menu>
@@ -64,7 +63,7 @@
 
 
     <foot-bar></foot-bar>
-    <scroll-top el=".home-index-scroll"></scroll-top>
+    <scroll-top></scroll-top>
   </div>
 </template>
 
@@ -91,14 +90,12 @@
           current: 0,  // 当前显示的页数
           totals: 0,   // 总共有多少条
           data: []
-        },
-        loading: false,
+        }
       }
     },
     mounted () {
       this.getAds()
       this.getMewData()
-      this.getHotData()
     },
     methods: {
       //  广告位
@@ -135,54 +132,7 @@
           ]
         }, 50)
       },
-      //  热卖专区
-      getHotData(done) {
-        if(this.hotGoods.data.length > 0 && this.hotGoods.data.length >= this.hotGoods.totals) return false
-        this.loading = true
-        ++ this.hotGoods.current
-        this.$http.get('/api/get/hot', {
-          params: {
-            rows: this.hotGoods.rows,
-            current: this.hotGoods.current
-          }
-        }).then(res => {
-        //  this.loading = false
-          this.hotGoods.data = this.hotGoods.data.concat(res.data.data)
-          this.hotGoods.totals = res.data.page.totals
 
-          if(done) done()
-        }).catch(err => {
-         // this.loading = false
-         // if(done) done()
-        })
-
-        // 测试数据
-        setTimeout(() => {
-          let res = {
-            data : [
-              {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}]},
-              {id: '2', imgUrl: './static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},]},
-              {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'}, {id: 1, title: '限时折扣', backColor: '#00bc0d'},]},
-              {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, title: '新品爆款', backColor: 'orange'}]},
-              {id: '5', imgUrl: '', title: '宝宝生辰定制牌'},
-              {id: '6', imgUrl: '', title: '宝宝生辰定制牌'},
-              {id: '7', imgUrl: '', title: '宝宝生辰定制牌'},
-              {id: '8', imgUrl: '', title: '宝宝生辰定制牌'},
-              {id: '9', imgUrl: '', title: '宝宝生辰定制牌'},
-              {id: '10', imgUrl: '', title: '宝宝生辰定制牌'},
-            ],
-            page: {
-              totals: 35
-            }
-          }
-
-          this.hotGoods.data = this.hotGoods.data.concat(res.data)
-          this.hotGoods.totals = res.page.totals
-          this.loading = false
-          if(done)done();
-        }, 200)
-
-      }
     },
     components: {
       swiper,

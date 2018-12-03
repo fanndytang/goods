@@ -31,8 +31,19 @@
   }
 </script>
 
+<style>
+  body {
+    padding-top: 0.5rem;
+  }
+</style>
+
 <style lang="less" scoped>
   .head-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 10;
     height: .5rem;
     //  line-height: .5rem;
     padding: 0 15px 0 10px;

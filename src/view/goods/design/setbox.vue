@@ -55,7 +55,10 @@
               if(val.length) {
                 let that = this
                 val.each(function(i) {
-                  new MyDrag({el: $(this)[0]})
+                  new MyDrag({
+                    el: $(this)[0],
+                    parent: $(this).parent()[0]
+                  })
                   that.setDesign(that.box, i, that.wordEle)
                 })
               }

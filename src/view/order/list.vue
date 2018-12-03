@@ -3,6 +3,7 @@
     <my-scroll :on-infinite="getData"
                :loading.sync="loading"
                :list.sync="showData"
+               :params="{'type': type}"
                url="/api/get/order"
                nodatatext="没有更多商品啦"
                ref="scroll">
@@ -70,8 +71,14 @@
       // 点击类别
       clickNav(item) {
         this.type = item.type
-        this.showData = this.dataAll[this.type]
-        let len = this.showData.data.length
+       // this.showData = this.dataAll[this.type]
+        let len = this.dataAll[this.type].data.length
+     //   let len = this.showData.data.length
+
+        for(let k in this.dataAll[this.type]) {
+          this.$refs.scroll.list[k] = this.dataAll[this.type][k]
+        }
+
         if(len <= 0) {
           this.$refs.scroll.getData()
         }else if(len > 0 && len < this.showData.totals) {
@@ -109,12 +116,20 @@
 </script>
 
 <style lang="less" scoped>
+  .full-gray {
+    padding-top: 48px;
+  }
   .nav {
+    position: fixed;
+    width: 100vw;
+    top: 0.5rem;
+    left: 0;
     display: flex;
     text-align: center;
     align-items: center;
     background: #fff;
     border-top: 1px solid rgba(230, 230, 230, 1);
+    border-bottom: 1px solid rgba(230, 230, 230, 1);
     font-size: 14px;
 
     .item {

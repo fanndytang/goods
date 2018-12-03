@@ -1,5 +1,6 @@
 function MyDrag(options) {
     this.el = options.el || ''
+  this.parent = options.parent || ''
     this.flag = false
     this.nx = 0
     this.ny = 0
@@ -40,6 +41,15 @@ MyDrag.prototype.move = function() {
         this.ny = touch.clientY - this.cur.y;
         this.x = this.dx+this.nx;
         this.y = this.dy+this.ny;
+
+        if(this.parent) {
+          this.x = Math.max(0, this.x)
+          this.x = Math.min(this.x, this.parent.clientWidth - this.el.clientWidth)
+          this.y = Math.max(0, this.y)
+          this.y = Math.min(this.y, this.parent.clientHeight - this.el.clientHeight)
+        }
+
+
         this.el.style.left = this.x+"px";
         this.el.style.top = this.y +"px";
         //阻止页面的滑动默认事件
@@ -74,67 +84,3 @@ MyDrag.prototype.init = function() {
     },false);
 }
 
-
-/*var flag = false;
-var cur = {
-    x:0,
-    y:0
-}
-var nx,ny,dx,dy,x,y ;
-function down(){
-    flag = true;
-    var touch ;
-    if(event.touches){
-        touch = event.touches[0];
-    }else {
-        touch = event;
-    }
-    cur.x = touch.clientX;
-    cur.y = touch.clientY;
-    dx = div2.offsetLeft;
-    dy = div2.offsetTop;
-}*/
-/*function move(){
-    if(flag){
-        var touch ;
-        if(event.touches){
-            touch = event.touches[0];
-        }else {
-            touch = event;
-        }
-        nx = touch.clientX - cur.x;
-        ny = touch.clientY - cur.y;
-        x = dx+nx;
-        y = dy+ny;
-        div2.style.left = x+"px";
-        div2.style.top = y +"px";
-        //阻止页面的滑动默认事件
-        document.addEventListener("touchmove",function(){
-            event.preventDefault();
-        },false);
-    }
-}*/
-//鼠标释放时候的函数
-/*
-function end(){
-    flag = false;
-}
-var div2 = document.getElementById("div2");
-div2.addEventListener("mousedown",function(){
-    down();
-},false);
-div2.addEventListener("touchstart",function(){
-    down();
-},false)
-div2.addEventListener("mousemove",function(){
-    move();
-},false);
-div2.addEventListener("touchmove",function(){
-    move();
-},false)
-document.body.addEventListener("mouseup",function(){
-    end();
-},false);
-div2.addEventListener("touchend",function(){
-    end();
-},false);*/
