@@ -31,11 +31,11 @@
   }
 </script>
 
-<style>
+<!--<style>
   body {
     padding-top: 0.5rem;
   }
-</style>
+</style>-->
 
 <style lang="less" scoped>
   .head-bar {
@@ -57,5 +57,7 @@
       font-size: 18px;
     }
   }
+
+
 </style>
 

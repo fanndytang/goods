@@ -122,6 +122,7 @@
   .nav {
     position: fixed;
     width: 100vw;
+   // height: 45px;
     top: 0.5rem;
     left: 0;
     display: flex;
@@ -134,9 +135,10 @@
 
     .item {
       flex: 1;
+      color: #333;
       > span {
         margin-bottom: -1px;
-        padding: 13px 0;
+        padding: 12px 0;
         display: inline-block;
         border-bottom: 2px solid transparent;
       }
@@ -152,7 +154,7 @@
   .list {
     margin-top: 10px;
     background: #fff;
-    padding: 0 0 13px 10px;
+    padding: 0 0 12px 8px;
     .top {
       height: 40px;
       display: flex;
@@ -166,7 +168,7 @@
     .content {
       display: flex;
       align-items: center;
-      padding: 12px 18px 20px 20px;
+      padding: 12px 20px 24px 21px;
       border-bottom: 1px solid rgba(230, 230, 230, 1);
       .img {
         border: 1px solid #f6f6f6;
@@ -188,15 +190,15 @@
       }
       .answer {
         color: #5c95a8;
-        line-height: 20px;
-        margin-top: 5px;
+        line-height: 18px;
+        margin-top: 3px;
       }
     }
   }
   .btn-red {
     font-size: 15px;
     width: 53vw;
-    margin: 10px auto 0 auto;
+    margin: 12px auto 0 auto;
     border-radius: 30px;
   }
 </style>

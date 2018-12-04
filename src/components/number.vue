@@ -52,7 +52,7 @@
     .icon-minus, .icon-plus {
       width: 22px;
       color: rgba(140, 140, 140, 1);
-      font-size: 21px;
+      font-size: 23px;
       line-height: 18px;
     }
     input[type="text"], input[type="number"], .num {

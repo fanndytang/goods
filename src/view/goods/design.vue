@@ -1,6 +1,6 @@
 <!-- 商品定制 -->
 <template>
-  <div class="design-list-box">
+  <div>
     <head-bar :back="true" title="商品订制" :menu="true"></head-bar>
 
     <div class="tab-bar">
@@ -16,7 +16,7 @@
       <img height="35px" :src="require('@/assets/icons/download.png')" alt="" class="download" @click="download()">
     </div>
 
-    <div class="section purchase">
+    <div class="section design-purchase">
       <div class="sec-title">定制参数</div>
 
       <set-box v-show="active == 1" :box="front" :word-ele="wordFront"></set-box>
@@ -24,22 +24,23 @@
       <set-box v-show="active == 2" :box="back" :word-ele="wordBack"></set-box>
 
       <div class="list-item">
-        <div class="label">定制字体</div>
+        <div class="label">定制字体：</div>
         <form-select style="width: 65vw;" :list="fontList" v-model="purchase.fontFamily"></form-select>
       </div>
       <div class="list-item">
-        <div class="label">定制备注</div>
-        <textarea v-model="purchase.remark" class="textarea" cols="30" rows="3" placeholder="请备注想说的话"></textarea>
+        <div class="label">定制备注：</div>
+        <textarea v-model="purchase.remark" class="textarea" cols="30" rows="4" placeholder="请备注想说的话"></textarea>
       </div>
+
     </div>
 
-    <div class="section dict">
+    <div class="section design-dict">
       <div class="sec-title">商品参数</div>
       <div class="list-item" v-for="item,i in dict" :key="i">
-        <div class="label">{{item.title}}</div>
+        <div class="label">{{item.title}}：</div>
 
         <div class="flex-xcenter" style="flex-wrap: wrap;">
-          <div class="tag" v-for="el,k in item.list" :key="k">
+          <div class="tag-list" v-for="el,k in item.list" :key="k">
           <span :class="{'active': item.activeIndex == k}" class="item"
                 @click="item.activeIndex = k;dict.splice(i,1,item);"
                 style="white-space: nowrap;">{{el}}</span>
@@ -64,8 +65,14 @@
         active: 1,
         loading: new this.Loading(),
         fontList: [                                  // 字体列表
+          {id: '微软雅黑', name: '微软雅黑'},
           {id: '宋体', name: '宋体'},
-          {id: '微软雅黑', name: '微软雅黑'}
+          {id: '宋体1', name: '宋体1'},
+          {id: '宋体2', name: '宋体2'},
+          {id: '宋体3', name: '宋体3'},
+          {id: '宋体4', name: '宋体4'},
+          {id: '宋体5', name: '宋体5'},
+          {id: '宋体6', name: '宋体6'},
         ],
         purchase: {},                              // 其他一些公共定制参数
         front: {backgroundImg: '', params: [], scale: 1},    // 定制参数正面
@@ -105,7 +112,7 @@
           this.detail = {
             purchase: {   // 定制参数
               fontColor: 'blue',
-              fontFamily: 'A',
+              fontFamily: '微软雅黑',
               back: {
                 backgroundImg: './static/img/g1.png',
                 scale: 1,
@@ -297,12 +304,101 @@
   }
 </script>
 
+<style lang="less">
+  .design-purchase, .design-dict {
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      font-size: 14px;
+      line-height: 28px;
+      color: #0c0c0c;
+      .label {
+        margin-right: 34px;
+        color: #c2c2c2;
+        white-space: nowrap;
+        min-width: 60px;
+        .other-modal {
+          color: #6ca4b6;
+          font-size: 12px;
+          text-align: center;
+          line-height: 18px;
+        }
+      }
+      input[type="text"] {
+       // border: none;
+        border: 1px solid #eaeaea;
+        -webkit-appearance: none;
+      }
+      textarea {
+        padding: 5px;
+        border: none;
+      }
+    }
+
+    .form-select .sel-text {
+      margin-top: 2px;
+    }
+  }
+</style>
+
 <style lang="less" scoped>
+  .section {
+    border-top: 10px solid #eaeaea;
+    padding: 0 17px;
+    &.design-purchase {
+      padding-bottom: 10px;
+    }
+  }
+
+  .sec-title {
+    line-height: 40px;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(230, 230, 230, 1);
+    color: #333;
+    font-weight: normal;
+  }
+
+  .design-dict {
+    margin-bottom: 70px;
+    .sec-title {
+      margin-bottom: 5px;
+    }
+    .list-item {
+      .label {
+        min-width: 42px;
+        margin-right: 7px;
+        color: #ccc;
+      }
+    }
+  }
+
+  .tag-list {
+    .item {
+      color: #0c0c0c;
+      font-size: 14px;
+      background: #e5e5e5;
+      display: inline-block;
+      margin: 7px 5px;
+      padding: 0 7px;
+      line-height: 22px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+
+      &.active {
+        color: #dcb63d;
+        border-color: #dcb63d;
+        background: #edda9e;
+      }
+    }
+  }
+
   .tab-bar {
-    line-height: .25rem;
+    margin-top: 5px;
+    line-height: .3rem;
     display: flex;
     text-align: center;
     color: #000;
+    font-size: 15px;
     .item {
       flex: 1;
       border-bottom: 2px solid transparent;
@@ -318,10 +414,6 @@
     text-align: center;
     padding: 14px 0;
     height: 2.15rem;
-    img {
-      max-width: 100%;
-      max-height: 100%;
-    }
     .download {
       position: absolute;
       right: 20px;

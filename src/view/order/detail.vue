@@ -1,5 +1,5 @@
 <template>
-  <div class="full-gray">
+  <div class="full-gray" style="padding-top:1px;">
     <head-bar :back="true" title="订单信息" :menu="type != 1">
       <span class="text-primary f14" @click="cancel()" v-if="type == 1">取消订单</span>
     </head-bar>
@@ -83,7 +83,7 @@
                     radio: '',
                     rotate: '',
                     text: '哈哈',
-                    title: '祝福',
+                    title: '祝福祝福',
                     top: 92,
                     type: 1
                   }
@@ -99,7 +99,7 @@
                     radio: '30',
                     rotate: '30',
                     text: '张北海',
-                    title: '姓名',
+                    title: '姓名姓名',
                     top: 92,
                     type: 1
                   },
@@ -110,7 +110,7 @@
                     radio: '30',
                     rotate: '30',
                     text: '男，女',
-                    title: '性别',
+                    title: '性别性别',
                     top: 92,
                     type: 2
                   },
@@ -121,7 +121,7 @@
                     url: './static/img/g1.png',
                     height: '',
                     width: '',
-                    title: '图片',
+                    title: '图片图片',
                     top: 92,
                     type: 3
                   },
@@ -129,7 +129,7 @@
                     enable: true,
                     left: 150,
                     rotate: '30',
-                    title: '星座',
+                    title: '星座星座',
                     top: 92,
                     type: 4,
                     url: './static/img/xz/baiyang.png',
@@ -150,7 +150,7 @@
               {
                 name: '客服',
                 date: '2018.11.15 09:31:50',
-                content: '<p>最新设计效果图，请确认是否可以进行生产</p><img width="100px" src="./static/img/goods.png" alt=""> <img width="100px" src="./static/img/goods.png" alt="">'
+                content: '<p>最新设计效果图，请确认是否可以进行生产</p><img width="82px" src="./static/img/goods.png" alt=""> <img width="82px" src="./static/img/goods.png" alt="">'
               },
               {
                 name: '我',

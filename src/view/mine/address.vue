@@ -17,7 +17,7 @@
           </div>
           <div class="bar">
             <div class="flex">
-              <span class="check-box"><input @change="setDefault(item)" type="checkbox" v-model="item.isDefault"><span class="icon"></span> 设为默认</span>
+              <span class="check-box"><input @change="setDefault(item)" type="checkbox" v-model="item.isDefault"><span class="icon" style="margin-right:5px;"></span> 设为默认</span>
             </div>
             <img class="del" height="22px" :src="require('@/assets/icons/icon_del.png')" alt="" @click="del(item, i)">
             <img class="edit" height="22px" :src="require('@/assets/icons/icon_edit.png')" alt="" @click="$router.push({name: 'editaddress', query: {id: item.id, orderid: orderid}})">
@@ -110,14 +110,14 @@
     border-top: 10px solid #eaeaea;
     font-size: 14px;
     color: #333;
-    padding: 15px 0 0 10px;
+    padding: 12px 0 0 12px;
     &:last-child {
       border-bottom: 10px solid #eaeaea;
     }
     .name, .tel {
       display: inline-block;
       margin-right: 20px;
-      line-height: 22px;
+      line-height: 26px;
       font-weight: 600;
     }
     .address {

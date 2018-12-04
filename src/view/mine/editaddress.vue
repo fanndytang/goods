@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-bar :back="true" :title="(id ? '编辑' : '添加') +'收货地址'">
+    <head-bar :back="true" :title="(id ? '编辑' : '添加') +'收货地址'" class="gray-border-bottom">
       <span class="text-primary f14" @click="confirm()">保存</span>
     </head-bar>
 

@@ -18,7 +18,7 @@
 
     <div class="section flex-between flex-xcenter top border-bottom">
       <span class="title">我的订单</span>
-      <router-link class="link" to="/orderlist">全部订单 <img height="14px" :src="require('@/assets/icons/icon_right.png')" alt=""></router-link>
+      <router-link class="link" to="/orderlist">全部订单 <img height="13px" :src="require('@/assets/icons/icon_right.png')" alt=""></router-link>
     </div>
     <div class="order">
       <router-link v-for="item,i in order" :key="i" :to="{name: 'orderlist', query: {type: item.type}}" class="item">
@@ -132,12 +132,15 @@
     border-top: 10px solid #eaeaea;
     font-size: 16px;
     padding: 0 20px;
+    .title {
+      color: #333;
+    }
     &.top {
       height: 48px;
     }
     .link {
       color: #666;
-      font-size: 12px;
+      font-size: 13px;
       display: block;
       img {
         vertical-align: middle;
@@ -150,40 +153,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 70px;
-    color: #666;
+    height: 78px;
+   // color: #666;
     .item {
       flex: 1;
       text-align: center;
+      color: #666;
+      font-size: 13px;
+      line-height: 29px;
       img {
         height: 25px;
+        display: block;
+        margin: 0 auto;
       }
     }
   }
 
   .info {
-    padding: 8px 20px;
+    padding: 8px 15px 7px 20px;
     .title {
-      line-height: 36px;
+      line-height: 34px;
     }
   }
 
   .other {
     .item {
-      padding: 8px 0;
       font-size: 14px;
       color: #666;
+      line-height: 32px;
     }
+  }
 
-    .btn-box {
-      padding: 30px 40px;
-      button {
-        width: 100%;
-        border: transparent;
-        background: #000;
-        color: #fff;
-        line-height: 40px;
-      }
-    }
+  .btn-sub {
+    margin: .25rem auto;
   }
 </style>

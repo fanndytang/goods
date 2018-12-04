@@ -80,6 +80,7 @@
       width: 80%;
       margin: 0 auto;
       font-size: 12px;
+      line-height: 14px;
       > * {
         &:nth-child(1) {
           color: #666666;
@@ -89,6 +90,10 @@
     .item {
       padding: 4px 0 0 0;
       height: 50px;
+    }
+    .btn-sub {
+      font-size: 16px;
+      width: 90%;
     }
   }
 </style>

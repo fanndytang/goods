@@ -21,7 +21,7 @@
     height: 100vh;
   }
   body {
-    padding: 0;
+    padding: 0.5rem 0 0 0; /* 顶部固定：header高度*/
     margin: 0;
     font-size: 0.12rem;
     color: #555;
@@ -33,7 +33,7 @@
     transition-duration: 300ms;
   }
   #app {
-    min-height: 100vh;
+    height: 100%;
   }
   a {
     text-decoration: none;

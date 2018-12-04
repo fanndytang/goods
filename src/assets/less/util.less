@@ -1,4 +1,4 @@
-::-webkit-input-placeholder {
+/*::-webkit-input-placeholder {
   color: #ccc;
 }
 :-ms-input-placeholder { // IE10+
@@ -9,11 +9,20 @@
 }
 ::-moz-placeholder { // Firefox19+
   color: #ccc;
+}*/
+input:focus {
+  outline: none;
 }
+.input-placeholder-color(#ccc);
 
 .full-gray {
   background: #eaeaea;
-  min-height: 100vh;
+ // min-height: 100vh;
+  min-height: 100%;
+}
+
+.gray-border-bottom {
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
 }
 
 .full-img {

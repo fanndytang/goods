@@ -5,9 +5,8 @@
       <div class="img"><div class="img-bg"><img :src="detail.imgUrl" alt=""></div></div>
       <div class="text">
         <div class="title">
-          {{detail.title}}
-          <br>
-          {{detail.size}}
+          <span style="font-size: 14px;margin-bottom:2px;display:inline-block;">{{detail.title}}</span><br>
+          <span>{{detail.size}}</span>
         </div>
         <div class="number">定购数量：{{detail.number}}件</div>
       </div>
@@ -32,7 +31,7 @@
 
 <style lang="less" scoped>
   .box {
-    padding: 0 10px 0 15px;
+    padding: 0 15px;
     .top {
       color: #ccc;
       font-size: 12px;
@@ -40,17 +39,18 @@
       border-bottom: 1px solid rgba(230, 230, 230, 1);
     }
     .img {
-      width: 75px;
-      height: 75px;
+      width: 76px;
+      height: 76px;
       text-align: center;
       border-radius: 5px;
-      padding: 10px;
+      padding: 6px 10px;
       background: #333;
+      margin-right: 9px;
       .img-bg {
         border: 1px solid #4e4e4e;
         width: 100%;
         height: 100%;
-        padding: 2px;
+        padding: 1px;
       }
       img {
         max-width: 100%;
@@ -58,10 +58,9 @@
       }
     }
     .content {
-      padding: 15px 15px 15px 0;
+      padding: 15px 0;
       display: flex;
       .text {
-        padding-left: 10px;
         display: flex;
         flex-direction: column;
         line-height: 20px;

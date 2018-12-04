@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-bar :back="true" title="修改密码">
+    <head-bar :back="true" title="修改密码"  class="gray-border-bottom">
       <span class="text-primary f14" @click="confirm()">保存</span>
     </head-bar>
 

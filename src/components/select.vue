@@ -26,6 +26,13 @@
         default: 'id'
       }
     },
+    watch: {
+            value(val) {
+                    if(val !== this.selItem[this.sellab]) {
+                            this.init()
+                    }
+            }
+    },
     data () {
       return {
         show: false,
@@ -65,6 +72,10 @@
   .form-select {
 
     position: relative;
+
+    &.open {
+      font-size: 12px;
+    }
     .sel-text {
       display: flex;
       justify-content: space-between;
@@ -82,7 +93,7 @@
       }
       .icon {
         display: inline-block;
-        border-width: 8px 8px 0 8px;
+        border-width: 5px 5px 0 5px;
         border-style: solid;
         border-color: #0c0c0c transparent transparent transparent;
       }
@@ -100,6 +111,8 @@
       left: 0;
       top: 100%;
       min-width: 100%;
+      max-height: 110px;
+      overflow: auto;
       display: none;
       //   white-space: nowrap;
       -webkit-box-shadow: 0 6px 13px 0 rgba(7, 0, 2, 0.31);
@@ -109,16 +122,20 @@
 
       li {
         &:not(:first-child) {
-          border-top:  solid 1px rgba(195, 195, 195, 1);
+          border-top:  solid 1px rgba(230, 230, 230, 1);
         }
         padding: 0 10px;
         line-height: 25px;
         font-size: 12px;
         color: #c2c2c2;
         &.select {
-          padding-left: 20px;
+          padding-left: 18px;
           color: #0c0c0c;
           background: #e0dede;
+          border-color: rgb(195, 195, 195);
+          & + li {
+            border-color: rgb(195, 195, 195);
+          }
         }
       }
     }

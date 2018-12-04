@@ -37,32 +37,32 @@
 <style>
   .gonggao-desc img {
     width: 100%;
-    margin: 10px 0;
+    margin: 6px 0;
   }
 </style>
 
 <style lang="less" scoped>
   .title {
-    padding: 4px 0 0 0;
+    padding: 7px 0 0 0;
     margin: 0;
     color: #1d1d1d;
     font-size: 16px;
     text-align: center;
-    line-height: 32px;
+    line-height: 26px;
     border-top: 10px solid #eaeaea;
     font-weight: normal;
   }
   .date {
     color: #ccc;
     text-align: center;
-    line-height: 16px;
-    margin: 0 0 10px 0;
+    line-height: 22px;
+    margin: 0 0 7px 0;
   }
   .gonggao-desc {
     border-top: 1px solid rgba(234, 234, 234, 1);
-    padding: 5px 12px;
+    padding: 9px 12px;
     color: #0c0c0c;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 13px;
+    line-height: 19px;
   }
 </style>

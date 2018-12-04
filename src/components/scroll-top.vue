@@ -49,15 +49,16 @@
 <style lang="less" scoped>
   .scroll-top {
     position: fixed;
-    bottom: 2.5rem;
+    bottom: 2.25rem;
     right: 5px;
-    width: 44px;
-    height: 44px;
+    width: 42px;
+    height: 42px;
     padding: 3px;
     background: #e1e1e1;
     border-radius: 50%;
     z-index: 100;
     text-align: center;
+    color: #222;
     img {
       display: block;
       margin: 0 auto;

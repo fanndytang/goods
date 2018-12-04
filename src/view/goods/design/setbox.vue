@@ -1,19 +1,19 @@
 <template>
-  <div>
+  <div class="set-design-box">
     <div class="list-item" v-for="item,i in box.params" :key="i">
       <div class="label">
-        {{item.title}}
-        <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板</div>
+        {{item.title}}：
+        <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板&emsp;</div>
       </div>
-      <div style="flex: 1;">
+      <div style="flex: 1;" :class="{'xz-box': item.type == 4 && item.iconlist}">
         <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(box, i, wordEle)" placeholder="请输入">
 
         <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(box, i, wordEle)" style="display:inline-block;"></form-select>
 
         <input v-if="item.type == 3 && item.istext" v-model="item.text" type="text" placeholder="请输入">
-        <upload-img-1 v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
+        <upload-img-1 style="margin: 7px 0 10px 0;" v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
 
-        <div v-if="item.type == 4 && item.iconlist" class="xz-box" style="width:100%;">
+        <div v-if="item.type == 4 && item.iconlist">
           <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
             <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
             {{el.text}}
@@ -147,3 +147,48 @@
     }
   }
 </script>
+
+<style lang="less">
+  .set-design-box {
+    padding-top: 3px;
+    .form-select .sel-text {
+    //  height: 28px;
+      border: solid 1px rgba(204, 204, 204, 1);
+    }
+  }
+</style>
+<style lang="less" scoped>
+.xz-box {
+  background: rgba(229, 229, 229, 1);
+  overflow: auto;
+  white-space: nowrap;
+  font-size: 12px;
+  margin: 7px 0 14px 0;
+
+  line-height: 18px;
+  padding: 10px 2px;
+
+  .item {
+    display: inline-block;
+    text-align: center;
+    margin: 0 4px;
+    &.active .img {
+      border: solid 2px rgba(220, 182, 61, 1);
+    }
+    .img {
+      width: 36px;
+      height: 36px;
+      border: solid 2px transparent;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto;
+      img {
+        background: #fff;
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+</style>

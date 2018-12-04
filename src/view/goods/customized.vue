@@ -13,12 +13,12 @@
 
       <div class="list-item">
         <div class="label">定制字体</div>
-        <form-select style="width: 64vw;" :list="fontList" v-model="params.fontFamily"></form-select>
+        <form-select style="width: 64vw;margin:5px 0 2px 0;" :list="fontList" v-model="params.fontFamily"></form-select>
       </div>
 
       <div class="list-item">
         <div class="label">定制数量</div>
-        <form-number v-model="params.num"></form-number>
+        <form-number v-model="params.num" style="margin-top:5px;"></form-number>
       </div>
 
       <div class="list-item">
@@ -46,7 +46,7 @@
         ],
         params: {
           imgs: '',   //  定制照片
-          fontFamily: '',   //  定制字体
+          fontFamily: '微软雅黑',   //  定制字体
           num: 1,          //  定制数量
           remark: ''        //  定制备注
         }
@@ -95,15 +95,16 @@
   .list-item {
     color: #000;
     font-size: 14px;
-    padding: 5px 0 10px 0;
+    padding: 8px 0;
     margin-left: 12px;
     border-bottom: 1px solid rgba(230, 230, 230, 1);
     .upload {
-      margin: 6px 0 10px 0;
+      margin: 10px 0;
     }
     .label {
+
       white-space: nowrap;
-      line-height: 34px;
+      line-height: 24px;
       small {
         margin-left: 8px;
         font-size: 13px;
@@ -123,11 +124,8 @@
 
   .btn-sub {
     width: 70vw;
-    margin: 20px auto;
+    margin: 23px auto;
     border-radius: 10px;
-  }
-
-  .form-number {
-
+    height: 35px;
   }
 </style>

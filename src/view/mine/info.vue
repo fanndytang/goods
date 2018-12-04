@@ -31,8 +31,8 @@
       <div class="input-field">
         <div class="label">店铺位置 <span>*</span></div>
         <select-country class="between" v-model="params.position" :text.sync="positiontext">
-          <input type="text" placeholder="省、市、区" v-model="positiontext">
-          <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="">
+          <input readonly type="text" placeholder="省、市、区" v-model="positiontext">
+          <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="" style="margin-right: 5px;">
         </select-country>
       </div>
 
@@ -143,7 +143,7 @@
   }
 
   .form-box2 {
-    padding: 0 0 0 13px;
+    padding: 0 0 0 12px;
     border-top: 10px solid #f1f0f0;
   }
 </style>

@@ -198,7 +198,7 @@
     font-size: 14px;
     text-align: center;
     width: 100vw;
-    line-height: .5rem;
+    line-height: .45rem;
     background: #eaeaea;
     span {
       margin: 0 4px;

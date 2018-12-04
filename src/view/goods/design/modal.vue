@@ -47,7 +47,7 @@
       width: 100%;
     }
     .title {
-      line-height: 42px;
+      line-height: 41px;
       font-size: 18px;
       text-align: center;
       border-bottom: 1px solid rgba(234, 234, 234, 1);
@@ -60,8 +60,8 @@
     .item {
       .item-tit {
         margin: 0 0 0 10px;
-        font-size: 14px;
-        padding-right: 15px;
+        font-size: 16px;
+        padding-right: 12px;
         height: 45px;
         display: flex;
         justify-content: space-between;
@@ -69,25 +69,36 @@
         border-bottom: 1px solid rgba(234, 234, 234, 1);
       }
       .content {
-        padding: 3px 7px 20px 7px;
+        padding: 15px 10px;
         border-bottom: 1px solid rgba(234, 234, 234, 1);
+
+        display: flex;
+        flex-wrap: wrap;
+
         .item {
-          display: inline-block;
-          width: 56px;
-          font-size: 14px;
-          line-height: 20px;
+          font-size: 12px;
+          color: #0c0c0c;
+
+          width: 100%/6;
+          margin-bottom: 6px;
+
+      //    display: inline-block;
+       //   width: 56px;
+    //      font-size: 14px;
+          line-height: 26px;
           text-align: center;
           .img {
             height: 47px;
             width: 47px;
             border-radius: 50%;
             overflow: hidden;
-            background: #e9e9e9;
-            margin: 12px auto 5px auto;
+         //   background: #e9e9e9;
+            margin: 0 auto;
             border: solid 1px transparent;
             img {
               max-width: 100%;
               max-height: 100%;
+              background: #e9e9e9;
             }
           }
           &.active .img {

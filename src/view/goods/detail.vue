@@ -2,9 +2,9 @@
   <div class="main-content">
     <head-bar :back="true" title="商品详情" :menu="true"></head-bar>
 
-    <swiper :options="swiperOption" style="position: relative;">
-      <swiper-slide v-for="item,i in detail.imgs" :key="i" style="text-align: center;">
-        <img width="100%" :src="item">
+    <swiper :options="swiperOption" style="position: relative;width:100vw;">
+      <swiper-slide v-for="item,i in detail.imgs" :key="i" style="text-align: center;width:100vw;">
+        <img width="100%" class="full-img" :src="item">
       </swiper-slide>
       <div class="swiper-pagination goods" slot="pagination"></div>
     </swiper>
@@ -82,12 +82,12 @@
         setTimeout(() => {
           this.detail = {
             id: 1,
-            title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
+            title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
             imgs: ['./static/img/g3.jpg',  './static/img/ad3.jpg'],
             tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
-            process: '<img src="./static/img/d1.png" />',
-            rules: '<img src="./static/img/d2.png" />',
-            detail: '<img src="./static/img/d3.jpg" />',
+            process: '<img style="width:100vw;display:block;" src="./static/img/d1.png" />',
+            rules: '<img style="width:100vw;display:block;" src="./static/img/d2.png" />',
+            detail: '<img style="width:100vw;display:block;" src="./static/img/d3.jpg" />',
           }
         }, 50)
       }
@@ -99,7 +99,7 @@
   }
 </script>
 
-<style>
+<style lang="less">
   img {
     max-width: 100%;
   }
@@ -126,12 +126,13 @@
   }
 
   .summary {
-    padding: 18px 20px 25px 15px;
+    padding: 19px 20px 25px 15px;
     .title {
       margin: 0;
       line-height: 20px;
       font-size: 15px;
       color: #000;
+      font-weight: normal;
     }
     .tag {
       margin-top: 10px;
@@ -154,6 +155,8 @@
       border-bottom: 1px solid rgba(237, 237, 237, 1);
       padding: 0 12px;
       line-height: 45px;
+      font-size: 15px;
+      color: #0d0d0d;
     }
     img {
       max-width: 100%;

@@ -62,11 +62,11 @@
         border-bottom: 1px solid rgba(235, 235, 235, 1);
         padding: 0 .25rem;
         display: block;
-
+        color: #000000;
         img {
           height: 22px;
           vertical-align: middle;
-          margin: -5px 10px 0 0;
+          margin: -5px 8px 0 0;
         }
       }
     }

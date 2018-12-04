@@ -2,7 +2,7 @@
   <div class="upload">
     <input type="hidden" :value="value" @input="value = $event.target.value">
     <div class="img-box" v-show="path || url">
-    <img :src="path || url" alt="">
+    <img :src="path || url" alt="" height="76px">
   </div>
 
     <div class="up-trigger">
@@ -50,13 +50,17 @@
     }
   }
   .img-box {
-    max-height: 76px;
+   // max-height: 76px;
     margin-right: 6px;
+  //  max-width: 100% - 76px;
     // overflow: hidden;
     // flex: 1;
   }
   .up-trigger {
     position: relative;
+    img {
+      display: block;
+    }
     input[type=file] {
       position: absolute;
       left: 0;

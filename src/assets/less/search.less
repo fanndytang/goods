@@ -1,19 +1,17 @@
 .good-search {
-  width: 78%;
+ // width: 78%;
   height: 0.3rem;
   line-height: 0.3rem;
   background: #ededed;
   text-align: center;
-  margin: 5px auto;
-  color: #9d9d9d;
+ // margin: 5px auto;
+  margin: 0 42px 4px 42px;
+ // color: #9d9d9d;
   font-size: .12rem;
   border-radius: 30px;
   position: relative;
 
-  img {
-    vertical-align: middle;
-    margin-top: -3px;
-  }
+  .input-placeholder-color(#9d9d9d);
 
   .input-search {
    // position: absolute;
@@ -28,6 +26,7 @@
     z-index: 1;
     background: transparent;
     border: none;
+    font-size: 12px;
   }
 
   .input-bg {
@@ -38,7 +37,9 @@
     overflow: hidden;
     color: transparent;
     img {
-      margin-right: 10px;
+      margin-right: 15px;
+      vertical-align: middle;
+      margin-top: -3px;
     }
   }
 }

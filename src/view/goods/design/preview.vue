@@ -41,9 +41,15 @@
 
 <style lang="less" scoped>
   .design-box {
+    height: 100%;
+    display: inline-block;
     position: relative;
     .item {
       position: absolute;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 </style>

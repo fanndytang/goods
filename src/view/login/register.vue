@@ -36,7 +36,7 @@
       <select-country v-model="params.position" class="item" :text.sync="positiontext">
         <img :src="require('@/assets/icons/icon_dizhi.png')" alt="">
         <input type="text" readonly placeholder="请输入店铺位置" v-model="positiontext">
-        <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="" style="margin-right: 0;">
+        <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="" style="margin-right: -5px;">
       </select-country>
 
       <div class="item">
@@ -156,11 +156,13 @@
   }
   .btn-sub {
     margin: .3rem auto .5rem auto;
+
   }
   .link {
     text-align: center;
     margin-bottom: .3rem;
     display: block;
+    font-size: 14px;
   }
   .btn.code:disabled {
     background: rgba(108, 164, 182, 1);

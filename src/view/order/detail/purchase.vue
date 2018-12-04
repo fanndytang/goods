@@ -7,15 +7,15 @@
       </div>
       <div v-show="show1">
         <div class="list-item">
-          <label class="label">定制字体</label>
+          <label class="label">定制字体：</label>
           <span>{{purchase.fontFamily || '无'}}</span>
         </div>
         <div class="list-item" v-if="custom">
-          <label class="label">定制照片</label>
+          <label class="label">定制照片：</label>
           <span>{{purchase.fontFamily || '无'}}</span>
         </div>
         <div class="list-item">
-          <label class="label">定制备注</label>
+          <label class="label">定制备注：</label>
           <span>{{purchase.remark || '无'}}</span>
         </div>
       </div>
@@ -30,7 +30,7 @@
 
       <div v-if="show2 && purchase.front && purchase.front.params">
         <div class="list-item" v-for="item,i in purchase.front.params" :key="i">
-          <label class="label">{{item.title}}</label>
+          <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1 || item.type == 2">{{item.text}}</span>
           <img v-if="item.type == 3 || item.type == 4" :src="item.url" alt="">
         </div>
@@ -47,7 +47,7 @@
 
       <div v-if="show3 && purchase.back && purchase.back.params">
         <div class="list-item" v-for="item,i in purchase.back.params" :key="i">
-          <label class="label">{{item.title}}</label>
+          <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1 || item.type == 2">{{item.text}}</span>
           <img v-if="item.type == 3 || item.type == 4" :src="item.url" alt="">
         </div>
@@ -91,9 +91,9 @@
 <style lang="less" scoped>
   .title {
     font-size: 14px;
-    color: #0c0c0c;
-    margin-bottom: 5px;
-    height: 45px;
+    color: #333;
+    margin-bottom: 3px;
+    height: 40px;
     border-bottom: 1px solid rgba(230, 230, 230, 1);
   }
 
@@ -106,10 +106,11 @@
 
   .list-item {
     font-size: 14px;
-    line-height: 24px;
-    margin-bottom: 2px;
+    line-height: 28px;
+  //  margin-bottom: 2px;
     display: flex;
     align-items: flex-start;
+    color: #333;
     .label {
       color: #ccc;
       white-space: nowrap;

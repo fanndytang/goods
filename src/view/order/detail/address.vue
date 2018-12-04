@@ -2,7 +2,7 @@
   <div class="box">
     <div class="title flex-between flex-xcenter">
       <span>收货地址</span>
-      <router-link class="text-primary" :to="{name:'address', query: {orderid: orderid}}" v-if="type == 0 || type == 1">选择新地址</router-link>
+      <router-link :to="{name:'address', query: {orderid: orderid}}" v-if="type == 0 || type == 1" style="color:#5c95a8;">选择新地址</router-link>
     </div>
     <span class="name">{{data.name || address.name}}</span>
     <span class="tel">{{data.tel || address.tel}}</span>
@@ -39,27 +39,23 @@
 
 <style lang="less" scoped>
  .title {
-   font-size: 14px;
-   color: #0c0c0c;
-   height: 45px;
+   height: 40px;
    margin-bottom: 9px;
    border-bottom: 1px solid rgba(230, 230, 230, 1);
  }
   .box {
-    padding: 0 10px 14px 15px;
+    padding: 0 10px 17px 15px;
+    line-height: 20px;
     font-size: 14px;
-    line-height: 18px;
+    color: #333;
   }
 
  .name, .tel {
    display: inline-block;
    margin-right: 20px;
-   line-height: 22px;
    font-weight: 600;
  }
  .address {
-   line-height: 18px;
    width: 80%;
-   margin-top: 3px;
  }
 </style>

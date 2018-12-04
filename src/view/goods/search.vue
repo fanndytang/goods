@@ -1,16 +1,16 @@
 <template>
   <div class="full-gray">
     <div class="header">
-      <img :src="require('@/assets/icons/icon_fanhui.png')" height="15px" @click="$router.go(-1)">
+      <img :src="require('@/assets/icons/icon_fanhui.png')" height="13px" @click="$router.go(-1)">
       <div class="good-search">
         <div class="input-bg">
-          <img :src="require('@/assets/icons/search1.png')" height="20px">
+          <img :src="require('@/assets/icons/search1.png')" height="17px">
           <span>{{spanVal || '搜索品牌或关键词'}}</span>
         </div>
 
         <input class="input-search" @input="inputVal($event)" type="text" v-model="value" placeholder="搜索品牌或关键词" v-focus @blur="search()">
       </div>
-      <span @click="canSearch=true; search()">搜索</span>
+      <span @click="canSearch=true; search()" class="search-text">搜索</span>
     </div>
 
     <div class="history" v-show="history.length">
@@ -74,18 +74,29 @@
 
 <style lang="less" scoped>
   .header {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 10;
     display: flex;
     align-items: center;
-    padding: 3px 10px;
-    font-size: 14px;
+    padding: 7px 10px;
+    margin-top: 6px;
+  //  font-size: 14px;
     color: #0b0b0b;
     background: #fff;
 
+    .search-text {
+      font-size: 14px;
+    }
+
     .good-search {
-      width: auto;
+   //   width: auto;
       flex: 1;
-      margin-left: 5px;
-      margin-right: 5px;
+      margin: 0 10px;
+      img {
+        margin-right: 5px;
+      }
     }
 
     .text {
@@ -113,7 +124,7 @@
     .item {
       display: flex;
       justify-content: space-between;
-      line-height: 40px;
+      line-height: 39px;
       padding: 0 10px;
       align-items: center;
       border-top: 1px solid rgba(237, 237, 237, 1);

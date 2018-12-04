@@ -1,5 +1,5 @@
 <template>
-  <div class="full-gray desc">
+  <div class="full-gray desc" style="padding-top:1px;">
     <head-bar :back="true" :backstep="-2" title="订单信息" :menu="true"></head-bar>
 
     <img height="35px" :src="require('@/assets/icons/'+ (success ? 'icon_dui.png' : 'icon_cuo.png'))" alt="">
@@ -25,7 +25,7 @@
     line-height: 20px;
   }
   img {
-    margin: 38px auto 11px auto;
+    margin: 35px auto 11px auto;
     display: block;
   }
 
