@@ -8,7 +8,8 @@
       <span v-if="item.type == 1">{{item.text}}</span>
       <span v-if="item.type == 2">{{item.selText}}</span>
       <span v-if="item.type == 3"><img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt=""></span>
-      <span v-if="item.type == 4"><img :src="item.url" alt=""></span>
+      <span v-if="item.type == 4">
+        <img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt=""></span>
 
     </div>
 
@@ -21,6 +22,10 @@
       box: Object
     },
     methods: {
+            changeIconSize(e, i) {
+              item.width = (parseInt(item.width) + 1) + 'px'
+              this.box.params.splice(i, 1, item)
+            },
       setStyle(item) {
         //(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style
         let sty = ''

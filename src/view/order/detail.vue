@@ -150,12 +150,16 @@
               {
                 name: '客服',
                 date: '2018.11.15 09:31:50',
-                content: '<p>最新设计效果图，请确认是否可以进行生产</p><img width="82px" src="./static/img/goods.png" alt=""> <img width="82px" src="./static/img/goods.png" alt="">'
+                text: '最新设计效果图，请确认是否可以进行生产',
+                imglist: [
+                    './static/img/goods.png',
+                    './static/img/ad1.jpg',
+                ]
               },
               {
                 name: '我',
                 date: '2018.11.15 09:31:50',
-                content: '<p>谢谢，收到！</p>'
+                text: '谢谢，收到！'
               }
 
             ]

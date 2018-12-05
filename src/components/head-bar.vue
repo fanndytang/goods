@@ -31,12 +31,6 @@
   }
 </script>
 
-<!--<style>
-  body {
-    padding-top: 0.5rem;
-  }
-</style>-->
-
 <style lang="less" scoped>
   .head-bar {
     position: fixed;

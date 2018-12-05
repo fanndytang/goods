@@ -23,6 +23,16 @@
         path: ''
       }
     },
+    watch: {
+            url(val) {
+
+            //  this.$emit('input', val)
+
+              this.path = val
+           //   this.$emit('update:url', val)
+            //  this.$emit('change', val)
+            }
+    },
     methods: {
       upload(e) {
         let file = e.target.files[0]
@@ -32,6 +42,7 @@
 
         this.path = url
         this.$emit('update:url', url)
+        this.$emit('change', url)
       }
     }
   }

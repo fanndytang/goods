@@ -8,7 +8,7 @@
     </div>
 
     <div class="up-trigger" @click="tip()">
-      <input type="file" :disabled="list.length >= max" @change="upload($event)">
+      <input type="file" :disabled="list.length >= max" @change="upload($event)" multiple="multiple">
       <img height="76px" :src="require('@/assets/icons/icon_up.png')" alt="">
     </div>
   </div>
@@ -54,13 +54,26 @@
         }
       },
       upload(e) {
-        let file = e.target.files[0]
-        let url = URL.createObjectURL(file)
+        let file = e.target.files, url = [], num = 0
 
-        this.list.push({
-          url: url,
-          val: url   // 唯一标志
-        })
+        if(this.list.length + file.length > this.max) {
+          num = this.max - this.list.length
+          this.$message.error('最大可上传'+this.max+'张图片')
+        }else {
+          num = file.length
+        }
+        for(let i=0; i<num; i++) {
+          url.push(URL.createObjectURL(file[i]))
+        }
+
+        if(url.length) {
+          for(let k in url) {
+            this.list.push({
+              url: url[k],
+              val: url[k]   // 唯一标志
+            })
+          }
+        }
 
         let val = ''
         for(let k in this.list) {

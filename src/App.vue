@@ -1,12 +1,36 @@
 <template>
   <div id="app" @click="$root.eventHub.$emit('document-click', $event)">
-    <router-view/>
+    <div style="height:.5rem;"></div>
+    <router-view />
   </div>
 </template>
 
 <script>
   export default {
-    name: 'App'
+    name: 'App',
+    mounted () {
+      this.$nextTick(() => {  // 解决 ios10 及以上 Safari 无法禁止缩放
+        // 阻止双击放大
+        let lastTouchEnd = 0;
+        document.addEventListener('touchstart', function(event) {
+          if (event.touches.length > 1) {
+            event.preventDefault();
+          }
+        });
+        document.addEventListener('touchend', function(event) {
+          let now = (new Date()).getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        }, false);
+
+        // 阻止双指放大
+        document.addEventListener('gesturestart', function(event) {
+          event.preventDefault();
+        });
+      })
+    }
   }
 </script>
 
@@ -18,10 +42,10 @@
   }
   html {
     font-size: 100px;
-    height: 100vh;
+  /* // height: 100vh;*/
   }
   body {
-    padding: 0.5rem 0 0 0; /* 顶部固定：header高度*/
+    padding: 0;
     margin: 0;
     font-size: 0.12rem;
     color: #555;

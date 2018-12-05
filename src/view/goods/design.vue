@@ -47,6 +47,12 @@
           </div>
         </div>
       </div>
+      <div class="list-item">
+        <div class="label">数量：</div>
+        <div class="flex-center">
+          <form-number v-model="params.num" style="margin-left:5px;"></form-number>
+        </div>
+      </div>
 
     </div>
 
@@ -81,6 +87,9 @@
         wordFront: {},
         wordBack: {},
         dict: [],                                 //  商品参数
+        params: {
+                num: 1      // 商品数量
+        }
       }
     },
     mounted () {
@@ -138,6 +147,7 @@
                     url: '',
                     iconsid: 1,
                     iconlist: [
+                      {id: 1, text: '白羊座', url: "http://pic33.photophoto.cn/20141022/0019032438899352_b.jpg",},
                       {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
                       {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
                       {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},

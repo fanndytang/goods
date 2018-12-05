@@ -10,6 +10,7 @@ import selectCountry from './select-country.vue'
 import myScroll from './scroll.vue'
 import cropperImg from './cropper.vue'
 import inputSpan from './input-span.vue'
+import imgPreview from './preview.vue'
 
 export default {
   install: function(Vue){
@@ -25,5 +26,6 @@ export default {
     Vue.component('my-scroll', myScroll)
     Vue.component('cropper-img', cropperImg)
     Vue.component('input-span', inputSpan)
+    Vue.component('img-preview', imgPreview)
   }
 }

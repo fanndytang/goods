@@ -6,7 +6,14 @@
     <div class="chat" v-show="show">
       <div class="item" v-for="item,i in chat" :key="i">
         <div class="label">{{item.name}}<span class="date">{{item.date}}</span></div>
-        <div class="text" v-html="item.content"> </div>
+        <div class="text">
+          <p>{{item.text}}</p>
+
+          <img-preview v-if="item.imglist" :list="item.imglist" :ref="`preview${i}`">
+            <img v-for="el,k in item.imglist" :key="k" :src="el" alt="" @click="$refs[`preview${i}`][0].active=k;$refs[`preview${i}`][0].visible=true">
+          </img-preview>
+
+        </div>
       </div>
     </div>
 
@@ -123,6 +130,9 @@
       color: #0c0c0c;
       &:not(:last-child) {
         border-bottom: 1px solid rgba(230, 230, 230, 1);
+      }
+      img {
+        height: 82px;
       }
       .label {
         font-size: 16px;

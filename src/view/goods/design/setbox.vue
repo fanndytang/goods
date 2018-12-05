@@ -1,22 +1,39 @@
 <template>
   <div class="set-design-box">
+
     <div class="list-item" v-for="item,i in box.params" :key="i">
       <div class="label">
         {{item.title}}：
         <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板&emsp;</div>
       </div>
-      <div style="flex: 1;" :class="{'xz-box': item.type == 4 && item.iconlist}">
+      <div style="flex: 1;overflow:hidden;"> <!-- :class="{'xz-box': item.type == 4 && item.iconlist}"-->
         <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(box, i, wordEle)" placeholder="请输入">
 
         <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(box, i, wordEle)" style="display:inline-block;"></form-select>
 
         <input v-if="item.type == 3 && item.istext" v-model="item.text" type="text" placeholder="请输入">
-        <upload-img-1 style="margin: 7px 0 10px 0;" v-if="item.type==3 && !item.istext" :url.sync="item.url"></upload-img-1>
+        <div v-if="item.type==3 && !item.istext">
+          <cropper-img v-model="uploadUrl" @change="uploadCropperChange(item, i)">
+            <div slot="up-trigger" slot-scope="p" class="upload">
+              <upload-img-1 :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
+                            :url.sync="item.url"></upload-img-1>
+            </div>
+
+          </cropper-img>
+          <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;">
+        </div>
 
         <div v-if="item.type == 4 && item.iconlist">
-          <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
-            <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
-            {{el.text}}
+          <div class="xz-box">
+            <div class="item" v-for="el,k in item.iconlist" :key="k" :class="{'active': item.url == el.url}">
+              <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
+              {{el.text}}
+          </div>
+
+          </div>
+
+          <div>
+            <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;">
           </div>
         </div>
       </div>
@@ -35,42 +52,79 @@
   import modalBox from './modal.vue'
 
   export default {
-          props: {
-                  box: Object,
-            wordEle: Object
-          },
-          data () {
-                  return {
-                    showModal: false,
-                    icons: {                                     // 其它模板列表
-                      index: '',                            // 当前数据所属的定制参数索引值
-                      ele: {params: []},                              // 当前数据所属的定制正面或背面
-                      list: []
-                    },
-                  }
-          },
+    props: {
+      box: Object,
+      wordEle: Object
+    },
+    data () {
+      return {
+        showModal: false,
+        icons: {                                     // 其它模板列表
+          index: '',                            // 当前数据所属的定制参数索引值
+          ele: {params: []},                              // 当前数据所属的定制正面或背面
+          list: []
+        },
+        uploadUrl: ''
+      }
+    },
     watch: {
-            wordEle(val) {
-             // console.log(val)
-              if(val.length) {
-                let that = this
-                val.each(function(i) {
-                  new MyDrag({
-                    el: $(this)[0],
-                    parent: $(this).parent()[0]
-                  })
-                  that.setDesign(that.box, i, that.wordEle)
-                })
-              }
-            }
+      wordEle(val) {
+        if(val.length) {
+          let that = this
+          val.each(function(i) {
+            new MyDrag({
+              el: $(this)[0],
+              parent: $(this).parent()[0]
+            })
+            that.setDesign(that.box, i, that.wordEle)
+          })
+        }
+      }
     },
     methods: {
+            // 设置缩放比例
+      changeScale(item, i) {
+        let v = parseFloat(item.scaleNo)
+        v = isNaN(v) ? 1 : v
+
+        let ele =  this.wordEle.eq(i).find('img'),
+          w = parseFloat(ele.data('width')),
+          h = parseFloat(ele.data('height'))
+
+        if(isNaN(w) || isNaN(h)) return
+
+        item.width = w * v + 'px'
+        item.height = h * v + 'px'
+
+        this.box.params.splice(i, 1, item)
+      },
+      // 上传图片裁剪
+      uploadCropperChange(item, i) {
+        item.url = this.uploadUrl
+        this.$refs['upload'+i].url = this.uploadUrl
+
+        this.$nextTick(() => {
+          let ele =  this.wordEle.eq(i).find('img'),
+            w = ele.width(),
+            h = ele.height()
+
+          ele.data('width', w)
+          ele.data('height', h)
+        })
+      },
       // 选择不同的图标，更新显示
       setIconUrl(i, url, ele) {
         let p = ele.params[i]
         p.url = url
         ele.params.splice(i, 1, p)
-        // this.showModal = false
+
+        this.$nextTick(() => {
+          let ele =  this.wordEle.eq(i).find('img'),
+            w = ele.width(),
+            h = ele.height()
+          ele.data('width', w)
+          ele.data('height', h)
+        })
       },
       // 更新参数显示
       setDesign(ele, i, word) {
@@ -143,7 +197,7 @@
       },
     },
     components: {
-            'modal-box': modalBox
+      'modal-box': modalBox
     }
   }
 </script>
@@ -152,43 +206,43 @@
   .set-design-box {
     padding-top: 3px;
     .form-select .sel-text {
-    //  height: 28px;
+      //  height: 28px;
       border: solid 1px rgba(204, 204, 204, 1);
     }
   }
 </style>
 <style lang="less" scoped>
-.xz-box {
-  background: rgba(229, 229, 229, 1);
-  overflow: auto;
-  white-space: nowrap;
-  font-size: 12px;
-  margin: 7px 0 14px 0;
+  .xz-box {
+    background: rgba(229, 229, 229, 1);
+    overflow: auto;
+    white-space: nowrap;
+    font-size: 12px;
+    margin: 7px 0 3px 0;
 
-  line-height: 18px;
-  padding: 10px 2px;
+    line-height: 18px;
+    padding: 10px 2px;
 
-  .item {
-    display: inline-block;
-    text-align: center;
-    margin: 0 4px;
-    &.active .img {
-      border: solid 2px rgba(220, 182, 61, 1);
-    }
-    .img {
-      width: 36px;
-      height: 36px;
-      border: solid 2px transparent;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto;
-      img {
-        background: #fff;
-        width: 32px;
-        height: 32px;
+    .item {
+      display: inline-block;
+      text-align: center;
+      margin: 0 4px;
+      &.active .img {
+        border: solid 2px rgba(220, 182, 61, 1);
+      }
+      .img {
+        width: 36px;
+        height: 36px;
+        border: solid 2px transparent;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        img {
+          background: #fff;
+          width: 32px;
+          height: 32px;
+        }
       }
     }
   }
-}
 
 </style>

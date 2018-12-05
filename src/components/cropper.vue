@@ -7,7 +7,7 @@
         <span class="text-primary f14" @click="getImg()">使用</span>
       </head-bar>
 
-      <img :src="value" id="image" alt="" width="100%">
+      <img ref="image" :src="value" id="image" alt="" width="100%">
     </div>
 
     <slot name="up-trigger" :upload="upload"></slot>
@@ -51,7 +51,8 @@
             this.cropperBox.destroy()
           }
 
-          const image = document.getElementById('image');
+          // const image = document.getElementById('image');
+          const image = this.$refs.image
           this.cropperBox = new Cropper(image, {
             autoCrop: true,
             viewMode:1,
@@ -65,13 +66,23 @@
       },
       // 获取裁剪图像
       getImg() {
-        this.$emit('input', this.cropperBox.getCroppedCanvas().toDataURL())
+        let url = this.cropperBox.getCroppedCanvas().toDataURL()
+        this.$emit('input', url)
+        this.$emit('change', url)
         this.show = false
+
       },
       //  上传图片
       upload(e) {
-        let file = e.target.files[0]
-        this.$emit('input', URL.createObjectURL(file))
+        let file = {}, url = ''
+        if(typeof e == 'string') {
+          url = e
+        }else {
+          file = e.target.files[0]
+          url = URL.createObjectURL(file)
+        }
+
+        this.$emit('input', url)
         this.show = true
       }
     }

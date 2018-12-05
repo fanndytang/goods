@@ -14,11 +14,12 @@
         <input type="search" class="input-search" placeholder="搜索品牌或关键词" @focus="$router.push('/search')" />
       </div>
 
-      <swiper :options="swiperOption">
+      <swiper :options="swiperOption" ref="mySwiper">
         <swiper-slide v-for="item,i in ads.banner" :key="i">
-          <router-link v-if="item.type === 'img'" :to="item.link"><img width="100%" class="full-img" :src="item.imgUrl"></router-link>
-         <!-- <img v-if="item.type === 'video'" width="100%" class="full-img" :src="item.imgUrl" @click="previewVideo(item.videoUrl)">-->
-          <video v-if="item.type === 'video'" width="100%" height="165px" class="full-img" :src="item.videoUrl" controls="controls"></video>
+          <a :href="item.link" v-if="item.type === 'img'"><img width="100%" class="full-img" :src="item.url"></a>
+
+          <video v-if="item.type === 'video'" width="100%" height="165px" class="full-img" :src="item.url"
+                 controls="controls" @play="playVideo()" @pause="pauseVideo()" playsinline></video>
         </swiper-slide>
         <div class="swiper-pagination home" slot="pagination"></div>
       </swiper>
@@ -60,11 +61,6 @@
 
     </my-scroll>
 
-   <!-- <div class="video-modal" v-show="showVideo" @click="closeVideo($event)">
-      <video ref="video" :src="videoUrl" controls="controls"></video>
-    </div>-->
-
-
     <foot-bar></foot-bar>
     <scroll-top></scroll-top>
   </div>
@@ -78,7 +74,9 @@
     data () {
       return {
         swiperOption: {
-                autoplay: true,
+          autoplay: {
+            disableOnInteraction: false
+          },
           pagination: {
             el: '.swiper-pagination'
           }
@@ -95,8 +93,6 @@
           totals: 0,   // 总共有多少条
           data: []
         },
-      /*  videoUrl: '',
-        showVideo: false*/
       }
     },
     mounted () {
@@ -104,19 +100,12 @@
       this.getMewData()
     },
     methods: {
-     /* previewVideo(url) {
-        this.videoUrl = url
-        this.showVideo = true
-        this.$nextTick(() => {
-          this.$refs.video.play()
-        })
+      playVideo() {
+        this.$refs.mySwiper.swiper.autoplay.stop()
       },
-      closeVideo(e) {
-        if(e.target.tagName.toLowerCase() !== 'video') {
-          this.$refs.video.pause()
-          this.showVideo = false
-        }
-      },*/
+      pauseVideo() {
+        this.$refs.mySwiper.swiper.autoplay.start()
+      },
       //  广告位
       getAds() {
         this.$http.get('/api/index/banner').then(res => {
@@ -127,8 +116,8 @@
         setTimeout(() => {
           this.ads = {
             banner: [
-              {id: '1', link: '', imgUrl: './static/img/ad1.jpg', type: 'img'},
-              {id: '1', link: '', imgUrl: './static/img/ad1.jpg', type: 'video', videoUrl: 'http://www.w3school.com.cn/i/movie.ogg'},
+              {id: '1', link: 'http://baidu.com', url: './static/img/ad1.jpg', type: 'img'},
+              {id: '1', link: '', type: 'video', url: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4'},
 
             ],
             news: './static/img/ad2.png',
@@ -148,7 +137,7 @@
             {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
             {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
             {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
-            //   {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
+            {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
           ]
         }, 50)
       },

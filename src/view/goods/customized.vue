@@ -8,7 +8,7 @@
 
       <div class="list-item">
         <div class="label">定制照片 <small>请上传图片</small></div>
-        <upload-img-1 v-model="params.imgs"></upload-img-1>
+        <upload-img-2 v-model="params.imgs" :max="5"></upload-img-2>
       </div>
 
       <div class="list-item">

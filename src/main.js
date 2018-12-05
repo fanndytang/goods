@@ -20,6 +20,10 @@ Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
+router.afterEach((to,from,next) => {  // 每个页面滚动条回滚到顶部
+  window.scrollTo(0,0);
+});
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

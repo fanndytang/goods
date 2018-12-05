@@ -3,7 +3,7 @@
     <input type="hidden" :value="value" @input="value=$event.target.value">
 
     <span class="item icon-minus" @click="minPlus()">-</span>
-    <input-span class="item num" v-model="val"></input-span>
+    <span class="item num" contenteditable="true" @input="inputText($event)" v-html="val"></span>
     <span class="item icon-plus" @click="plus()">+</span>
   </div>
 </template>
@@ -14,8 +14,8 @@
       value: Number
     },
     watch: {
-      val(val) {
-        this.$emit('input', parseInt(val))
+      val(val, oldVal) {
+        this.$emit('input', parseInt(this.val))
       }
     },
     data () {
@@ -24,14 +24,43 @@
       }
     },
     methods: {
+            inputText(e) {
+              let v = e.target.innerText, s = parseInt(v)
+
+              if(isNaN(s)) {
+                e.target.innerText = 1
+
+                this.$nextTick(() => {
+
+                  setTimeout(() => {
+                    let obj = e.target
+                    if (window.getSelection) {//ie11 10 9 ff safari
+                      obj.focus(); //解决ff不获取焦点无法定位问题
+                      //   console.log(obj)
+                      let range = window.getSelection();//创建range
+                      range.selectAllChildren(obj);//range 选择obj下所有子内容
+                      range.collapseToEnd();//光标移至最后
+                    }
+                  }, 10)
+
+                })
+
+              }else if(!isNaN(s) && s.toString().length !== v.length) {
+                e.target.innerText = s
+              }
+
+            },
       //  加
       plus() {
-        this.val = parseInt(this.val) + 1
+        let v = parseInt(this.val)
+        this.val = (isNaN(v) ? 0 : v)  + 1
       },
       // 减
       minPlus() {
-        let v = Math.max(1, parseInt(this.val) - 1)
-        this.val = v
+        let v = parseInt(this.val)
+        v = isNaN(v) ? 0 : v
+
+        this.val = Math.max(1, v - 1)
       }
     }
   }
