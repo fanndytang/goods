@@ -13,7 +13,7 @@
         <input type="password" placeholder="请输入密码" v-model="password">
       </div>
 
-      <button class="btn btn-primary btn-block btn-sub" type="button" @click="login()" :disabled="!(tel&&password)">立即登陆</button>
+      <button class="btn btn-primary btn-block btn-sub" type="button" @click="login()" :disabled="!(tel&&password&&telValid)">立即登陆</button>
 
       <div class="other flex-between">
         <router-link to="/findpassword">忘记密码</router-link>
@@ -35,11 +35,20 @@
     mounted () {
       sessionStorage.removeItem('mysgyj_history_page')
     },
+    computed: {
+      // 验证手机号
+      telValid() {
+        return this.tel.length == 11 && /^[0-9]*$/.test(this.tel)
+      },
+    },
     methods: {
+
       //  登陆
       login() {
         if(!this.tel) {
           this.$message.error('请输入您的手机号码')
+        }else if(!this.telValid) {
+                this.$message.error('手机号码格式不正确')
         }else if(!this.password) {
           this.$message.error('请输入密码')
         }else {

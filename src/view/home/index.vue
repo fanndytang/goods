@@ -16,10 +16,14 @@
 
       <swiper :options="swiperOption" ref="mySwiper">
         <swiper-slide v-for="item,i in ads.banner" :key="i">
-          <a :href="item.link" v-if="item.type === 'img'"><img width="100%" class="full-img" :src="item.url"></a>
+          <a :href="item.link" v-if="item.type == 1"><img class="full-img" :src="item.imgUrl"></a>
 
-          <video v-if="item.type === 'video'" width="100%" height="165px" class="full-img" :src="item.url"
-                 controls="controls" @play="playVideo()" @pause="pauseVideo()" playsinline></video>
+          <div v-if="item.type == 2" class="full-img" style="position:relative;">
+            <img @click="$refs[`video${i}`][0].play()" class="video-play" :src="require('@/assets/icons/icon_add.png')" alt="">
+
+             <video :ref="`video${i}`" class="ad-video" width="100%" v-if="item.type == '2'" :src="item.videoUrl" :poster="item.imgUrl"
+              @play="stopSwiper()" @pause="openSwiper()"></video>
+          </div>
         </swiper-slide>
         <div class="swiper-pagination home" slot="pagination"></div>
       </swiper>
@@ -61,6 +65,11 @@
 
     </my-scroll>
 
+   <!-- <div class="video-modal" v-show="showVideo">
+      {{videoUrl}}
+      <video ref="myvideo" :src="videoUrl" controls="controls"></video>
+    </div>-->
+
     <foot-bar></foot-bar>
     <scroll-top></scroll-top>
   </div>
@@ -93,6 +102,8 @@
           totals: 0,   // 总共有多少条
           data: []
         },
+        showVideo: false,
+        videoUrl: ''
       }
     },
     mounted () {
@@ -100,10 +111,10 @@
       this.getMewData()
     },
     methods: {
-      playVideo() {
+      stopSwiper() {
         this.$refs.mySwiper.swiper.autoplay.stop()
       },
-      pauseVideo() {
+      openSwiper() {
         this.$refs.mySwiper.swiper.autoplay.start()
       },
       //  广告位
@@ -116,8 +127,9 @@
         setTimeout(() => {
           this.ads = {
             banner: [
-              {id: '1', link: 'http://baidu.com', url: './static/img/ad1.jpg', type: 'img'},
-              {id: '1', link: '', type: 'video', url: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4'},
+              {id: '1', link: 'http://baidu.com', imgUrl: './static/img/ad1.jpg', type: '1'},
+              {id: '1', link: '', type: '2', imgUrl: './static/img/ad1.jpg',
+                videoUrl: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4'},
 
             ],
             news: './static/img/ad2.png',
@@ -166,6 +178,14 @@
     max-width: 100%;
   }
 
+  .ad-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    ::-webkit-media-controls-fullscreen-button{
+      display: none;
+    }
+  }
   .tools {
     display: flex;
     height: .4rem;
@@ -256,6 +276,17 @@
     }
   }
 
+  .video-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    z-index: 10;
+  }
   .video-modal {
     position: fixed;
     top: 0;
@@ -265,6 +296,8 @@
     background: rgba(0, 0, 0, .8);
     z-index: 100;
     video {
+      background: #fff;
+
       position: absolute;
       width: 100vw;
       top: 50%;

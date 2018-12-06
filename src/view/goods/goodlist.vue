@@ -146,6 +146,8 @@
           parent.scrollTo(scrollLeft-50, 0)
         }
 
+        window.scrollTo(0, 0)
+
       },
       // 获取商品类别
       getNav() {

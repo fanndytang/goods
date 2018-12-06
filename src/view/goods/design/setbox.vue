@@ -20,7 +20,7 @@
             </div>
 
           </cropper-img>
-          <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;">
+          <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;"><span style="color:#c2c2c2;">%</span>
         </div>
 
         <div v-if="item.type == 4 && item.iconlist">
@@ -33,7 +33,7 @@
           </div>
 
           <div>
-            <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;">
+            <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;"><span style="color:#c2c2c2;">%</span>
           </div>
         </div>
       </div>
@@ -85,7 +85,9 @@
             // 设置缩放比例
       changeScale(item, i) {
         let v = parseFloat(item.scaleNo)
-        v = isNaN(v) ? 1 : v
+        v = isNaN(v) ? 100 : v
+
+        v = v / 100
 
         let ele =  this.wordEle.eq(i).find('img'),
           w = parseFloat(ele.data('width')),

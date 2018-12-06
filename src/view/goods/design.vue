@@ -3,6 +3,7 @@
   <div>
     <head-bar :back="true" title="商品订制" :menu="true"></head-bar>
 
+    <div style="height: 37px;"></div>
     <div class="tab-bar">
       <span class="item" :class="{'active': active==1}" @click="active=1">正面</span>
       <span class="item" :class="{'active': active==2}" @click="active=2">背面</span>
@@ -369,7 +370,7 @@
   }
 
   .design-dict {
-    margin-bottom: 70px;
+    margin-bottom: 115px;
     .sec-title {
       margin-bottom: 5px;
     }
@@ -403,8 +404,14 @@
   }
 
   .tab-bar {
-    margin-top: 5px;
-    line-height: .3rem;
+    position: fixed;
+    top: .5rem;
+    left: 0;
+    z-index: 10;
+    background: #fff;
+    width: 100%;
+    padding-top: 5px;
+    line-height: 30px;
     display: flex;
     text-align: center;
     color: #000;
@@ -435,5 +442,9 @@
     width: 100vw;
     height: .45rem;
     font-size: 16px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
   }
 </style>

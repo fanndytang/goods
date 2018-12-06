@@ -3,8 +3,11 @@
     <input type="hidden" :value="value" @input="value=$event.target.value">
 
     <span class="item icon-minus" @click="minPlus()">-</span>
-    <span class="item num" contenteditable="true" @input="inputText($event)" v-html="val"></span>
+
+    <input :style="`width:${width}px;`" class="item num" type="text"  @input="inputText($event)" v-model="val">
     <span class="item icon-plus" @click="plus()">+</span>
+
+    <span class="item num" ref="spannum" v-html="val" style="opacity:0;position:absolute;z-index:-1;"></span>
   </div>
 </template>
 
@@ -15,41 +18,33 @@
     },
     watch: {
       val(val, oldVal) {
+        this.$nextTick(() => {
+          this.width = this.$refs.spannum.clientWidth
+        })
         this.$emit('input', parseInt(this.val))
       }
     },
     data () {
       return {
-        val: this.value
+        val: this.value,
+        width: 22,
+        s: '',
+        v: ''
       }
     },
     methods: {
-            inputText(e) {
-              let v = e.target.innerText, s = parseInt(v)
+      //  数字输入
+      inputText(e) {
+        let v = e.target.value, s = parseInt(v)
+        this.s = s
+        this.v = v
 
-              if(isNaN(s)) {
-                e.target.innerText = 1
-
-                this.$nextTick(() => {
-
-                  setTimeout(() => {
-                    let obj = e.target
-                    if (window.getSelection) {//ie11 10 9 ff safari
-                      obj.focus(); //解决ff不获取焦点无法定位问题
-                      //   console.log(obj)
-                      let range = window.getSelection();//创建range
-                      range.selectAllChildren(obj);//range 选择obj下所有子内容
-                      range.collapseToEnd();//光标移至最后
-                    }
-                  }, 10)
-
-                })
-
-              }else if(!isNaN(s) && s.toString().length !== v.length) {
-                e.target.innerText = s
-              }
-
-            },
+        if(isNaN(s)) {
+          this.val = 1
+        }else if(!isNaN(s) && s.toString().length !== v.length) {
+          this.val = s
+        }
+      },
       //  加
       plus() {
         let v = parseInt(this.val)
@@ -68,6 +63,7 @@
 
 <style lang="less" scoped>
   .form-number {
+    position: relative;
     .item {
       height: 22px;
       background: #e5e5e5;
