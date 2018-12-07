@@ -27,79 +27,115 @@
 
     </my-scroll>
 
-   <!-- <scroll-top el=".address-index-scroll"></scroll-top>-->
+    <!-- <scroll-top el=".address-index-scroll"></scroll-top>-->
 
   </div>
 </template>
 
 <script>
   export default {
-      data () {
-          return {
-            loading: new this.Loading('删除中'),
-            list: {
-              rows: 10,   // 一次显示多少条
-              current: 0,  // 当前显示的页数
-              totals: 0,   // 总共有多少条
-              data:[]
-            },
-            orderid: this.$route.query.orderid || false   // 是否需要选择地址
-          }
-      },
+    data () {
+      return {
+        loading: new this.Loading('删除中'),
+        list: {
+          rows: 10,   // 一次显示多少条
+          current: 0,  // 当前显示的页数
+          totals: 0,   // 总共有多少条
+          data:[]
+        },
+        orderid: this.$route.query.orderid || false   // 是否需要选择地址
+      }
+    },
     methods: {
-              // 选择地址
+      // 选择地址
       selectAddress(item) {
-              if(this.orderid) {
-                      sessionStorage.setItem('siyj-orderaddressid'+this.orderid, item.id)
-                      sessionStorage.setItem('siyj-orderaddressname'+this.orderid, item.name)
-                      sessionStorage.setItem('siyj-orderaddresstel'+this.orderid, item.tel)
-                      sessionStorage.setItem('siyj-orderaddressaddress'+this.orderid, item.address)
-                      this.$router.go(-1)
-              }
-      },
-        //  删除地址
-        del(item, index) {
-          this.loading.show()
-          this.$http.post('/api/user/address', {
-            id: item.id
-          }).then(res => {
-            this.loading.hide()
-            if(this.orderid && (sessionStorage.getItem('siyj-orderaddressid'+this.orderid) == item.id)) {  // 如果删除了当前订单所选的地址，则对应清空订单重新选择的地址
-                    sessionStorage.removeItem('siyj-orderaddressid'+this.orderid)
-                    sessionStorage.removeItem('siyj-orderaddressname'+this.orderid)
-                    sessionStorage.removeItem('siyj-orderaddresstel'+this.orderid)
-                    sessionStorage.removeItem('siyj-orderaddressaddress'+this.orderid)
+        if(this.orderid) {
+                this.loading.show('正在提交')
+          this.$http({
+            url: '',
+            method: 'post',
+            data: {
+                    sn: this.orderid,
+              addressid: item.id
+            },
+            success: (data) => {
+              sessionStorage.setItem('siyj-orderaddressid'+this.orderid, item.id)
+              sessionStorage.setItem('siyj-orderaddressname'+this.orderid, item.name)
+              sessionStorage.setItem('siyj-orderaddresstel'+this.orderid, item.tel)
+              sessionStorage.setItem('siyj-orderaddressaddress'+this.orderid, item.address)
+              this.loading.hide()
+              this.$router.go(-1)
+            },
+            error: (data) => {
+              this.loading.hide()
+                    this.$message.error('地址设置失败，请重试')
             }
-          this.list.splice(index, 1)
-           this.$message.success('删除成功')
-          }).catch(err => {
-            this.loading.hide()
 
-            this.$message.error('删除失败，请重试')
 
           })
 
-        },
+        }
+      },
+      //  删除地址
+      del(item, index) {
+        this.loading.show()
+
+        this.$http({
+          url: '',
+          method: 'post',
+          data: {
+            id: item.id
+          },
+          success: (data) => {
+            this.loading.hide()
+            if(this.orderid && (sessionStorage.getItem('siyj-orderaddressid'+this.orderid) == item.id)) {  // 如果删除了当前订单所选的地址，则对应清空订单重新选择的地址
+              sessionStorage.removeItem('siyj-orderaddressid'+this.orderid)
+              sessionStorage.removeItem('siyj-orderaddressname'+this.orderid)
+              sessionStorage.removeItem('siyj-orderaddresstel'+this.orderid)
+              sessionStorage.removeItem('siyj-orderaddressaddress'+this.orderid)
+            }
+            this.list.data.splice(index, 1)
+            this.$message.success('删除成功')
+          },
+          error: (data) => {
+            this.loading.hide()
+            this.$message.error('删除失败，请重试')
+          }
+
+
+        })
+
+      },
       //  设置默认地址
       setDefault(item) {
 
-          this.loading.show()
-          this.$http.post('/api/user/address', {
-            id: item.id
-          }).then(res => {
-            this.loading.hide()
-           // this.$message.success('设置成功')
-           for(let k in this.list) {
-              if(this.list[k].isDefault && this.list[k].id != item.id) {
-                this.list[k].isDefault = false
-              }
-           }
+        this.loading.show()
 
-          }).catch(err => {
+
+        this.$http({
+          url: '',
+          method: 'post',
+          data: {
+            id: item.id
+          },
+          success: (data) => {
+            this.loading.hide()
+            for(let k in this.list.data) {
+              if(this.list.data[k].isDefault && this.list.data[k].id != item.id) {
+                this.list.data[k].isDefault = false
+              }
+            }
+          },
+          error: (data) => {
             this.loading.hide()
             this.$message.error('设置失败，请重试')
             item.isDefault = false
+          }
+
+
         })
+
+
       }
     }
   }

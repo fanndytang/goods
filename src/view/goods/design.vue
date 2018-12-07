@@ -58,6 +58,7 @@
     </div>
 
     <button class="btn btn-red btn-block" type="button" @click="confirm()">提交订单</button>
+    <div style="height:.45rem;"></div>
 
   </div>
 </template>
@@ -102,73 +103,75 @@
         let id = this.$route.query.id
         this.loading.show()
 
-        this.$http.get('/api/good/purchase', {
-          params: {
+
+        this.$http({
+          url: '',
+          method: 'get',
+          data: {
             id: id
-          }
-        }).then(res => {
-          this.loading.hide()
-          // todo ...
-          this.detail = {}
-
-          this.dataFormat()
-        }).catch(err => {
-          this.loading.hide()
-        })
-
-
-        // 测试数据
-        setTimeout(() => {
-          this.detail = {
-            purchase: {   // 定制参数
-              fontColor: 'blue',
-              fontFamily: '微软雅黑',
-              back: {
-                backgroundImg: './static/img/g1.png',
-                scale: 1,
-                params: [
-                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
-                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
-                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
-                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
-                  {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}
-                ]
-              },
-              front: {
-                backgroundImg: './static/img/goods.png',
-                scale: 0.7967914438502673,
-                params: [
-                  {enable: true, fontsize: '24px', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
-                  {enable: true, fontsize: '30px', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
-                  {enable: true, fontsize: '24px', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
-                  {enable: true, fontsize: '24px', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
-                  {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
-                  {enable: true, fontsize: '24px', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
-                  {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
-                    url: '',
-                    iconsid: 1,
-                    iconlist: [
-                      {id: 1, text: '白羊座', url: "http://pic33.photophoto.cn/20141022/0019032438899352_b.jpg",},
-                      {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
-                      {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
-                      {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
-                      {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
-                      {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
-                      {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
+          },
+          success: (data) => {
+                  data.data = {
+                    purchase: {   // 定制参数
+                      fontColor: 'blue',
+                      fontFamily: '微软雅黑',
+                      back: {
+                        backgroundImg: './static/img/g1.png',
+                        scale: 1,
+                        params: [
+                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
+                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
+                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
+                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
+                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}
+                        ]
+                      },
+                      front: {
+                        backgroundImg: './static/img/goods.png',
+                        scale: 0.7967914438502673,
+                        params: [
+                          {enable: true, fontsize: '24', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
+                          {enable: true, fontsize: '30', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
+                          {enable: true, fontsize: '24', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
+                          {enable: true, fontsize: '24', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
+                          {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
+                          {enable: true, fontsize: '24', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
+                          {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
+                            width: 100,
+                            height: 100,
+                            url: '',
+                            iconsid: 1,
+                            iconlist: [
+                              {id: 1, text: '白羊座', url: "http://pic33.photophoto.cn/20141022/0019032438899352_b.jpg",},
+                              {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
+                              {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
+                              {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
+                              {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
+                              {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
+                              {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    dict: [
+                      {title: '成色', text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'},
+                      {title:  '重量', text: '20g,30g'},
+                      {title: '规格', text: '20*23.8mm,20*10.4mm'}
                     ]
                   }
-                ]
-              }
-            },
-            dict: [
-              {title: '成色', text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'},
-              {title:  '重量', text: '20g,30g'},
-              {title: '规格', text: '20*23.8mm,20*10.4mm'}
-            ]
-          }
 
-          this.dataFormat()
-        }, 50)
+
+            this.loading.hide()
+            this.detail = data.data
+
+            this.dataFormat()
+          },
+          error: (data) => {
+            this.loading.hide()
+          }
+        })
+
       },
       // 处理异步获取的数据
       dataFormat() {
@@ -231,25 +234,36 @@
                 item.left = item.left * width / w
               }
 
+              data.web_height = height
+              data.web_width = width
+              data.natural_height = h
+              data.natural_width = w
+
               if(item.type == 2) {   //  设置下拉选框列表
                 let arr = (item.text || '').toString().replace(/，/g, ',').split(',')   // 替换中文的逗号
                 item.selText = arr[0] || ''
                 item.selList = arr.map(el => {return {id: el, name: el}})
               }
 
+              if(item.type == 3) {
+                      item.lastImgUrl = item.url || ''
+              }
+
               //  判断缩放比
               if(item.type == 1 || item.type == 2) {
                 if(item.fontsize) {
-                  item.fontsize = parseInt(item.fontsize) * scale / data.scale + 'px'
+                  item.fontsize = parseInt(item.fontsize) * scale / data.scale
                 }
               }else if(item.type == 3 || item.type == 4) {
                 if(item.width) {
-                  item.width = parseInt(item.width) * scale / data.scale + 'px'
+                  item.width = parseInt(item.width) * scale / data.scale
                 }
+                item.initWidth = item.width || ''
 
                 if(item.height) {
-                  item.height = parseInt(item.height) * scale / data.scale + 'px'
+                  item.height = parseInt(item.height) * scale / data.scale
                 }
+                item.initHeight = item.height || ''
               }
 
 
@@ -265,14 +279,59 @@
       setGlobalFont() {
         let sty = ''
         if(this.purchase.fontColor) sty += 'color:'+this.purchase.fontColor+';'
-        if(this.purchase.fontFamily) sty += 'color:'+this.purchase.fontFamily+';'
+        if(this.purchase.fontFamily) sty += 'font-family:'+this.purchase.fontFamily+';'
         return sty
       },
+      // 获取实际定制参数
+      getPurchaseResult(data) {
+        let d = []
+        if(data.params) {
+          d = data.params.map(item => {
+            let r = {}
+            for(let k in item) {
+              if(k !== 'selList' && k !== 'iconlist') {
+                r[k] = item[k]
+              }
+
+            }
+            r.top = data.natural_height * item.top / data.web_height
+            r.left = data.natural_width * item.left / data.web_width
+
+            if(r.fontsize) {
+              r.fontsize = data.natural_height * parseFloat(item.fontsize) / data.web_height
+            }
+
+            return r
+          })
+        }
+
+        return {
+          fontFamily: this.purchase.fontFamily,
+          fontColor: this.purchase.fontColor,
+          backgroundImg: data.backgroundImg,
+          params: d
+        }
+
+      },
+
       // 下载图片
       download() {
-        let data = this.active == 1 ? this.front : this.back
+        let d = this.active == 1 ? this.front : this.back
 
-        console.log(data)
+        this.loading.show('正在请求')
+        this.$http({
+          url: '',
+          method: 'post',
+          data: this.getPurchaseResult(d),
+          success: (data) => {
+                  // 下载图片
+                  this.loading.hide()
+          },
+          error: (data) => {
+            this.loading.hide()
+          }
+
+        })
       },
       // 提交订单
       confirm() {
@@ -288,24 +347,33 @@
 
         let data = {
           id: this.$route.query.id,
-          front: this.front,
-          back: this.back,
-          fontFamily: this.purchase.fontFamily,
-          remark: this.purchase.remark,
+          purchase: {
+            front: this.front,
+            back: this.back,
+            fontFamily: this.purchase.fontFamily,
+            remark: this.purchase.remark,
+          },
           dict: dict
         }
 
-        this.$http.post('/api/goods/order',data).then(res => {
-          this.loading.hide()
-          this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
-        }).catch(err => {
-          this.loading.hide()
+
+        this.$http({
+          url: '',
+          method: 'post',
+          data: data,
+          success: (data) => {
+                 data.data = '214321125'  // 订单号
+
+
+            this.loading.hide()
+            this.$router.push({name: "orderdetail", query: {type: 0, orderid: data.data}})
+          },
+          error: (data) => {
+            this.loading.hide()
+          }
+
         })
 
-        //  测试数据
-        setTimeout(() => {
-          this.$router.push({name: "orderdetail", query: {type: 0, orderid: '214321125'}})
-        }, 50)
       }
     },
     components: {
@@ -407,7 +475,7 @@
     position: fixed;
     top: .5rem;
     left: 0;
-    z-index: 10;
+    z-index: 8;
     background: #fff;
     width: 100%;
     padding-top: 5px;

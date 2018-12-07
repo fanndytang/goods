@@ -20,7 +20,8 @@
     },
     data () {
       return {
-        path: ''
+        path: '',
+        loading: new this.Loading('正在上传'),
       }
     },
     watch: {
@@ -36,13 +37,32 @@
     methods: {
       upload(e) {
         let file = e.target.files[0]
-        let url = URL.createObjectURL(file)
 
-        this.$emit('input', url)
+        this.loading.show()
+        let d = new FormData()
+        d.append('file', file)
+        this.$http({
+          url: '/upload',
+          method: 'post',
+          data: d,
+          success: (data) => {
+            data.data = URL.createObjectURL(file)
 
-        this.path = url
-        this.$emit('update:url', url)
-        this.$emit('change', url)
+            this.$emit('input', data.data)
+
+            this.path = data.data
+            this.$emit('update:url', data.data)
+            this.$emit('change', data.data)
+
+            this.loading.hide()
+          },
+          error: (data) => {
+            this.loading.hide()
+            this.$message.error('上传失败，请重试')
+          }
+
+        })
+
       }
     }
   }

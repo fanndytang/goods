@@ -10,7 +10,7 @@
 
         <div class="text">
           <div class="tel">{{isLogin ? userinfo.tel : '您还未登陆？请先登录'}}</div>
-          <router-link v-if="isLogin" to="/mineinfo" class="link">修改资料> </router-link>
+          <router-link v-if="isLogin" :to="{name: 'mineinfo', query: {uid: $root.uid||''}}" class="link">修改资料> </router-link>
           <router-link v-if="!isLogin" :to="{name: 'login', query:{path: '/mine'}}" class="link">去登陆</router-link>
         </div>
       </div>
@@ -70,32 +70,49 @@
         this.isLogin = sessionStorage.getItem('Authorization') || false   //  登陆标志
 
         if(!this.isLogin) return false
+
         this.loading.show()
-        this.$http.get('/api/user/info').then((res) => {
-          this.userinfo = res.data.data
-          this.loading.hide()
-        }).catch((err) => {
-          this.userinfo = {}
-          this.loading.hide()
+        this.$http({
+          url: '/api/user/info',
+          method: 'get',
+          data: {
+                  uid: this.$root.uid || ''
+          },
+          success: (data) => {
+                  // 测试
+            this.userinfo = {
+              avatar: './static/img/g1.png',
+              tel: '13800138000',
+            }
+
+
+           // this.userinfo = data.data
+            this.loading.hide()
+          },
+          error: (data) => {
+            this.userinfo = {}
+            this.loading.hide()
+          }
         })
 
-        //  测试数据
-        setTimeout(() => {
-          this.userinfo = {
-            avatar: './static/img/g1.png',
-            tel: '13800138000',
-          }
-        }, 500)
       },
       // 退出登录
       loginOut() {
-        this.$http.get('/api/user/out').then((res) => {
-          sessionStorage.removeItem('Authorization')
-          this.$router.push('/')
-        }).catch(err => {
-          sessionStorage.removeItem('Authorization')
-          this.$router.push('/')
-        })
+              this.$http({
+                url: '/api/login/out',
+                method: 'post',
+                data: {
+                        uid: this.$root.uid || ''
+                },
+                success: (data) => {
+                  sessionStorage.removeItem('Authorization')
+                  this.$router.push('/')
+                },
+                error: (data) => {
+                  sessionStorage.removeItem('Authorization')
+                  this.$router.push('/')
+                }
+              })
       }
 
     }

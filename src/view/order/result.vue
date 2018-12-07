@@ -3,7 +3,7 @@
     <head-bar :back="true" :backstep="-2" title="订单信息" :menu="true"></head-bar>
 
     <img height="35px" :src="require('@/assets/icons/'+ (success ? 'icon_dui.png' : 'icon_cuo.png'))" alt="">
-    <div>订单成功提交，请至商家中心查看实时进度</div>
+    <div>订单{{success ? '成功提交' : '提交失败'}}，请至商家中心查看实时进度</div>
     <button class="btn btn-red btn-block" type="button" @click="$router.push({name: 'orderdetail', query: {orderid: $route.query.orderid, type: 1}})">查看订单</button>
   </div>
 </template>

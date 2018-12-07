@@ -6,17 +6,17 @@
         {{item.title}}：
         <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板&emsp;</div>
       </div>
-      <div style="flex: 1;overflow:hidden;"> <!-- :class="{'xz-box': item.type == 4 && item.iconlist}"-->
+      <div style="flex: 1;" :style="item.type==4 ? 'overflow:hidden;': ''">
         <input v-if="item.type == 1" type="text" v-model="item.text" @change="setDesign(box, i, wordEle)" placeholder="请输入">
 
         <form-select v-if="item.type == 2" :list="item.selList" v-model="item.selText" @change="setDesign(box, i, wordEle)" style="display:inline-block;"></form-select>
 
         <input v-if="item.type == 3 && item.istext" v-model="item.text" type="text" placeholder="请输入">
         <div v-if="item.type==3 && !item.istext">
-          <cropper-img v-model="uploadUrl" @change="uploadCropperChange(item, i)">
+          <cropper-img v-model="item.url" @change="uploadCropperChange(item, i)" @cancel="cancelCropper(item,i)">
             <div slot="up-trigger" slot-scope="p" class="upload">
               <upload-img-1 :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
-                            :url.sync="item.url"></upload-img-1>
+                            :url.sync="item.url" v-model="item.url"></upload-img-1>
             </div>
 
           </cropper-img>
@@ -29,10 +29,9 @@
               <div class="img" @click="setIconUrl(i, el.url, box)"><img :src="el.url" alt=""></div>
               {{el.text}}
           </div>
+         </div>
 
-          </div>
-
-          <div>
+         <div>
             <input type="text" placeholder="请输入缩放比例" v-model="item.scaleNo" @change="changeScale(item, i)" style="margin-bottom:10px;"><span style="color:#c2c2c2;">%</span>
           </div>
         </div>
@@ -64,7 +63,8 @@
           ele: {params: []},                              // 当前数据所属的定制正面或背面
           list: []
         },
-        uploadUrl: ''
+        uploadUrl: '',
+        cropperUrl: ''
       }
     },
     watch: {
@@ -93,39 +93,71 @@
           w = parseFloat(ele.data('width')),
           h = parseFloat(ele.data('height'))
 
+     //   console.log(w, h)
+
         if(isNaN(w) || isNaN(h)) return
 
-        item.width = w * v + 'px'
-        item.height = h * v + 'px'
+        item.width = w * v
+        item.height = h * v
+//console.log(item.width, item.height)
+        this.box.params.splice(i, 1, item)
+      },
+      // 取消裁剪
+      cancelCropper(item, i) {
+        item.url = item.lastImgUrl||'';
 
         this.box.params.splice(i, 1, item)
       },
       // 上传图片裁剪
       uploadCropperChange(item, i) {
-        item.url = this.uploadUrl
-        this.$refs['upload'+i].url = this.uploadUrl
+        item.lastImgUrl = item.url || ''
+        item.width = item.initWidth || ''
+        item.height = item.initHeight || ''
+        item.scaleNo = ''
+
+        this.box.params.splice(i, 1, item)
 
         this.$nextTick(() => {
-          let ele =  this.wordEle.eq(i).find('img'),
-            w = ele.width(),
-            h = ele.height()
+          setTimeout(() => {
+            let ele =  this.wordEle.eq(i).find('img'),
+              w = ele.width(),
+              h = ele.height()
 
-          ele.data('width', w)
-          ele.data('height', h)
+            ele.data('width', w)
+            ele.data('height', h)
+
+
+               item.width = w
+              item.height = h
+
+
+                 this.box.params.splice(i, 1, item)
+          }, 200)
+
         })
       },
       // 选择不同的图标，更新显示
       setIconUrl(i, url, ele) {
         let p = ele.params[i]
         p.url = url
+        p.width = p.initWidth || ''
+        p.height = p.initHeight || ''
+        p.scaleNo = ''
+
         ele.params.splice(i, 1, p)
 
         this.$nextTick(() => {
-          let ele =  this.wordEle.eq(i).find('img'),
-            w = ele.width(),
-            h = ele.height()
-          ele.data('width', w)
-          ele.data('height', h)
+          let e =  this.wordEle.eq(i).find('img'),
+            w = e.width(),
+            h = e.height()
+          e.data('width', w)
+          e.data('height', h)
+
+          p.width = w
+         p.height = h
+
+          ele.params.splice(i, 1, p)
+
         })
       },
       // 更新参数显示
@@ -153,49 +185,52 @@
         this.showModal = true
         this.icons.index = i
         this.icons.ele = ele
-        this.$http.get('/api/good/icon', {
-          params: {
-            id: item.iconsid
-          }
-        }).then(res => {
-          this.icons.list = res.data
 
-        }).catch(err => {
-          this.icons.list = []
+        this.$http({
+          url: '',
+          method: 'get',
+          success: (data) => {
+                  data.data = [
+                    {
+                      title: '生肖图标',
+                      list: [
+                        {url: "./static/img/sx/su.png", text: '老鼠'},
+                        {url: "./static/img/sx/niu.png", text: '牛'},
+                        {url: "./static/img/sx/hu.png", text: '老虎'},
+                        {url: "./static/img/sx/tu.png", text: '兔子'},
+                        {url: "./static/img/sx/long.png", text: '龙'},
+                        {url: "./static/img/sx/se.png", text: '蛇'},
+                        {url: "./static/img/sx/ma.png", text: '马'},
+                        {url: "./static/img/sx/yang.png", text: '羊'},
+                        {url: "./static/img/sx/hou.png", text: '猴'},
+                        {url: "./static/img/sx/ji.png", text: '鸡'},
+                        {url: "./static/img/sx/gou.png", text: '狗'},
+                        {url: "./static/img/sx/zhu.png", text: '猪'},
+                      ]
+                    },
+                    {
+                      title: '性别图标',
+                      list: [
+                        {url: "./static/img/gender/nanhai.png", text: '男孩'},
+                        {url: "./static/img/gender/nvhai.png", text: '女孩'},
+                      ]
+                    },
+                    {
+                      title: '其它图标',
+                    }
+                  ]
+
+
+
+            this.icons.list = data.data
+          },
+          error: (data) => {
+            this.icons.list = []
+          }
+
+
         })
 
-        //  测试数据
-        setTimeout(() => {
-          this.icons.list = [
-            {
-              title: '生肖图标',
-              list: [
-                {url: "./static/img/sx/su.png", text: '老鼠'},
-                {url: "./static/img/sx/niu.png", text: '牛'},
-                {url: "./static/img/sx/hu.png", text: '老虎'},
-                {url: "./static/img/sx/tu.png", text: '兔子'},
-                {url: "./static/img/sx/long.png", text: '龙'},
-                {url: "./static/img/sx/se.png", text: '蛇'},
-                {url: "./static/img/sx/ma.png", text: '马'},
-                {url: "./static/img/sx/yang.png", text: '羊'},
-                {url: "./static/img/sx/hou.png", text: '猴'},
-                {url: "./static/img/sx/ji.png", text: '鸡'},
-                {url: "./static/img/sx/gou.png", text: '狗'},
-                {url: "./static/img/sx/zhu.png", text: '猪'},
-              ]
-            },
-            {
-              title: '性别图标',
-              list: [
-                {url: "./static/img/gender/nanhai.png", text: '男孩'},
-                {url: "./static/img/gender/nvhai.png", text: '女孩'},
-              ]
-            },
-            {
-              title: '其它图标',
-            }
-          ]
-        }, 50)
       },
     },
     components: {

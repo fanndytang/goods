@@ -6,7 +6,7 @@
       <div class="text">
         <div class="title">
           <span style="font-size: 14px;margin-bottom:2px;display:inline-block;">{{detail.title}}</span><br>
-          <span>{{detail.size}}</span>
+          <span>{{detail.fineness}}&nbsp;{{detail.weight}}&nbsp;{{detail.format}}</span>
         </div>
         <div class="number">定购数量：{{detail.number}}件</div>
       </div>
@@ -17,11 +17,12 @@
 <script>
   export default {
     props: {
-      detail: Object
+      detail: Object,
+      type: [Number, String]
     },
     data() {
       return {
-        type: this.$route.query.type
+      //  type: this.$route.query.type
       }
 
     }

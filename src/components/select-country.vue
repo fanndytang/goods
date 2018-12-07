@@ -39,14 +39,18 @@
           }
         });
 
-        this.$http.get('/api/country').then(res => {
-          mobileSelect.updateWheels(res.data);
-        }).catch(err => {})
+        this.$http({
+          url: '',
+          method: 'get',
+          success: (data) => {
+         //   mobileSelect.updateWheels(data.data);
 
-        //测试： country 为测试数据
-        setTimeout(() => {
-          mobileSelect.updateWheels(country);
-        }, 1000)
+            //测试： country 为测试数据
+            mobileSelect.updateWheels(country);
+          }
+
+        })
+
       }
     }
 

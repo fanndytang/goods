@@ -13,23 +13,35 @@
     data () {
       return {
         loading: new this.Loading(),
-        data:  {
-          //id: '1',
-          date: '2018.11.15 12:00',
-          title: '关于商家加盟最新条款事宜',
-          describe: '<img src="./static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
-        },
+        data:  {},
       }
     },
     mounted() {
       this.loading.show()
-      this.$http.get('/api/news/join').then(res => {
-        this.data = res.data.data
-      this.loading.hide()
-    }).catch(err => {
-        this.loading.hide()
-      //   this.data = {}
-    })
+
+      this.$http({
+        url: '',
+        method: 'get',
+        data: {
+          id: this.$route.query.id || ''
+        },
+        success: (data) => {
+          data.data = {
+            id: '1',
+            date: '2018.11.15 12:00',
+            title: '关于商家加盟最新条款事宜',
+            describe: '<img src="./static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
+          }
+
+
+          this.data = data.data
+          this.loading.hide()
+        },
+        error: (data) => {
+          this.loading.hide()
+        }
+      })
+
     }
   }
 </script>

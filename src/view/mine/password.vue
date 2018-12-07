@@ -68,16 +68,23 @@
           //  this.$message.error('密码输入不一致')
         }else {
           this.loading.show()
-          this.$http.post('/api/user/changepassword', this.params).then(res => {
-            this.loading.hide()
-          //  判断是否修改成功，给出相应提示及操作
-          //  todo ...
-          this.$message.success('修改成功')
-          this.$router.push('/login')
-        }).catch(err => {
-            this.loading.hide()
-          this.$message.error('修改失败，请重试')
-        })
+
+          this.$http({
+            url: '',
+            method: 'post',
+            data: this.params,
+            success: (data) => {
+              this.loading.hide()
+              this.$message.success('修改成功')
+              this.$router.push('/login')
+            },
+            error: (data) => {
+              this.loading.hide()
+              this.$message.error('修改失败，请重试')
+            }
+
+          })
+
         }
       },
     }

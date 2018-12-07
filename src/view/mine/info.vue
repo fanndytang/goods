@@ -31,7 +31,8 @@
       <div class="input-field">
         <div class="label">店铺位置 <span>*</span></div>
         <select-country class="between" v-model="params.position" :text.sync="positiontext">
-          <input readonly type="text" placeholder="省、市、区" v-model="positiontext">
+          <span style="line-height:30px;" :style="positiontext ? '' : 'color:#ccc;'">{{positiontext || '省、市、区'}}</span>
+        <!--  <input readonly type="text" placeholder="省、市、区" v-model="positiontext">-->
           <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="" style="margin-right: 5px;">
         </select-country>
       </div>
@@ -65,9 +66,7 @@
         isLogin: true,
         positiontext: '',
         params: {
-          avatar: './static/img/g1.png',  // 用户头像
-         // tel: '13800138000',
-
+          avatar: '',  // 用户头像
           companyname: '',  // 公司名称
           brand: '',  //  店铺品牌
           position: '',  //  店铺位置
@@ -78,8 +77,47 @@
       }
     },
     mounted () {
+            this.getInfo()
     },
     methods: {
+            getInfo() {
+              this.loading.show('加载中')
+              this.$http({
+                url: '',
+                method: 'get',
+                data: {
+                  uid: this.$root.uid || ''
+                },
+                success: (data) => {
+                  // 测试
+                  this.params = {
+                    avatar: './static/img/g1.png',  // 用户头像
+                    companyname: '',  // 公司名称
+                    brand: '',  //  店铺品牌
+                    position: '',  //  店铺位置
+                    address: '',  // 详细地址
+                    username: '',  // 联系人员
+                    usertel: '',   //  联系电话
+                  }
+
+
+                 /* let d = data.data || {}
+                  this.params = {
+                    avatar: d.avatar || '',  // 用户头像
+                    companyname: d.companyname || '',  // 公司名称
+                    brand: d.brand || '',  //  店铺品牌
+                    position: d.position || '',  //  店铺位置
+                    address: d.address || '',  // 详细地址
+                    username: d.username || '',  // 联系人员
+                    usertel: d.usertel || '',   //  联系电话
+                  }*/
+                  this.loading.hide()
+                },
+                error: (data) => {
+                  this.loading.hide()
+                }
+              })
+            },
       // 提交
       confirm() {
         if(!this.params.companyname) {
@@ -96,16 +134,25 @@
           this.$message.error('请输入联系电话')
         }else {
           this.loading.show()
-          this.$http.post('/api/user/info', this.params).then(res => {
-            this.loading.hide()
-            //  判断是否提交成功，给出相应提示及操作
-            //  todo ...
-            this.$message.success('修改成功')
-            this.$router.push('/mine')
-          }).catch(err => {
-            this.loading.hide()
-            this.$message.error('修改失败，请重试')
+
+          this.$http({
+            url: '',
+            method: 'get',
+            data: this.params,
+            success: (data) => {
+              this.loading.hide()
+              this.$message.success('修改成功')
+              this.$router.push('/mine')
+            },
+            error: (data) => {
+              this.loading.hide()
+              this.$message.error('修改失败，请重试')
+            }
+
+
           })
+
+
         }
       },
     }

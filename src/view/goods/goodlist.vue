@@ -1,6 +1,6 @@
 <!-- 商品定购 -->
 <template>
-  <div style="padding-bottom:.5rem;padding-top:44px;" ref="mainbox">
+  <div style="padding-top:44px;" ref="mainbox">
     <my-scroll :on-infinite="getData"
                :loading.sync="loading"
                :list.sync="showData"
@@ -17,7 +17,7 @@
       </head-bar>
 
       <div class="top-fixed">
-        <img :src="imgUrl" alt="" class="banner">
+        <a :href="$root.webinfo.goods_banner.link || 'javascript:void(0);'"><img class="banner" :src="$root.webinfo.goods_banner.url" alt=""></a>
 
         <div class="nav-bar" ref="nav-box">
       <span class="item"
@@ -34,7 +34,7 @@
           <div class="content">
             <div class="img"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
             <div class="tag">
-              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.value">{{el.name}}</span>
             </div>
             <div class="text">{{item.title || ''}}</div>
           </div>
@@ -42,9 +42,11 @@
 
       </div>
 
-      <scroll-top></scroll-top>
-      <foot-bar></foot-bar>
+
     </my-scroll>
+
+    <scroll-top></scroll-top>
+    <foot-bar></foot-bar>
 
   </div>
 </template>
@@ -67,54 +69,35 @@
         params: {
           keyword: this.$route.query.keyword || '',
           type: ''
-        },
-        imgUrl: ''
+        }
       }
     },
     mounted () {
-      this.getBanner()
+      this.setBanner()
       this.getNav()
-   //   this.getData()
+    },
+    watch: {
+            '$root.webinfo.goods_banner.url'(val) {
+                    this.setBanner()
+            }
     },
     methods: {
-      // 获取顶部图片
-      getBanner() {
-        let that = this
-        this.$http.get('/').then(res => {
+      // 根据顶部图片设置顶部pannding
+      setBanner() {
+              this.$nextTick(() => {
+                let that = this
+                let image = new Image()
+                image.onload = function() {
+                  let w = image.width, h = image.height,
+                    box = that.$refs['mainbox'],
+                    width = document.documentElement.clientWidth || document.body.clientWidth || box.clientWidth,
+                    height = width * h / w
 
-        }).catch(err => {
+                  box.style.paddingTop = (height + 44) + 'px'
+                }
 
-        })
-
-        setTimeout(() => {
-          this.imgUrl = './static/img/banner.jpg'
-
-        let image = new Image()
-        image.onload = function() {
-        let w = image.width, h = image.height,
-            box = that.$refs['mainbox'],
-            width = document.documentElement.clientWidth || document.body.clientWidth || box.clientWidth,
-          height = width * h / w
-
-          console.log(width, height)
-
-          box.style.paddingTop = (height + 44) + 'px'
-
-         /* if(width > (box.clientWidth)) {
-            width = box.clientWidth
-            height = width * h /w
-          }*/
-
-          /*  callback(elFormat(data, width, height, w, h))*/
-        }
-        image.src =  this.imgUrl
-       /*
-        this.$nextTick(() => {
-         // console.log('124325')
-       // console.log(this.$refs.fixedbox)
-          console.log($(this.$refs.fixedbox).html())
-        })*/
-        }, 50)
+                image.src =  this.$root.webinfo.goods_banner.url || ''
+              })
       },
       // 点击商品类别
       clickNav(item, e) {
@@ -151,46 +134,43 @@
       },
       // 获取商品类别
       getNav() {
-        this.$http.get('/api/good/category').then(res => {
-          this.nav = res.data.data
 
-        this.params.type = this.nav[0] ? this.nav[0].type || '' : ''
-          for(let k in this.nav) {
-            this.dataAll[this.nav[k].type] = {
-              rows: 10,   // 一次显示多少条
-              current: 0,  // 当前显示的页数
-              totals: 0,   // 总共有多少条
-              data: []
+        this.$http({
+          url: '',
+          method: 'get',
+          success: (data) => {
+                  // 测试
+                  data.data = [
+                    {title: '新品上牌', type: 1},
+                    {title: '节日限定', type: 2},
+                    {title: '情侣定制', type: 3},
+                    {title: '宝宝定制', type: 4},
+                    {title: '父母父母', type: 5},
+                  ]
+
+
+            this.nav = data.data
+            this.params.type = this.nav[0] ? this.nav[0].type || '' : ''
+            for(let k in this.nav) {
+              this.dataAll[this.nav[k].type] = {
+                rows: 10,   // 一次显示多少条
+                current: 0,  // 当前显示的页数
+                totals: 0,   // 总共有多少条
+                data: []
+              }
             }
-          }
-        }).catch(err => {})
+          },
+          error: (data) => {
 
-        //  测试数据
-        setTimeout(() => {
-          this.nav = [
-            {title: '新品上牌', type: 1},
-            {title: '节日限定', type: 2},
-            {title: '情侣定制', type: 3},
-            {title: '宝宝定制', type: 4},
-            {title: '父母父母', type: 5},
-          ]
-
-        this.params.type = this.nav[0] ? this.nav[0].type || '' : ''
-          for(let k in this.nav) {
-            this.dataAll[this.nav[k].type] = {
-              rows: 10,   // 一次显示多少条
-              current: 0,  // 当前显示的页数
-              totals: 0,   // 总共有多少条
-              data: []
-            }
           }
-        }, 50)
+
+
+        })
+
       },
       //  获取商品数据
-      getData(done) {
-
+      getData() {
           this.dataAll[this.type] = this.showData
-
       }
     }
   }

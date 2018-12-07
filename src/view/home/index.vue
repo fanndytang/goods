@@ -1,10 +1,10 @@
 <template>
-  <div style="padding-bottom:.5rem;">
+  <div>
     <my-scroll :list.sync="hotGoods"
                url=""
                nodatatext="没有更多商品啦">
 
-      <head-bar :title="'<img height=23px src=./static/img/logo.jpg>'" :menu="true" style="padding-right:30px;padding-left:30px;"></head-bar>
+      <head-bar :title="`<img height=23px src=${$root.webinfo.logo}>`" :menu="true" style="padding-right:30px;padding-left:30px;"></head-bar>
 
       <div class="good-search">
         <div class="input-bg">
@@ -15,14 +15,15 @@
       </div>
 
       <swiper :options="swiperOption" ref="mySwiper">
-        <swiper-slide v-for="item,i in ads.banner" :key="i">
-          <a :href="item.link" v-if="item.type == 1"><img class="full-img" :src="item.imgUrl"></a>
+        <swiper-slide v-for="item,i in $root.webinfo.home_banner" :key="i">
+          <a :href="item.link" v-if="item.type == 1"><img class="full-img" :src="item.url"></a>
 
           <div v-if="item.type == 2" class="full-img" style="position:relative;">
-            <img @click="$refs[`video${i}`][0].play()" class="video-play" :src="require('@/assets/icons/icon_add.png')" alt="">
+            <img height="45px" v-show="!hidePlay" @click="$refs[`video${i}`][0].play();hidePlay=true" class="video-play" :src="require('@/assets/icons/icon_play.png')" alt="">
 
-             <video :ref="`video${i}`" class="ad-video" width="100%" v-if="item.type == '2'" :src="item.videoUrl" :poster="item.imgUrl"
-              @play="stopSwiper()" @pause="openSwiper()"></video>
+             <video :ref="`video${i}`" class="ad-video" width="100%" v-if="item.type == '2'"
+                    :src="item.videoUrl" :poster="item.url"
+                    @play="$refs.mySwiper.swiper.autoplay.stop()" @pause="$refs.mySwiper.swiper.autoplay.start();hidePlay=false;"></video>
           </div>
         </swiper-slide>
         <div class="swiper-pagination home" slot="pagination"></div>
@@ -36,7 +37,8 @@
       </div>
 
       <h2 class="sec-title">新品专区 <small>好货持续上新</small></h2>
-      <img class="full-img" :src="ads.news" alt="">
+      <a :href="$root.webinfo.new_arrival.link || 'javascript:void(0);'"><img class="full-img" :src="$root.webinfo.new_arrival.url" alt=""></a>
+
       <div class="new-list">
         <router-link v-for="item,i in newGoods" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
           <div class="content">
@@ -48,14 +50,14 @@
       </div>
 
       <h2 class="sec-title" style="margin-bottom:.2rem;">热卖专区 <small style="color:#c0c0c0;">双11年购物节，疯狂优惠享不断</small></h2>
-      <img class="full-img"  id="test" :src="ads.hot" alt="">
+      <a :href="$root.webinfo.hot_sale.link || 'javascript:void(0);'"><img class="full-img" :src="$root.webinfo.hot_sale.url" alt=""></a>
 
       <div class="goods-list">
         <router-link v-for="item,i in hotGoods.data" :key="i" class="item" :to="{name: 'goodsdetail', query: {id: item.id}}">
           <div class="content">
             <div class="img" :class="{'default-img': !item.imgUrl}"><img :src="item.imgUrl || require('@/assets/icons/good_default.png')"></div>
             <div class="tag">
-              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+              <span v-for="el,k in item.tag" :key="k" :style="'background:'+el.value">{{el.name}}</span>
             </div>
             <div class="text">{{item.title || ''}}</div>
           </div>
@@ -65,10 +67,6 @@
 
     </my-scroll>
 
-   <!-- <div class="video-modal" v-show="showVideo">
-      {{videoUrl}}
-      <video ref="myvideo" :src="videoUrl" controls="controls"></video>
-    </div>-->
 
     <foot-bar></foot-bar>
     <scroll-top></scroll-top>
@@ -82,6 +80,7 @@
   export default {
     data () {
       return {
+              hidePlay: false,
         swiperOption: {
           autoplay: {
             disableOnInteraction: false
@@ -89,11 +88,6 @@
           pagination: {
             el: '.swiper-pagination'
           }
-        },
-        ads: {   //  广告位
-          banner: [],  //  顶部轮播广告位
-          news: '',     //  新品专区广告位
-          hot: ''       //  特价热卖广告位
         },
         newGoods: [], //  新品专区
         hotGoods: {  // 热卖专区
@@ -103,57 +97,37 @@
           data: []
         },
         showVideo: false,
-        videoUrl: ''
+        videoUrl: '',
+        loading: new this.Loading()
       }
     },
     mounted () {
-      this.getAds()
       this.getMewData()
     },
     methods: {
-      stopSwiper() {
-        this.$refs.mySwiper.swiper.autoplay.stop()
-      },
-      openSwiper() {
-        this.$refs.mySwiper.swiper.autoplay.start()
-      },
-      //  广告位
-      getAds() {
-        this.$http.get('/api/index/banner').then(res => {
-          this.ads = res.data.data
-        }).catch(err => {})
-
-        // 测试数据
-        setTimeout(() => {
-          this.ads = {
-            banner: [
-              {id: '1', link: 'http://baidu.com', imgUrl: './static/img/ad1.jpg', type: '1'},
-              {id: '1', link: '', type: '2', imgUrl: './static/img/ad1.jpg',
-                videoUrl: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4'},
-
-            ],
-            news: './static/img/ad2.png',
-            hot: './static/img/ad3.jpg'
-          }
-        }, 50)
-      },
       //  新品专区
       getMewData() {
-        this.$http.get('/api/list/new').then(res => {
-          this.newGoods = res.data.data
-        }).catch(err => {})
+              this.loading.show()
 
-        // 测试数据
-        setTimeout(() => {
-          this.newGoods = [
-            {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
-            {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
-            {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
-            {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
-          ]
-        }, 50)
-      },
+        this.$http({
+          url: '',
+          method: 'get',
+          success: (data) => {
+                  data.data = [
+                    {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
+                    {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
+                    {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
+                    {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
+                  ]
+            this.newGoods = data.data
+            this.loading.hide()
+          },
+          error: (data)=>{
+            this.loading.hide()
+          }
+        })
 
+      }
     },
     components: {
       swiper,
@@ -182,9 +156,9 @@
     width: 100%;
     height: auto;
     display: block;
-    ::-webkit-media-controls-fullscreen-button{
+   /* ::-webkit-media-controls-fullscreen-button{
       display: none;
-    }
+    }*/
   }
   .tools {
     display: flex;
@@ -218,9 +192,6 @@
     }
   }
 
-  /*  .list-img {
-      width: 100vw;
-    }*/
   .new-list {
     margin-top: -0.75rem;
     overflow-x: auto;
@@ -286,27 +257,5 @@
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     z-index: 10;
-  }
-  .video-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba(0, 0, 0, .8);
-    z-index: 100;
-    video {
-      background: #fff;
-
-      position: absolute;
-      width: 100vw;
-      top: 50%;
-      left: 0;
-      -webkit-transform: translateY(-50%);
-      -moz-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      -o-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
   }
 </style>

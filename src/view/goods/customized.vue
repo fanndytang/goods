@@ -63,17 +63,24 @@
           this.$message.error('请设置定制数量')
         }else {
           this.loading.show()
-          this.$http.post('/api/order', this.params).then(res => {
-            this.loading.hide()
-            this.$router.push({name: 'orderdetail', query: {orderid: '5541515', type: 0}})
-          }).catch(err => {
-            this.loading.hide()
+
+          this.$http({
+            url: '',
+            method: 'post',
+            data: this.params,
+            success: (data) => {
+              data.data = '5541515'  // 订单号
+
+
+              this.loading.hide()
+              this.$router.push({name: 'orderdetail', query: {orderid: data.data, type: 0}})
+            },
+            error: (data) => {
+              this.loading.hide()
+            }
+
           })
 
-          //  测试数据
-          setTimeout(() => {
-            this.$router.push({name: 'orderdetail', query: {orderid: '5541515', type: 0, custom: 1}})
-          }, 50)
         }
 
       }

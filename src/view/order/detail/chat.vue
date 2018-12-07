@@ -34,12 +34,13 @@
 <script>
   export default {
     props: {
-      chat: Array
+      chat: Array,
+      type: [Number, String]
     },
     data () {
       return {
         loading: new this.Loading('提交中'),
-        type: this.$route.query.type,
+       // type: this.$route.query.type,
         show: true,
         form: {
           img: '',
@@ -62,11 +63,37 @@
       },
       confirm() {
         this.loading.show()
-        this.$http.post('/api/kefu', this.form).then(res => {
-          this.loading.hide()
-        }).catch(err => {
-          this.loading.hide()
+
+        this.$http({
+          url: '',
+          method: 'post',
+          data:  this.form,
+          success: (data) => {
+            this.loading.hide()
+            let d = new Date(), str = ''
+            str += d.getFullYear()+'.'
+            str += ('00'+(d.getMonth() + 1)).substr(-2)+'.'
+            str += ('00'+d.getDate()).substr(-2)+'. '
+            str += ('00'+d.getHours()).substr(-2)+'.'
+            str += ('00'+d.getMinutes()).substr(-2)+'.'
+            str += ('00'+d.getSeconds()).substr(-2)+'.'
+
+            this.chat.push({
+              name: '我',
+              date: str,
+              text: this.form.question,
+              imglist: this.form.img.split(',')
+            })
+            this.form.question = ''
+            this.form.img = ''
+          },
+          error: (data) => {
+            this.loading.hide()
+          }
+
+
         })
+
       }
     }
   }

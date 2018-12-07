@@ -7,9 +7,9 @@
 
       <span v-if="item.type == 1">{{item.text}}</span>
       <span v-if="item.type == 2">{{item.selText}}</span>
-      <span v-if="item.type == 3"><img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt=""></span>
+      <span v-if="item.type == 3"><img :src="item.url" :style="setSize(item)" alt=""></span>
       <span v-if="item.type == 4">
-        <img :src="item.url" :style="`width:${item.width};height:${item.height};`" alt=""></span>
+        <img :src="item.url" :style="setSize(item)" alt=""></span>
 
     </div>
 
@@ -22,15 +22,17 @@
       box: Object
     },
     methods: {
-            changeIconSize(e, i) {
-              item.width = (parseInt(item.width) + 1) + 'px'
-              this.box.params.splice(i, 1, item)
+            setSize(item) {
+                    let sty = ''
+                    if(item.width) sty += 'width:'+item.width+'px;'
+                    if(item.height) sty += 'height:'+item.height+'px;'
+              return sty
             },
       setStyle(item) {
         //(item.fontsize?'font-size:'+item.fontsize+';':'')+'top:'+item.top+'px;left:'+item.left+'px;transform:rotate('+(item.rotate||'0')+'deg);'+item.style
         let sty = ''
 
-        if(item.fontsize) sty += 'font-size:'+item.fontsize+';'
+        if(item.fontsize) sty += 'font-size:'+item.fontsize+'px;'
         sty += 'top:'+item.top+'px;'
         sty += 'left:'+item.left+'px;'
         sty += 'transform:rotate('+(item.rotate||0)+'deg;'

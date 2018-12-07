@@ -14,11 +14,12 @@
 <script>
   export default {
     props: {
-      address: Object
+      address: Object,
+      type: [Number, String]
     },
     data () {
       return {
-        type: this.$route.query.type,
+        //type: this.$route.query.type,
         orderid: this.$route.query.orderid,
         data: {}
       }

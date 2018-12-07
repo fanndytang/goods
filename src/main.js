@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import '@/assets/less/main.less'
-import axios from 'axios'
+//import axios from 'axios'
+import xhr from '@/plugin/xhr'
 
 /** 自定义全局组件 */
 import myComponent from '@/components/index'
@@ -16,7 +17,7 @@ Vue.use(message)
 import loading from '@/plugin/loading'
 Vue.use(loading)
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = xhr
 
 Vue.config.productionTip = false
 
@@ -32,7 +33,17 @@ new Vue({
   template: '<App/>',
   data () {
     return {
-      eventHub: new Vue()
+      eventHub: new Vue(),
+      uid: '',
+      webinfo: {   // 网站相关配置信息
+        isget: false,   // 是否已经获取过配置信息
+        webname: '',
+        logo: '',
+        home_banner: [],
+        new_arrival: {},
+        hot_sale: {},
+        goods_banner: {},
+      }
     }
   }
 })

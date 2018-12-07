@@ -12,7 +12,7 @@
     <div class="summary">
       <h1 class="title">{{detail.title}}</h1>
       <div class="tag">
-        <span class="item" v-for="el,k in detail.tag" :key="k" :style="'background:'+el.backColor">{{el.title}}</span>
+        <span class="item" v-for="el,k in detail.tag" :key="k" :style="'background:'+el.value">{{el.name}}</span>
       </div>
     </div>
 
@@ -65,31 +65,36 @@
         let id = this.$route.query.id
         if(id) {
           this.loading.show()
-          this.$http.get('/api/good/detail', {
-            params: {
+
+
+          this.$http({
+            url: '',
+            method: 'get',
+            data: {
               id: id
+            },
+            success: (data) => {
+                    data.data = {
+                      id: 1,
+                      title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
+                      imgs: ['./static/img/g3.jpg',  './static/img/ad3.jpg'],
+                      tag: [{id: 1, name: '新品爆款', value: '#ff9933'}, {id: 1, name: '特价热卖', value: '#cc6666'},],
+                      process: '<img style="width:100vw;display:block;" src="./static/img/d1.png" />',
+                      rules: '<img style="width:100vw;display:block;" src="./static/img/d2.png" />',
+                      detail: '<img style="width:100vw;display:block;" src="./static/img/d3.jpg" />',
+                    }
+
+              this.loading.hide()
+              this.detail = data.data
+            },
+            error: (data) => {
+              this.loading.hide()
             }
-          }).then(res => {
-            this.loading.hide()
-            this.detail = res.data.data
-          }).catch(err => {
-            this.loading.hide()
+
           })
         }
 
 
-        //  测试数据
-        setTimeout(() => {
-          this.detail = {
-            id: 1,
-            title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
-            imgs: ['./static/img/g3.jpg',  './static/img/ad3.jpg'],
-            tag: [{id: 1, title: '新品爆款', backColor: '#ff9933'}, {id: 1, title: '特价热卖', backColor: '#cc6666'},],
-            process: '<img style="width:100vw;display:block;" src="./static/img/d1.png" />',
-            rules: '<img style="width:100vw;display:block;" src="./static/img/d2.png" />',
-            detail: '<img style="width:100vw;display:block;" src="./static/img/d3.jpg" />',
-          }
-        }, 50)
       }
     },
     components: {

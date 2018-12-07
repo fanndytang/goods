@@ -28,13 +28,13 @@
             <div class="img"><img :src="item.imgUrl" alt=""></div>
             <div class="desc">
               <div class="title">{{item.title}} <span class="num">{{item.number}}件</span></div>
-              <div class="title">{{item.size}}</div>
+              <div class="title">{{item.fineness}}&nbsp;{{item.weight}}&nbsp;{{item.format}}</div>
               <div class="answer">客服回复：{{item.answer}}</div>
             </div>
           </div>
         </router-link>
 
-        <button class="btn btn-block btn-red" type="button" v-show="type===1" @click="cancel(item)">取消订单</button>
+        <button class="btn btn-block btn-red" type="button" v-show="type===1" @click="cancel(item, i)">取消订单</button>
       </div>
     </my-scroll>
 
@@ -102,14 +102,30 @@
         this.dataAll[this.type] = this.showData
       },
       //  取消订单
-      cancel(item) {
-        this.$http.post('/api/order/cancel', {
-          sn: item.sn
-        }).then(res => {
+      cancel(item, index) {
+              let load = new this.Loading('正在取消')
+        load.show()
 
-        }).catch(err => {
+        this.$http({
+          url: '',
+          method: 'get',
+          data: {
+            sn: item.sn
+          },
+          success: (data) => {
+            this.showData.data.splice(index, 1)
+
+                  load.hide()
+            this.$message.success('订单取消成功')
+          },
+          error: (data) => {
+            load.hide()
+            this.$message.error('订单取消失败，请重试')
+          }
+
 
         })
+
       }
     }
   }

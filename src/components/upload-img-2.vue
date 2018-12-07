@@ -24,8 +24,27 @@
         default: Number.POSITIVE_INFINITY  // 正无穷大
       }
     },
+    watch: {
+            value(val) {
+                    if(val == '') {
+                      this.list = []
+                    }else {
+                      if(val.split(',').length !== this.list.length) {
+                        let v = val.split(',')
+                        this.list = v.map(item => {
+                          return {
+                            url: item,
+                            val: item   // 唯一标志
+                          }
+                        })
+                      }
+                    }
+
+            }
+    },
     data () {
       return {
+              loading: new this.Loading('正在上传'),
         list: []
       }
     },
@@ -54,43 +73,93 @@
         }
       },
       upload(e) {
-        let file = e.target.files, url = [], num = 0
+        let file = e.target.files, num = 0
 
         if(this.list.length + file.length > this.max) {
           num = this.max - this.list.length
           this.$message.error('最大可上传'+this.max+'张图片')
-        }else {
-          num = file.length
-        }
-        for(let i=0; i<num; i++) {
-          url.push(URL.createObjectURL(file[i]))
-        }
-
-        if(url.length) {
-          for(let k in url) {
-            this.list.push({
-              url: url[k],
-              val: url[k]   // 唯一标志
-            })
+          let d = []
+          for(let i=0;i<num;i++) {
+                  d.push(file[i])
           }
+          file = d
         }
 
-        let val = ''
-        for(let k in this.list) {
-          val += (val?',':'')+ this.list[k].val
+
+        if(file.length > 0) {
+                this.loading.show()
+          let d = new FormData()
+          d.append('file', file)
+          this.$http({
+            url: '/upload',
+            method: 'post',
+            data: d,
+            success: (data) => {
+              // 测试数据
+              data.data = []
+              num = file.length
+              for(let i=0; i<num; i++) {
+                data.data.push(URL.createObjectURL(file[i]))
+              }
+              // 测试结束
+
+              let url = typeof data.data =='string' ? data.data.split(',') : data.data
+              if(url.length) {
+                for(let k in url) {
+                  this.list.push({
+                    url: url[k],
+                    val: url[k]   // 唯一标志
+                  })
+                }
+              }
+
+              let val = ''
+              for(let k in this.list) {
+                val += (val?',':'')+ this.list[k].val
+              }
+
+              this.$emit('input', val)
+              this.loading.hide()
+            },
+            error: (data) => {
+              this.loading.hide()
+              this.$message.error('上传失败，请重试')
+            }
+
+          })
         }
 
-        this.$emit('input', val)
+
+
       },
       del(i) {
-        this.list.splice(i, 1)
+              this.loading.show('正在删除')
+        this.$http({
+          url: '',
+          method: 'get',
+          data: {
+                  url: this.list[i].url
+          },
+          success: (data) => {
+            this.list.splice(i, 1)
 
-        let val = ''
-        for(let k in this.list) {
-          val += (val?',':'')+ this.list[k].val
-        }
+            let val = ''
+            for(let k in this.list) {
+              val += (val?',':'')+ this.list[k].val
+            }
 
-        this.$emit('input', val)
+            this.$emit('input', val)
+            this.loading.hide()
+          },
+          error: (data) => {
+                  this.$message.error('删除失败，请重试')
+            this.loading.hide()
+          }
+
+
+        })
+
+
 
       }
     }

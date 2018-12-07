@@ -33,6 +33,7 @@
       }
     },
     mounted () {
+            this.$root.uid = ''
       sessionStorage.removeItem('mysgyj_history_page')
     },
     computed: {
@@ -42,7 +43,6 @@
       },
     },
     methods: {
-
       //  登陆
       login() {
         if(!this.tel) {
@@ -52,28 +52,30 @@
         }else if(!this.password) {
           this.$message.error('请输入密码')
         }else {
-          // 测试
-          sessionStorage.setItem('Authorization', true)
-          this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
-          return
-          // 测试 结束
-
           this.loading.show()
 
-          this.$http.post('/api/user/login', {
-            tel: this.tel,
-            password: this.password
-          }).then(res => {
-            this.loading.hide()
+          this.$http({
+            url: '/api/user/login',
+            method: 'post',
+            data: {
+              tel: this.tel,
+              password: this.password
+            },
+            success: (data) => {
+              this.loading.hide()
 
-            // 判断登陆成功与失败，给出相应提示及下一步
-            this.$message.error('登陆成功')
-            this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
-
-          }).catch(res => {
-            this.loading.hide()
-            this.$message.error('登陆失败')
+              sessionStorage.setItem('Authorization', data.data.Authorization)
+              this.$root.uid = data.data.uid || ''
+             // console.log(data, this.$root.uid)
+              this.$message.success('登陆成功')
+              this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
+            },
+            error: (data) => {
+              this.loading.hide()
+              this.$message.error('登陆失败')
+            }
           })
+
         }
       }
     }

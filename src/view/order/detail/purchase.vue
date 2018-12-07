@@ -60,7 +60,8 @@
 <script>
   export default {
     props: {
-      purchase: Object
+      purchase: Object,
+      type: [Number, String]
     },
     data () {
       return {
@@ -68,7 +69,7 @@
         show2: true,
         show3: true,
         custom: this.$route.query.custom, // 是否是个性定制页面
-        type: this.$route.query.type
+      //  type: this.$route.query.type
       }
     },
     methods: {

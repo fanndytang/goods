@@ -3,11 +3,11 @@
     <input type="hidden" :value="value" @input="value = $event.target.value">
     <div class="box" v-show="show">
       <head-bar class="flex-between">
-        <img :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="show = false;">
+        <img :src="require('@/assets/icons/icon_fanhui.png')" height="22px" @click="show = false;$emit('cancel');">
         <span class="text-primary f14" @click="getImg()">使用</span>
       </head-bar>
 
-      <img ref="image" :src="value" id="image" alt="" width="100%">
+      <img ref="image" :src="url" id="image" alt="" width="100%">
     </div>
 
     <slot name="up-trigger" :upload="upload"></slot>
@@ -25,7 +25,8 @@
     data () {
       return {
         show: false,
-        cropperBox: null
+        cropperBox: null,
+        url: ''
       }
     },
     watch: {
@@ -34,14 +35,14 @@
           this.cropperBox.destroy()
         }
       },
-      value(val) {
+      url(val) {
         if(val) {
           this.createCropper()
         }
       }
     },
     mounted () {
-
+            this.url = this.value
     },
     methods: {
       // 创建裁剪实例
@@ -64,12 +65,42 @@
           });
         })
       },
+      dataURLtoBlob(dataurl) {
+        let arr = dataurl.split(','),
+          mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]),
+          n = bstr.length,
+          u8arr = new Uint8Array(n);
+        while(n--){
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+      },
       // 获取裁剪图像
       getImg() {
         let url = this.cropperBox.getCroppedCanvas().toDataURL()
-        this.$emit('input', url)
-        this.$emit('change', url)
-        this.show = false
+        let d = new FormData()
+
+        d.append('file', this.dataURLtoBlob(url))
+
+        this.$http({
+          url: '',
+          method: 'post',
+          data: d,
+          success: (data) => {
+            /// 测试数据
+            data.data = url
+            // 测试数据 结束
+
+            this.$emit('input', data.data)
+            this.$emit('change', data.data)
+            this.show = false
+          },
+          error: (data) => {
+                  this.$message.error('上传失败，请重试')
+          }
+        })
+
 
       },
       //  上传图片
@@ -82,7 +113,9 @@
           url = URL.createObjectURL(file)
         }
 
-        this.$emit('input', url)
+        this.url = url
+
+      //  this.$emit('input', url)
         this.show = true
       }
     }

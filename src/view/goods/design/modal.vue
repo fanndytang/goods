@@ -1,6 +1,6 @@
 <template>
   <div class="modal-box" v-show="showModal">
-    <div class="modal-body">
+    <div class="modal-body" style="min-height: 40%;">
       <div class="title">选择图标<img @click="$emit('update:showModal', false)" class="close" height="20px" :src="require('@/assets/icons/icon_guanbi.png')" alt=""></div>
       <div class="item" v-for="item,i in icons.list" :key="i">
         <div class="item-tit" @click="hide.splice(i, 1, !hide[i])">{{item.title}}<img height="22px" :src="require('@/assets/icons/'+(hide[i] ? 'icon_shang.png' : 'icon_xia1.png' ))" alt=""></div>

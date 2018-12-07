@@ -18,7 +18,8 @@
       <div class="input-field">
         <div class="label">所在地区 <span>*</span></div>
         <select-country class="between" v-model="params.position" :text.sync="positiontext">
-          <input type="text" placeholder="省、市、区" v-model="positiontext">
+          <span style="line-height:30px;" :style="positiontext ? '' : 'color:#ccc;'">{{positiontext || '省、市、区'}}</span>
+        <!--  <input type="text" placeholder="省、市、区" v-model="positiontext">-->
           <img height="22px" :src="require('@/assets/icons/icon_qianjin.png')" alt="">
         </select-country>
       </div>
@@ -75,37 +76,47 @@
           this.$message.error('请输入详细地址')
         }else {
           this.loading.show()
-          this.$http.post('/api/user/address', this.params).then(res => {
-            this.loading.hide()
-          //  判断是否提交成功，给出相应提示及操作
-          //  todo ...
-          this.$message.success('添加成功')
-          this.$router.push('/address')
-        }).catch(err => {
-            this.loading.hide()
-          this.$message.error('添加失败，请重试')
-        })
+
+          this.$http({
+            url: '',
+            method: 'post',
+            data: this.params,
+            success: (data) => {
+              this.loading.hide()
+              this.$message.success('提交成功')
+              this.$router.push('/address')
+            },
+            error: (data) => {
+              this.loading.hide()
+              this.$message.error('提交失败，请重试')
+            }
+
+          })
+
         }
       },
       //  删除地址
       del() {
 
         this.loading.show()
-        this.$http.post('/api/address/delete', {
-          id: this.id
-        }).then(res => {
 
-          this.loading.hide()
+        this.$http({
+          url: '',
+          method: 'post',
+          data: {
+            id: this.id
+          },
+          success: (data) => {
+            this.loading.hide()
+            this.$message.success('删除成功')
+            this.$router.push('/address')
+          },
+          error: (data) => {
+            this.loading.hide()
+            this.$message.error('删除失败，请重试')
+          }
 
-        this.$message.success('删除成功')
-        this.$router.push('/address')
-
-      }).catch(err => {
-          this.loading.hide()
-
-        this.$message.error('删除失败，请重试')
-
-      })
+        })
 
       }
     }
