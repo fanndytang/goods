@@ -5,7 +5,7 @@
                :loading.sync="loading"
                :list.sync="showData"
                :params="params"
-               url=""
+               url="/api/list/goodlist"
                nodatatext="没有更多商品啦"
                ref="scroll">
 
@@ -136,18 +136,9 @@
       getNav() {
 
         this.$http({
-          url: '',
+          url: '/api/goods/category',
           method: 'get',
           success: (data) => {
-                  // 测试
-                  data.data = [
-                    {title: '新品上牌', type: 1},
-                    {title: '节日限定', type: 2},
-                    {title: '情侣定制', type: 3},
-                    {title: '宝宝定制', type: 4},
-                    {title: '父母父母', type: 5},
-                  ]
-
 
             this.nav = data.data
             this.params.type = this.nav[0] ? this.nav[0].type || '' : ''

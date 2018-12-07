@@ -89,18 +89,21 @@
         if(file.length > 0) {
                 this.loading.show()
           let d = new FormData()
-          d.append('file', file)
+          for(let k in file) {
+            d.append('file', file[k])
+          }
+
           this.$http({
             url: '/upload',
             method: 'post',
             data: d,
             success: (data) => {
               // 测试数据
-              data.data = []
+          /*    data.data = []
               num = file.length
               for(let i=0; i<num; i++) {
                 data.data.push(URL.createObjectURL(file[i]))
-              }
+              }*/
               // 测试结束
 
               let url = typeof data.data =='string' ? data.data.split(',') : data.data

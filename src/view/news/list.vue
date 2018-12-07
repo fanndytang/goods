@@ -1,6 +1,6 @@
 <template>
   <div class="full-gray">
-    <my-scroll :list.sync="list" url="">
+    <my-scroll :list.sync="list" url="/api/list/news">
       <head-bar :back="true" title="公告通知"></head-bar>
 
       <div style="padding: 15px;">

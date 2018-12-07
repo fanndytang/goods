@@ -6,7 +6,7 @@
 
 <script>
   import MobileSelect from 'mobile-select'
-  import country from '@/plugin/country'
+  //import country from '@/plugin/country'
 
   export default {
     props: {
@@ -43,10 +43,10 @@
           url: '',
           method: 'get',
           success: (data) => {
-         //   mobileSelect.updateWheels(data.data);
+            mobileSelect.updateWheels(data.data);
 
             //测试： country 为测试数据
-            mobileSelect.updateWheels(country);
+           // mobileSelect.updateWheels(country);
           }
 
         })

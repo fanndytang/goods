@@ -79,14 +79,8 @@
                   uid: this.$root.uid || ''
           },
           success: (data) => {
-                  // 测试
-            this.userinfo = {
-              avatar: './static/img/g1.png',
-              tel: '13800138000',
-            }
 
-
-           // this.userinfo = data.data
+            this.userinfo = data.data
             this.loading.hide()
           },
           error: (data) => {

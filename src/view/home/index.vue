@@ -1,7 +1,7 @@
 <template>
   <div>
     <my-scroll :list.sync="hotGoods"
-               url=""
+               url="/api/list/hot"
                nodatatext="没有更多商品啦">
 
       <head-bar :title="`<img height=23px src=${$root.webinfo.logo}>`" :menu="true" style="padding-right:30px;padding-left:30px;"></head-bar>
@@ -110,15 +110,10 @@
               this.loading.show()
 
         this.$http({
-          url: '',
+          url: '/api/list/newgood',
           method: 'get',
           success: (data) => {
-                  data.data = [
-                    {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
-                    {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
-                    {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
-                    {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
-                  ]
+
             this.newGoods = data.data
             this.loading.hide()
           },

@@ -65,13 +65,10 @@
           this.loading.show()
 
           this.$http({
-            url: '',
+            url: '/api/order/customized',
             method: 'post',
             data: this.params,
             success: (data) => {
-              data.data = '5541515'  // 订单号
-
-
               this.loading.hide()
               this.$router.push({name: 'orderdetail', query: {orderid: data.data, type: 0}})
             },

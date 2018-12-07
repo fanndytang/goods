@@ -46,121 +46,12 @@
         this.loading.show('加载中')
 
         this.$http({
-          url: '',
+          url: '/api/order/detail',
           method: 'get',
           data: {
             sn: this.$route.query.orderid
           },
           success: (data) => {
-            data.data = {
-              id: 1,
-              sn: '20181115093150001',
-              date: '2018.11.15 09:31:50',
-              imgUrl: './static/img/goods.png',
-              title: '宝宝生辰定制牌',
-              number: '100',
-              size: 'Au999 20g 20*23.8mm',
-              answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页',
-              address: {
-                name: '张三', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金利1102室'
-              },
-              purchase: {
-                fontColor: 'blue',
-                fontFamily: 'A',
-                back: {
-                  backgroundImg: '',
-                  params: [
-                    {
-                      enable: true,
-                      fontsize: '',
-                      left: 150,
-                      radio: '',
-                      rotate: '',
-                      text: '哈哈',
-                      title: '祝福祝福',
-                      top: 92,
-                      type: 1
-                    }
-                  ]
-                },
-                front: {
-                  backgroundImg: './static/img/goods.png',
-                  params: [
-                    {
-                      enable: true,
-                      fontsize: '12px',
-                      left: 150,
-                      radio: '30',
-                      rotate: '30',
-                      text: '张北海',
-                      title: '姓名姓名',
-                      top: 92,
-                      type: 1
-                    },
-                    {
-                      enable: true,
-                      fontsize: '12px',
-                      left: 150,
-                      radio: '30',
-                      rotate: '30',
-                      text: '男，女',
-                      title: '性别性别',
-                      top: 92,
-                      type: 2
-                    },
-                    {
-                      enable: true,
-                      left: 150,
-                      rotate: '30',
-                      url: './static/img/g1.png',
-                      height: '',
-                      width: '',
-                      title: '图片图片',
-                      top: 92,
-                      type: 3
-                    },
-                    {
-                      enable: true,
-                      left: 150,
-                      rotate: '30',
-                      title: '星座星座',
-                      top: 92,
-                      type: 4,
-                      url: './static/img/xz/baiyang.png',
-                      iconsid: 1,
-                      iconlist: [
-                        {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
-                        {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
-                        {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
-                        {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
-                        {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
-                        {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
-                      ]
-                    }
-                  ]
-                }
-              },
-              chat: [
-                {
-                  name: '客服',
-                  date: '2018.11.15 09:31:50',
-                  text: '最新设计效果图，请确认是否可以进行生产',
-                  imglist: [
-                    './static/img/goods.png',
-                    './static/img/ad1.jpg',
-                  ]
-                },
-                {
-                  name: '我',
-                  date: '2018.11.15 09:31:50',
-                  text: '谢谢，收到！'
-                }
-
-              ]
-            }
-
-
-
 
             this.detail = data.data
             this.loading.hide()

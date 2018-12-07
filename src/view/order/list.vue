@@ -4,7 +4,7 @@
                :loading.sync="loading"
                :list.sync="showData"
                :params="{'type': type}"
-               url="/api/get/order"
+               url="/api/list/orderlist"
                nodatatext="没有更多商品啦"
                ref="scroll">
 

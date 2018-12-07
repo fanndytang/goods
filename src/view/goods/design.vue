@@ -103,64 +103,13 @@
         let id = this.$route.query.id
         this.loading.show()
 
-
         this.$http({
-          url: '',
+          url: '/api/design/detail',
           method: 'get',
           data: {
             id: id
           },
           success: (data) => {
-                  data.data = {
-                    purchase: {   // 定制参数
-                      fontColor: 'blue',
-                      fontFamily: '微软雅黑',
-                      back: {
-                        backgroundImg: './static/img/g1.png',
-                        scale: 1,
-                        params: [
-                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
-                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
-                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
-                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
-                          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}
-                        ]
-                      },
-                      front: {
-                        backgroundImg: './static/img/goods.png',
-                        scale: 0.7967914438502673,
-                        params: [
-                          {enable: true, fontsize: '24', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
-                          {enable: true, fontsize: '30', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
-                          {enable: true, fontsize: '24', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
-                          {enable: true, fontsize: '24', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
-                          {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
-                          {enable: true, fontsize: '24', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
-                          {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
-                            width: 100,
-                            height: 100,
-                            url: '',
-                            iconsid: 1,
-                            iconlist: [
-                              {id: 1, text: '白羊座', url: "http://pic33.photophoto.cn/20141022/0019032438899352_b.jpg",},
-                              {id: 1, text: '白羊座', url: "./static/img/xz/baiyang.png",},
-                              {id: 2, text: '金牛座', url: "./static/img/xz/jinniu.png",},
-                              {id: 3, text: '双子座', url: "./static/img/xz/shuangzi.png",},
-                              {id: 4, text: '巨蟹座', url: "./static/img/xz/jujie.png",},
-                              {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
-                              {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    dict: [
-                      {title: '成色', text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'},
-                      {title:  '重量', text: '20g,30g'},
-                      {title: '规格', text: '20*23.8mm,20*10.4mm'}
-                    ]
-                  }
-
 
             this.loading.hide()
             this.detail = data.data
@@ -320,7 +269,7 @@
 
         this.loading.show('正在请求')
         this.$http({
-          url: '',
+          url: '/api/download',
           method: 'post',
           data: this.getPurchaseResult(d),
           success: (data) => {
@@ -358,13 +307,10 @@
 
 
         this.$http({
-          url: '',
+          url: '/api/order/design',
           method: 'post',
           data: data,
           success: (data) => {
-                 data.data = '214321125'  // 订单号
-
-
             this.loading.hide()
             this.$router.push({name: "orderdetail", query: {type: 0, orderid: data.data}})
           },

@@ -20,19 +20,12 @@
       this.loading.show()
 
       this.$http({
-        url: '',
+        url: '/api/news/detail',
         method: 'get',
         data: {
           id: this.$route.query.id || ''
         },
         success: (data) => {
-                data.data = {
-                  id: '1',
-                  date: '2018.11.15 12:00',
-                  title: '关于商家加盟最新条款事宜',
-                  describe: '<img src="./static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
-                }
-
 
           this.data = data.data
           this.loading.hide()

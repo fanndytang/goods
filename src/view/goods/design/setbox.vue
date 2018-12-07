@@ -15,7 +15,7 @@
         <div v-if="item.type==3 && !item.istext">
           <cropper-img v-model="item.url" @change="uploadCropperChange(item, i)" @cancel="cancelCropper(item,i)">
             <div slot="up-trigger" slot-scope="p" class="upload">
-              <upload-img-1 :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
+              <upload-img-1 :no-up="true" :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
                             :url.sync="item.url" v-model="item.url"></upload-img-1>
             </div>
 
@@ -187,41 +187,9 @@
         this.icons.ele = ele
 
         this.$http({
-          url: '',
+          url: '/api/icons',
           method: 'get',
           success: (data) => {
-                  data.data = [
-                    {
-                      title: '生肖图标',
-                      list: [
-                        {url: "./static/img/sx/su.png", text: '老鼠'},
-                        {url: "./static/img/sx/niu.png", text: '牛'},
-                        {url: "./static/img/sx/hu.png", text: '老虎'},
-                        {url: "./static/img/sx/tu.png", text: '兔子'},
-                        {url: "./static/img/sx/long.png", text: '龙'},
-                        {url: "./static/img/sx/se.png", text: '蛇'},
-                        {url: "./static/img/sx/ma.png", text: '马'},
-                        {url: "./static/img/sx/yang.png", text: '羊'},
-                        {url: "./static/img/sx/hou.png", text: '猴'},
-                        {url: "./static/img/sx/ji.png", text: '鸡'},
-                        {url: "./static/img/sx/gou.png", text: '狗'},
-                        {url: "./static/img/sx/zhu.png", text: '猪'},
-                      ]
-                    },
-                    {
-                      title: '性别图标',
-                      list: [
-                        {url: "./static/img/gender/nanhai.png", text: '男孩'},
-                        {url: "./static/img/gender/nvhai.png", text: '女孩'},
-                      ]
-                    },
-                    {
-                      title: '其它图标',
-                    }
-                  ]
-
-
-
             this.icons.list = data.data
           },
           error: (data) => {

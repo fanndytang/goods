@@ -68,21 +68,12 @@
 
 
           this.$http({
-            url: '',
+            url: '/api/goods/detail',
             method: 'get',
             data: {
               id: id
             },
             success: (data) => {
-                    data.data = {
-                      id: 1,
-                      title: '宝宝生辰定制牌完美工艺创意可爱吊坠装饰吉祥款V3200B20',
-                      imgs: ['./static/img/g3.jpg',  './static/img/ad3.jpg'],
-                      tag: [{id: 1, name: '新品爆款', value: '#ff9933'}, {id: 1, name: '特价热卖', value: '#cc6666'},],
-                      process: '<img style="width:100vw;display:block;" src="./static/img/d1.png" />',
-                      rules: '<img style="width:100vw;display:block;" src="./static/img/d2.png" />',
-                      detail: '<img style="width:100vw;display:block;" src="./static/img/d3.jpg" />',
-                    }
 
               this.loading.hide()
               this.detail = data.data

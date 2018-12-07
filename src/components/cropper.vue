@@ -84,12 +84,13 @@
         d.append('file', this.dataURLtoBlob(url))
 
         this.$http({
-          url: '',
+          url: '/upload',
           method: 'post',
           data: d,
           success: (data) => {
+                //  console.log(data)
             /// 测试数据
-            data.data = url
+         //   data.data = url
             // 测试数据 结束
 
             this.$emit('input', data.data)

@@ -2,7 +2,7 @@
   <div>
     <my-scroll :notip="true"
                :list.sync="list"
-               url="">
+               url="/api/list/address">
 
       <head-bar :back="true" title="收货地址">
         <router-link class="text-primary f14" to="/editaddress">添加新地址</router-link>

@@ -16,7 +16,8 @@
   export default {
     props: {
       value: String,
-      url: String
+      url: String,
+      noUp: Boolean   // 是否上传
     },
     data () {
       return {
@@ -38,6 +39,17 @@
       upload(e) {
         let file = e.target.files[0]
 
+        if(this.noUp) {
+          let url = URL.createObjectURL(file)
+          this.$emit('input', url)
+
+          this.path = url
+          this.$emit('update:url', url)
+          this.$emit('change', url)
+
+          return false
+        }
+
         this.loading.show()
         let d = new FormData()
         d.append('file', file)
@@ -46,7 +58,7 @@
           method: 'post',
           data: d,
           success: (data) => {
-            data.data = URL.createObjectURL(file)
+          //  data.data = URL.createObjectURL(file)
 
             this.$emit('input', data.data)
 

@@ -41,32 +41,6 @@
                 url: '/home/get_global_config',
                 method: 'get',
                 success: (data) => {
-                        //  测试数据
-                  data.data = {
-                    webname: '',   // 网站名称
-                    logo: './static/img/logo.jpg',   // Logo
-                    ads: {
-                      home_banner: [   // 首页轮播图
-                        {
-                          id: '1',
-                          link: 'http://baidu.com',    // 图片链接
-                          url: './static/img/ad1.jpg',   // 图片地址
-                          type: '1'                     //  1: 图片  2： 视频
-                        },
-                        {
-                          id: '2',
-                          link: '',
-                          type: '2',
-                          url: './static/img/ad1.jpg',
-                          videoUrl: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4' // 视频地址
-                        },
-                      ],
-                      new_arrival: {link: '', url: './static/img/ad2.png'},  //  首页 新品专区(link 有值就跳转，否则不跳）
-                      hot_sale: {link: '', url: './static/img/ad3.jpg'},  // 首页 热卖专区(link 有值就跳转，否则不跳）
-                      goods_banner: {link: '', url: './static/img/banner.jpg'},  //  商品定制 头部(link 有值就跳转，否则不跳）
-                    }
-                  }
-                  // 测试数据结束
 
                   let d = data.data
                   d.ads = d.ads || {}
