@@ -6,7 +6,7 @@ let obj = {
   },
   '/api/list/hot': {  // 首页热卖
     data: [
-      {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', tag: [{id: 1, name: '新品爆款', value: '#ff9933'}]},
+      {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生 ', tag: [{id: 1, name: '新品爆款', value: '#ff9933'}]},
       {id: '2', imgUrl: './static/img/g1.png', title: '定制牌制牌', tag: [{id: 1, name: '新品爆款', value: '#ff9933'}, {id: 1, name: '特价热卖', value: '#cc6666'},]},
       {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌', tag: [{id: 1, name: '新品爆款', value: '#ff9933'}, {id: 1, name: '特价热卖', value: '#cc6666'}, {id: 1, name: '限时折扣', value: '#00bc0d'},]},
       {id: '4', imgUrl: '', title: '宝宝生辰定制牌', tag: [{id: 1, name: '新品爆款', value: 'orange'}]},
@@ -220,10 +220,10 @@ let obj = {
   ],
 
   '/api/list/newgood': [
-    {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌'},
-    {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
-    {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
-    {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
+    {id: '1', imgUrl: './static/img/goods.png', title: '宝宝生辰'},
+  //  {id: '2', imgUrl: './static/img/g1.png', title: '宝宝定制牌制牌定制牌制牌制牌'},
+   // {id: '3', imgUrl: './static/img/g2.png', title: '宝宝生辰定制牌'},
+   // {id: '3', imgUrl: '', title: '宝宝生辰定制牌'},
   ],
 
   '/api/user/info': {
@@ -377,12 +377,25 @@ let obj = {
           type: '1'                     //  1: 图片  2： 视频
         },
         {
+          id: '1',
+          link: 'http://baidu.com',    // 图片链接
+          url: 'http://pic19.nipic.com/20120308/4970979_102637717125_2.jpg',
+          type: '1'                     //  1: 图片  2： 视频
+        },
+        {
           id: '2',
           link: '',
           type: '2',
           url: './static/img/ad1.jpg',
           videoUrl: 'http://220.112.193.197/mp4files/A18400000009E79A/vjs.zencdn.net/v/oceans.mp4' // 视频地址
         },
+        {
+          id: '2',
+          link: '',
+          type: '2',
+          url: './static/img/ad1.jpg',
+          videoUrl: 'http://pic.qiantucdn.com/58pic/shipin/17/49/00/17490072.mp4'
+        }
       ],
       new_arrival: {link: '', url: './static/img/ad2.png'},  //  首页 新品专区(link 有值就跳转，否则不跳）
       hot_sale: {link: '', url: './static/img/ad3.jpg'},  // 首页 热卖专区(link 有值就跳转，否则不跳）

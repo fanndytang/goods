@@ -14,16 +14,18 @@
         <input type="search" class="input-search" placeholder="搜索品牌或关键词" @focus="$router.push('/search')" />
       </div>
 
-      <swiper :options="swiperOption" ref="mySwiper">
+      <swiper :options="swiperOption" ref="mySwiper" class="home-swiper">
         <swiper-slide v-for="item,i in $root.webinfo.home_banner" :key="i">
           <a :href="item.link" v-if="item.type == 1"><img class="full-img" :src="item.url"></a>
 
-          <div v-if="item.type == 2" class="full-img" style="position:relative;">
-            <img height="45px" v-show="!hidePlay" @click="$refs[`video${i}`][0].play();hidePlay=true" class="video-play" :src="require('@/assets/icons/icon_play.png')" alt="">
+          <div v-if="item.type == 2" style="position:relative;height:165px;">
 
-             <video :ref="`video${i}`" class="ad-video" width="100%" v-if="item.type == '2'"
-                    :src="item.videoUrl" :poster="item.url"
-                    @play="$refs.mySwiper.swiper.autoplay.stop()" @pause="$refs.mySwiper.swiper.autoplay.start();hidePlay=false;"></video>
+            <img height="45px" v-show="!hidePlay[i]" @click="$refs[`video${i}`][0].play();hidePlay.splice(i,1,true);" class="video-play" :src="require('@/assets/icons/icon_play.png')" alt="">
+            <img class="full-img" :src="item.url" alt="" v-show="!hidePlay[i]" style="position:relative;z-index:9;">
+
+            <video :ref="`video${i}`" class="ad-video" width="100%" v-show="hidePlay[i]"
+                   :src="item.videoUrl"
+                   @play="$refs.mySwiper.swiper.autoplay.stop();" @pause="$refs.mySwiper.swiper.autoplay.start();hidePlay.splice(i,1,false);"></video>
           </div>
         </swiper-slide>
         <div class="swiper-pagination home" slot="pagination"></div>
@@ -80,7 +82,7 @@
   export default {
     data () {
       return {
-              hidePlay: false,
+        hidePlay: [],
         swiperOption: {
           autoplay: {
             disableOnInteraction: false
@@ -101,13 +103,22 @@
         loading: new this.Loading()
       }
     },
+    watch: {
+      '$root.webinfo.home_banner'(val) {
+        if(val) {
+          this.hidePlay = val.map(item => {
+            return false
+          })
+        }
+      }
+    },
     mounted () {
       this.getMewData()
     },
     methods: {
       //  新品专区
       getMewData() {
-              this.loading.show()
+        this.loading.show()
 
         this.$http({
           url: '/api/list/newgood',
@@ -140,20 +151,32 @@
       background:rgba(199, 56, 52, 1);
     }
   }
+
+  .home-swiper .swiper-wrapper {
+    height: 165px;
+    .full-img.img {
+      height: auto;
+      width: auto;
+      object-fit: cover ;
+    }
+    video {
+      height: 165px;
+    }
+  }
+
 </style>
 
 <style lang="less" scoped>
   img {
     max-width: 100%;
   }
-
   .ad-video {
     width: 100%;
     height: auto;
     display: block;
-   /* ::-webkit-media-controls-fullscreen-button{
-      display: none;
-    }*/
+    /* ::-webkit-media-controls-fullscreen-button{
+       display: none;
+     }*/
   }
   .tools {
     display: flex;
@@ -186,7 +209,6 @@
       margin-left: .07rem;
     }
   }
-
   .new-list {
     margin-top: -0.75rem;
     overflow-x: auto;
@@ -229,16 +251,10 @@
       max-height: 60%;
     }
     .text {
-      min-height: 30px;
+      height: 30px;
       display: block;
-      white-space: normal;
-      text-overflow: -o-ellipsis-lastline;
+      text-align: center;
       overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      -webkit-box-orient: vertical;
     }
   }
 

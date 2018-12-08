@@ -33,8 +33,8 @@ let http = (options) => {
 
   let request = {
     url: url,
-    method: method,
-    data: data,
+    method: 'post',
+    data: JSON.stringify(data),
     params: params,
     headers: headers
   }
