@@ -7,6 +7,7 @@
                :params="params"
                url="/api/list/goodlist"
                nodatatext="没有更多商品啦"
+               :initnodata="true"
                ref="scroll">
 
       <head-bar title="&emsp;&emsp;&emsp;商品订购" :menu="true">
@@ -19,7 +20,7 @@
       <div class="top-fixed">
         <a :href="$root.webinfo.goods_banner.link || 'javascript:void(0);'"><img class="banner" :src="$root.webinfo.goods_banner.url" alt=""></a>
 
-        <div class="nav-bar" ref="nav-box">
+        <div class="nav-bar" ref="nav-box" v-if="!params.keyword">
       <span class="item"
             v-for="item,i in nav" :key="i"
             @click="clickNav(item, $event)"
@@ -55,9 +56,8 @@
   export default {
     data () {
       return {
-        type: 1,
+        type: '',
         nav: [],
-        keyword: this.$route.query.keyword || '',  //  搜索关键词
         loading: false,
         dataAll: {},   //  总数据列表
         showData: {      // 当前显示的数据列表
@@ -66,15 +66,23 @@
           totals: 0,   // 总共有多少条
           data: []
         },
-        params: {
-          keyword: this.$route.query.keyword || '',
-          type: ''
-        }
+        params: {}
       }
     },
     mounted () {
+      let keyword = this.$route.query.keyword || ''
+      if(keyword) {
+        this.params = {
+          keyword: keyword
+        }
+
+        this.$refs.scroll.params.keyword = keyword
+        this.$refs.scroll.getData()
+      }else {
+        this.getNav()
+      }
       this.setBanner()
-      this.getNav()
+
     },
     watch: {
             '$root.webinfo.goods_banner.url'(val) {
@@ -93,7 +101,7 @@
                     width = document.documentElement.clientWidth || document.body.clientWidth || box.clientWidth,
                     height = width * h / w
 
-                  box.style.paddingTop = (height + 44) + 'px'
+                  box.style.paddingTop = (height + (that.params.keyword?0:44)) + 'px'
                 }
 
                 image.src =  this.$root.webinfo.goods_banner.url || ''
@@ -102,11 +110,9 @@
       // 点击商品类别
       clickNav(item, e) {
         this.type = item.type
+        this.$refs.scroll.params.type = item.type
 
         let len = this.dataAll[this.type].data.length
-
-        this.params.type = this.type
-
 
         for(let k in this.dataAll[this.type]) {
           this.$refs.scroll.list[k] = this.dataAll[this.type][k]
@@ -134,14 +140,15 @@
       },
       // 获取商品类别
       getNav() {
-
         this.$http({
           url: '/api/goods/category',
           method: 'get',
           success: (data) => {
 
             this.nav = data.data
-            this.params.type = this.nav[0] ? this.nav[0].type || '' : ''
+        this.type = this.nav[0] ? this.nav[0].type : ''
+            this.$refs.scroll.params.type = this.type
+
             for(let k in this.nav) {
               this.dataAll[this.nav[k].type] = {
                 rows: 10,   // 一次显示多少条
@@ -150,6 +157,8 @@
                 data: []
               }
             }
+
+            this.$refs.scroll.getData()
           },
           error: (data) => {
 
@@ -161,7 +170,9 @@
       },
       //  获取商品数据
       getData() {
-          this.dataAll[this.type] = this.showData
+        for(let k in this.showData) {
+          this.dataAll[this.type][k] = this.showData[k]
+        }
       }
     }
   }

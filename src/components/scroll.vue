@@ -15,6 +15,7 @@
   export default {
     props: {
       url: String,   // 请求数据地址
+      initnodata: Boolean,  //  进入页面不请求数据
       onInfinite: {
         type: Function,
         default: undefined,
@@ -46,7 +47,7 @@
       }
     },
     mounted () {
-      this.getData()
+      if(!this.initnodata) this.getData()
       window.addEventListener('scroll', () => {
         this.onScroll()
       }, true);
@@ -74,6 +75,7 @@
             params[k] = this.params[k]
           }
         }
+        console.log(this.params)
 
         this.$http({
           url: this.url,

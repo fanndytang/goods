@@ -22,7 +22,8 @@
       max: {
         type: Number,    // 最多可上传多少张
         default: Number.POSITIVE_INFINITY  // 正无穷大
-      }
+      },
+      source: String   //  来源
     },
     watch: {
             value(val) {
@@ -92,6 +93,10 @@
           for(let k in file) {
             d.append('file', file[k])
           }
+
+          d.append('source', this.source)
+
+
 
           this.$http({
             url: '/upload',

@@ -102,6 +102,7 @@ let obj = {
     let file = data.getAll('file'), url = ''
    // console.log(file)
     for(let k in file) {
+      console.log(file)
     //  console.log(file[k])
     //  console.log(typeof file[k])
       if(typeof file[k] !== 'string') {
@@ -230,8 +231,9 @@ let obj = {
     avatar: './static/img/g1.png',
     tel: '13800138000',
     companyname: '',  // 公司名称
-    brand: '',  //  店铺品牌
+    brand: '324325',  //  店铺品牌
     position: '',  //  店铺位置
+    //position: '220000,222400,222404',  //  店铺位置
     address: '',  // 详细地址
     username: '',  // 联系人员
     usertel: '',   //  联系电话
@@ -258,7 +260,7 @@ let obj = {
     describe: '<img src="./static/img/new.jpg" />关于商家加盟最新条款事宜,关于商家加盟最新条款事宜,关于商家加盟最新条款事宜'
   },
 
-  'api/order/detail':{
+  '/api/order/detail':{
     id: 1,
     sn: '20181115093150001',
     date: '2018.11.15 09:31:50',

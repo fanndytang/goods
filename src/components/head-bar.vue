@@ -22,7 +22,7 @@
         if(this.backstep) {
           this.$router.go(this.backstep)
         }else if(this.backpath) {
-          this.$router.push(backpath)
+          this.$router.push(this.backpath)
         }else {
           this.$router.go(-1)
         }

@@ -20,13 +20,15 @@
 
   export default {
     props: {
-      value: String
+      value: String,
+      source: String
     },
     data () {
       return {
         show: false,
         cropperBox: null,
-        url: ''
+        url: '',
+        filename: ''
       }
     },
     watch: {
@@ -74,14 +76,16 @@
         while(n--){
           u8arr[n] = bstr.charCodeAt(n);
         }
-        return new Blob([u8arr], {type:mime});
+        return new File([u8arr],this.filename, {type:mime});
       },
       // 获取裁剪图像
       getImg() {
         let url = this.cropperBox.getCroppedCanvas().toDataURL()
         let d = new FormData()
 
-        d.append('file', this.dataURLtoBlob(url))
+       // d.append('file', this.dataURLtoBlob(url))
+        d.append('file', url)
+        d.append('source', this.source)
 
         this.$http({
           url: '/upload',
@@ -112,6 +116,9 @@
         }else {
           file = e.target.files[0]
           url = URL.createObjectURL(file)
+
+         // console.log(file)
+          this.filename = file.name
         }
 
         this.url = url

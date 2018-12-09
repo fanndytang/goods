@@ -23,7 +23,7 @@
         <textarea cols="30" rows="3" placeholder="请输入您的问题" v-model="form.question"></textarea>
       </div>
       <div class="item">
-        <upload-img-2 v-model="form.img" :max="5"></upload-img-2>
+        <upload-img-2 v-model="form.img" :max="5" source="chat"></upload-img-2>
       </div>
 
       <div class="sub" @click="confirm()"> <span class="text-primary" style="color:#5c95a8;">提交</span></div>

@@ -34,7 +34,7 @@ let http = (options) => {
   let request = {
     url: url,
     method: 'post',
-    data: JSON.stringify(data),
+    data: url == '/upload' ? data : JSON.stringify(data),
     params: params,
     headers: headers
   }
@@ -54,6 +54,7 @@ let http = (options) => {
         res.page = d.page
       }else {
         res.data = d
+    console.log(res)
       }
     options.success(res)
   }, 500)

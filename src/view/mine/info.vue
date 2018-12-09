@@ -7,7 +7,7 @@
     <div class="avatar">
       <img class="full-img" :src="'./static/img/minecenter.jpg'" alt="">
 
-      <cropper-img v-model="params.avatar">
+      <cropper-img v-model="params.avatar" source="info">
         <div slot="up-trigger" slot-scope="p" class="upload">
           <input type="file" @change="p.upload($event)">
           <img id="image" class="useimg" :src="params.avatar || require('@/assets/icons/img_moren.png')" alt="">
@@ -83,25 +83,15 @@
             getInfo() {
               this.loading.show('加载中')
               this.$http({
-                url: '',
+                url: '/api/user/info',
                 method: 'get',
                 data: {
                   uid: this.$root.uid || ''
                 },
                 success: (data) => {
-                  // 测试
-                  this.params = {
-                    avatar: './static/img/g1.png',  // 用户头像
-                    companyname: '',  // 公司名称
-                    brand: '',  //  店铺品牌
-                    position: '',  //  店铺位置
-                    address: '',  // 详细地址
-                    username: '',  // 联系人员
-                    usertel: '',   //  联系电话
-                  }
 
 
-                 /* let d = data.data || {}
+                  let d = data.data || {}
                   this.params = {
                     avatar: d.avatar || '',  // 用户头像
                     companyname: d.companyname || '',  // 公司名称
@@ -110,7 +100,7 @@
                     address: d.address || '',  // 详细地址
                     username: d.username || '',  // 联系人员
                     usertel: d.usertel || '',   //  联系电话
-                  }*/
+                  }
                   this.loading.hide()
                 },
                 error: (data) => {

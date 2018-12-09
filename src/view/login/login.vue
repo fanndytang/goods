@@ -1,6 +1,6 @@
 <template>
   <div>
-    <head-bar title="登陆" :back="true"></head-bar>
+    <head-bar title="登陆" :back="true" backpath="/"></head-bar>
     <img :src="'./static/img/login.jpg'" alt="" class="full-img">
 
     <div class="form-box">

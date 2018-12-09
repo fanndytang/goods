@@ -52,8 +52,12 @@
             sn: this.$route.query.orderid
           },
           success: (data) => {
+            console.log(data)
 
             this.detail = data.data
+          //this.detail.chat = data.data.chat || []
+          //this.detail.purchase = data.data.purchase || {}
+          //this.detail.address = data.data.address || {}
             this.loading.hide()
 
           },

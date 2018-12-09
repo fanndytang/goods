@@ -63,7 +63,27 @@
               }
           }
       },
+    mounted() {
+        if(this.id) this.getInfo()
+    },
     methods: {
+        getInfo() {
+          this.loading.show('加载中')
+          this.$http({
+            url: '',
+            data: {
+              id: this.id
+            },
+            success: (data) => {
+              this.loading.hide()
+            this.params = data.data
+
+          },
+          error: (data) => {
+              this.loading.hide()
+          }
+          })
+        },
       // 提交
       confirm() {
         if(!this.params.name) {
@@ -77,6 +97,8 @@
         }else {
           this.loading.show()
 
+          this.params.isDefault = this.params.isDefault ? 1 : 0
+
           this.$http({
             url: '',
             method: 'post',
@@ -84,7 +106,7 @@
             success: (data) => {
               this.loading.hide()
               this.$message.success('提交成功')
-              this.$router.push('/address')
+            //  this.$router.push('/address')
             },
             error: (data) => {
               this.loading.hide()
