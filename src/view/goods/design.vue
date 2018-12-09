@@ -51,7 +51,7 @@
       <div class="list-item">
         <div class="label">数量：</div>
         <div class="flex-center">
-          <form-number v-model="params.num" style="margin-left:5px;"></form-number>
+          <form-number v-model="num" style="margin-left:5px;"></form-number>
         </div>
       </div>
 
@@ -89,9 +89,8 @@
         wordFront: {},
         wordBack: {},
         dict: [],                                 //  商品参数
-        params: {
-                num: 1      // 商品数量
-        }
+        num: 1,      // 商品数量
+        designid: this.$route.query.designid
       }
     },
     mounted () {
@@ -291,7 +290,6 @@
         for(let k in this.dict) {
           let item = this.dict[k]
           dict.push(item.list[item.activeIndex] || '')
-
         }
 
         let data = {
@@ -302,23 +300,27 @@
             fontFamily: this.purchase.fontFamily,
             remark: this.purchase.remark,
           },
-          dict: dict
+          dict: dict,
+          num: this.num
         }
 
 
-        this.$http({
+     /*   this.$http({
           url: '/api/order/design',
           method: 'post',
           data: data,
           success: (data) => {
-            this.loading.hide()
-            this.$router.push({name: "orderdetail", query: {type: 0, orderid: data.data}})
-          },
+            this.loading.hide()*/
+
+            let str = this.designid || 'design'+new Date().getTime()
+            sessionStorage.setItem(str, JSON.stringify(data))
+            this.$router.push({name: "orderdetail", query: {type: 0, designid: str}})
+        /*  },
           error: (data) => {
             this.loading.hide()
           }
 
-        })
+        })*/
 
       }
     },

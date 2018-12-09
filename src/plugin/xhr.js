@@ -54,7 +54,7 @@ let http = (options) => {
         res.page = d.page
       }else {
         res.data = d
-    console.log(res)
+  //  console.log(res)
       }
     options.success(res)
   }, 500)

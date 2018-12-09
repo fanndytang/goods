@@ -30,7 +30,9 @@
       return {
         type: this.$route.query.type,
         loading: new this.Loading('提交中'),
+        orderid: this.$route.query.orderid || '',
         customid: this.$route.query.customid || '',
+        designid: this.$route.query.designid || '',
         detail: {
           num: '',
           title: '',
@@ -46,8 +48,8 @@
         let back = ''
         if(this.customid) {
           back = {name: 'customized', query: {customid: this.customid}}
-        }else {
-         // back = ''
+        }else if(this.designid) {
+          back = {name: 'design', query: {designid: this.designid}}
         }
 
         return back
@@ -59,20 +61,59 @@
     methods: {
       // 获取地址
       getAddress() {
-        this.$http({
-          url: '/api/list/address',
-          success: (data) => {
-            if(data.data.length > 0) {
-          this.detail.address = data.data[0]
+        if(this.orderid) {
+
+        }else {
+          if(this.customid) {
+            if(sessionStorage.getItem('siyj-customid'+this.customid)) {
+              let d = JSON.parse(sessionStorage.getItem('siyj-customid'+this.customid))
+              this.detail.address = d
+            }else {
+              this.$http({
+                url: '/api/list/address',
+                success: (data) => {
+                  if(data.data.length > 0) {
+                    this.detail.address = data.data[0]
+                  }
+
+                }
+              })
+            }
+
+          }else {
+
+          }
         }
 
-        }
-        })
       },
       // 获取订单信息
       getOrderInfo() {
-        if(this.customid) {  //  个性定制
-         // console.log(sessionStorage.getItem(this.$route.query.customid))
+        if(this.orderid) {
+          this.loading.show('加载中')
+
+          this.$http({
+            url: '/api/order/detail',
+            method: 'get',
+            data: {
+              sn: this.$route.query.orderid
+            },
+            success: (data) => {
+              console.log(data)
+
+              this.detail = data.data
+              //this.detail.chat = data.data.chat || []
+              //this.detail.purchase = data.data.purchase || {}
+              //this.detail.address = data.data.address || {}
+              this.loading.hide()
+
+            },
+            error: (data) => {
+              this.loading.hide()
+            }
+
+
+          })
+        }else if(this.customid) {  //  个性定制
           this.getAddress()
           let d = JSON.parse(sessionStorage.getItem(this.customid) || {})
           let img = d.imgs ? d.imgs.split(',') : []
@@ -86,37 +127,17 @@
             imgs: img
           }
 
-        }else {
-         // return
+        }else if(this.designid) {
+          this.getAddress()
+          let d = JSON.parse(sessionStorage.getItem(this.designid) || {})
+
+          this.detail.purchase = d.purchase || {}
+          this.detail.dict = d.dict || []
+
+          this.imgUrl = ''
+          this.title = d.title
+          this.num = d.num
         }
-return
-/*
-        this.loading.show('加载中')
-
-        this.$http({
-          url: '/api/order/detail',
-          method: 'get',
-          data: {
-            sn: this.$route.query.orderid
-          },
-          success: (data) => {
-            console.log(data)
-
-            this.detail = data.data
-          //this.detail.chat = data.data.chat || []
-          //this.detail.purchase = data.data.purchase || {}
-          //this.detail.address = data.data.address || {}
-            this.loading.hide()
-
-          },
-          error: (data) => {
-            this.loading.hide()
-          }
-
-
-        })*/
-
-
 
       },
       //  确认订单
@@ -131,7 +152,7 @@ return
             fontFamily: this.detail.purchase.fontFamily,
             num: this.detail.num,
             remark: this.detail.purchase.remark,
-            addressid: sessionStorage.getItem('siyj-customid'+this.customid) || this.detail.address.id
+            addressid: this.detail.address.id
           }
         }
 
@@ -146,11 +167,11 @@ return
             this.$router.push({name: 'orderresult', query: {orderid: orderid, status: 1}})
           },
           error: (data) => {
-          let orderid = data.data.orderid || ''
+            let orderid = data.data.orderid || ''
 
             this.loading.hide()
-           // this.$message.error('提交失败，请重试')
-          this.$router.push({name: 'orderresult', query: {orderid: orderid, status: 2}})
+            // this.$message.error('提交失败，请重试')
+            this.$router.push({name: 'orderresult', query: {orderid: orderid, status: 2}})
           }
 
 

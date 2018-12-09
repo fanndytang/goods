@@ -60,7 +60,6 @@
               addressid: item.id
             },
             success: (data) => {
-            //  sessionStorage.setItem('')
               sessionStorage.setItem('siyj-orderaddressid'+this.orderid, item.id)
               sessionStorage.setItem('siyj-orderaddressname'+this.orderid, item.name)
               sessionStorage.setItem('siyj-orderaddresstel'+this.orderid, item.tel)
@@ -77,16 +76,9 @@
           })
 
         }else if(this.customid) {
-          sessionStorage.setItem('siyj-customid'+this.customid, item.id)
-          sessionStorage.setItem('siyj-customname'+this.customid, item.name)
-          sessionStorage.setItem('siyj-customtel'+this.customid, item.tel)
-          sessionStorage.setItem('siyj-customaddress'+this.customid, item.address)
+          sessionStorage.setItem('siyj-customid'+this.customid, JSON.stringify(item))
           this.$router.go(-1)
         }
-
-        /*let setAddress = () => {
-
-        }*/
       },
       //  删除地址
       del(item, index) {
@@ -132,11 +124,6 @@
           },
           success: (data) => {
             this.loading.hide()
-            /*for(let k in this.list.data) {
-              if(this.list.data[k].isDefault && this.list.data[k].id != item.id) {
-                this.list.data[k].isDefault = false
-              }*/
-            //}
           },
           error: (data) => {
             this.loading.hide()

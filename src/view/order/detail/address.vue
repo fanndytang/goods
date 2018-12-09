@@ -33,13 +33,6 @@
                             tel: sessionStorage.getItem('siyj-orderaddresstel'+this.orderid),
                             address: sessionStorage.getItem('siyj-orderaddressaddress'+this.orderid),
                     }
-            }else if(sessionStorage.getItem('siyj-customid'+this.customid)) {
-              this.data = {
-                id: sessionStorage.getItem('siyj-customid'+this.customid),
-                name: sessionStorage.getItem('siyj-customname'+this.customid),
-                tel: sessionStorage.getItem('siyj-customtel'+this.customid),
-                address: sessionStorage.getItem('siyj-customaddress'+this.customid),
-              }
             }
 
     }
