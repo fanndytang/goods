@@ -25,6 +25,9 @@
 
 <script>
   export default {
+    props: {
+      isModal: Boolean
+    },
     data () {
       return {
         tel: '',
@@ -65,10 +68,17 @@
               this.loading.hide()
 
               sessionStorage.setItem('Authorization', data.data.Authorization)
+              sessionStorage.setItem('uid', data.data.uid)
               this.$root.uid = data.data.uid || ''
              // console.log(data, this.$root.uid)
               this.$message.success('登陆成功')
-              this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
+          if(this.isModal) {
+                this.$emit('loginSuccess')
+          }else {
+            this.$router.push(this.$route.query.path || sessionStorage.getItem('mysgyj_history_page') || '/')
+          }
+
+
             },
             error: (data) => {
               this.loading.hide()

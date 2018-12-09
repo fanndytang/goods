@@ -100,10 +100,14 @@
                 },
                 success: (data) => {
                   sessionStorage.removeItem('Authorization')
+                sessionStorage.removeItem('uid')
+        this.$root.uid = ''
                   this.$router.push('/')
                 },
                 error: (data) => {
                   sessionStorage.removeItem('Authorization')
+          sessionStorage.removeItem('uid')
+          this.$root.uid = ''
                   this.$router.push('/')
                 }
               })

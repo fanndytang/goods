@@ -17,7 +17,7 @@
           </div>
           <div class="bar">
             <div class="flex">
-              <span class="check-box"><input @change="setDefault(item)" type="checkbox" v-model="item.isDefault"><span class="icon" style="margin-right:5px;"></span> 设为默认</span>
+              <span class="check-box"><input @change="setDefault(item)" name="address" type="radio" :checked="item.isDefault"><span class="icon" style="margin-right:5px;"></span> 设为默认</span>
             </div>
             <img class="del" height="22px" :src="require('@/assets/icons/icon_del.png')" alt="" @click="del(item, i)">
             <img class="edit" height="22px" :src="require('@/assets/icons/icon_edit.png')" alt="" @click="$router.push({name: 'editaddress', query: {id: item.id, orderid: orderid}})">
@@ -113,18 +113,18 @@
 
 
         this.$http({
-          url: '',
+          url: '/default',
           method: 'post',
           data: {
             id: item.id
           },
           success: (data) => {
             this.loading.hide()
-            for(let k in this.list.data) {
+            /*for(let k in this.list.data) {
               if(this.list.data[k].isDefault && this.list.data[k].id != item.id) {
                 this.list.data[k].isDefault = false
-              }
-            }
+              }*/
+            //}
           },
           error: (data) => {
             this.loading.hide()

@@ -11,6 +11,7 @@ import myScroll from './scroll.vue'
 import cropperImg from './cropper.vue'
 import inputSpan from './input-span.vue'
 import imgPreview from './preview.vue'
+import modalLogin from './modal-login.vue'
 
 export default {
   install: function(Vue){
@@ -27,5 +28,6 @@ export default {
     Vue.component('cropper-img', cropperImg)
     Vue.component('input-span', inputSpan)
     Vue.component('img-preview', imgPreview)
+    Vue.component('modal-login', modalLogin)
   }
 }

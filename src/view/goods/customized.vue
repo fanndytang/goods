@@ -3,6 +3,8 @@
   <div>
     <head-bar title="个性定制" :menu="true"></head-bar>
 
+    {{$root.uid}}
+
     <div class="box">
       <div class="bg"></div>
 
@@ -29,7 +31,10 @@
       </div>
     </div>
 
-    <button class="btn btn-block btn-red btn-sub" type="button" @click="confirm()">提交订单</button>
+    <modal-login :callback="confirm">
+      <button class="btn btn-block btn-red btn-sub" type="button">提交订单</button>
+    </modal-login>
+
 
     <foot-bar></foot-bar>
   </div>

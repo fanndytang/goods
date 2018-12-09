@@ -21,6 +21,20 @@ Vue.prototype.$http = xhr
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {  // 判断是否登陆，是否可进入相关页面
+  if(!sessionStorage.getItem('uid') && ['/address', '/orderlist', '/orderdetail', '/password', '/mineinfo', '/editaddress'].includes(to.path)) {
+     new Vue().$message.error('请登录')
+     setTimeout(() => {
+       next({
+           path: '/login',
+           query: {path: to.path}
+       })
+     }, 1000)
+  }else {
+     next()
+  }
+})
+
 router.afterEach((to,from,next) => {  // 每个页面滚动条回滚到顶部
   window.scrollTo(0,0);
 });
@@ -34,7 +48,7 @@ new Vue({
   data () {
     return {
       eventHub: new Vue(),
-      uid: '',
+      uid: sessionStorage.getItem('uid')||'',
       webinfo: {   // 网站相关配置信息
         isget: false,   // 是否已经获取过配置信息
         webname: '',
