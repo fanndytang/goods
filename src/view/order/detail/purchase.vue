@@ -12,7 +12,9 @@
         </div>
         <div class="list-item" v-if="custom">
           <label class="label">定制照片：</label>
-          <span>{{purchase.fontFamily || '无'}}</span>
+          <img-preview v-if="purchase.imgs" :list="purchase.imgs" ref="preview">
+            <img v-for="el,k in purchase.imgs" :key="k" :src="el" alt="" @click="$refs[`preview`].active=k;$refs[`preview`].visible=true">
+          </img-preview>
         </div>
         <div class="list-item">
           <label class="label">定制备注：</label>
@@ -68,7 +70,7 @@
         show1: true,
         show2: true,
         show3: true,
-        custom: this.$route.query.custom, // 是否是个性定制页面
+        custom: this.$route.query.customid, // 是否是个性定制页面
       //  type: this.$route.query.type
       }
     },

@@ -8,7 +8,7 @@
           <span style="font-size: 14px;margin-bottom:2px;display:inline-block;">{{detail.title}}</span><br>
           <span>{{detail.fineness}}&nbsp;{{detail.weight}}&nbsp;{{detail.format}}</span>
         </div>
-        <div class="number">定购数量：{{detail.number}}件</div>
+        <div class="number">定购数量：{{detail.num}}件</div>
       </div>
     </div>
   </div>

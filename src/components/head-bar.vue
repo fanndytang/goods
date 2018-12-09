@@ -14,7 +14,7 @@
       back: Boolean,
       menu: Boolean,
       title: String,
-      backpath: String, // 返回的路径
+      backpath: [String, Object], // 返回的路径
       backstep: Number   // 返回的步数
     },
     methods: {

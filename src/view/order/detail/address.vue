@@ -2,7 +2,7 @@
   <div class="box">
     <div class="title flex-between flex-xcenter">
       <span>收货地址</span>
-      <router-link :to="{name:'address', query: {orderid: orderid}}" v-if="type == 0 || type == 1" style="color:#5c95a8;">选择新地址</router-link>
+      <router-link :to="{name:'address', query: {orderid: orderid, customid: customid}}" v-if="type == 0 || type == 1" style="color:#5c95a8;">选择新地址</router-link>
     </div>
     <span class="name">{{data.name || address.name}}</span>
     <span class="tel">{{data.tel || address.tel}}</span>
@@ -21,6 +21,7 @@
       return {
         //type: this.$route.query.type,
         orderid: this.$route.query.orderid,
+        customid: this.$route.query.customid,
         data: {}
       }
     },
@@ -32,6 +33,13 @@
                             tel: sessionStorage.getItem('siyj-orderaddresstel'+this.orderid),
                             address: sessionStorage.getItem('siyj-orderaddressaddress'+this.orderid),
                     }
+            }else if(sessionStorage.getItem('siyj-customid'+this.customid)) {
+              this.data = {
+                id: sessionStorage.getItem('siyj-customid'+this.customid),
+                name: sessionStorage.getItem('siyj-customname'+this.customid),
+                tel: sessionStorage.getItem('siyj-customtel'+this.customid),
+                address: sessionStorage.getItem('siyj-customaddress'+this.customid),
+              }
             }
 
     }

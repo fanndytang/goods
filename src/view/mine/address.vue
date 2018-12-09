@@ -43,7 +43,8 @@
           totals: 0,   // 总共有多少条
           data:[]
         },
-        orderid: this.$route.query.orderid || false   // 是否需要选择地址
+        orderid: this.$route.query.orderid || false,   // 是否需要选择地址
+        customid: this.$route.query.customid,
       }
     },
     methods: {
@@ -59,6 +60,7 @@
               addressid: item.id
             },
             success: (data) => {
+            //  sessionStorage.setItem('')
               sessionStorage.setItem('siyj-orderaddressid'+this.orderid, item.id)
               sessionStorage.setItem('siyj-orderaddressname'+this.orderid, item.name)
               sessionStorage.setItem('siyj-orderaddresstel'+this.orderid, item.tel)
@@ -74,7 +76,17 @@
 
           })
 
+        }else if(this.customid) {
+          sessionStorage.setItem('siyj-customid'+this.customid, item.id)
+          sessionStorage.setItem('siyj-customname'+this.customid, item.name)
+          sessionStorage.setItem('siyj-customtel'+this.customid, item.tel)
+          sessionStorage.setItem('siyj-customaddress'+this.customid, item.address)
+          this.$router.go(-1)
         }
+
+        /*let setAddress = () => {
+
+        }*/
       },
       //  删除地址
       del(item, index) {

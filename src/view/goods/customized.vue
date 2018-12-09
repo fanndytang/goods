@@ -3,8 +3,6 @@
   <div>
     <head-bar title="个性定制" :menu="true"></head-bar>
 
-    {{$root.uid}}
-
     <div class="box">
       <div class="bg"></div>
 
@@ -54,6 +52,19 @@
           fontFamily: '微软雅黑',   //  定制字体
           num: 1,          //  定制数量
           remark: ''        //  定制备注
+        },
+        customid: this.$route.query.customid
+      }
+    },
+    mounted () {
+      if(this.customid) {
+        let d = JSON.parse(sessionStorage.getItem(this.customid) || "{}")
+
+        this.params = {
+          imgs: d.imgs || '',
+          fontFamily: d.fontFamily || '微软雅黑',
+          num: d.num || 1,
+          remark: d.remark || ''
         }
       }
     },
@@ -67,21 +78,12 @@
         }else if(!this.params.num) {
           this.$message.error('请设置定制数量')
         }else {
-          this.loading.show()
 
-          this.$http({
-            url: '/api/order/customized',
-            method: 'post',
-            data: this.params,
-            success: (data) => {
-              this.loading.hide()
-              this.$router.push({name: 'orderdetail', query: {orderid: data.data, type: 0}})
-            },
-            error: (data) => {
-              this.loading.hide()
-            }
+          let str = this.customid || 'custom'+new Date().getTime()
 
-          })
+          sessionStorage.setItem(str, JSON.stringify(this.params))
+
+          this.$router.push({name: 'orderdetail', query: {customid: str, type: 0}})
 
         }
 

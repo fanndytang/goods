@@ -1,6 +1,6 @@
 <template>
   <div class="full-gray" style="padding-top:1px;">
-    <head-bar :back="true" title="订单信息" :menu="type != 1">
+    <head-bar :back="true" title="订单信息" :menu="type != 1" :backpath="backpath">
       <span class="text-primary f14" @click="cancel()" v-if="type == 1">取消订单</span>
     </head-bar>
 
@@ -30,19 +30,67 @@
       return {
         type: this.$route.query.type,
         loading: new this.Loading('提交中'),
+        customid: this.$route.query.customid || '',
         detail: {
+          num: '',
+          title: '',
+          imgUrl: '',
           chat: [],
           purchase: {},
           address: {}
         }
       }
     },
+    computed: {
+      backpath() {
+        let back = ''
+        if(this.customid) {
+          back = {name: 'customized', query: {customid: this.customid}}
+        }else {
+         // back = ''
+        }
+
+        return back
+      }
+    },
     mounted() {
       this.getOrderInfo()
     },
     methods: {
+      // 获取地址
+      getAddress() {
+        this.$http({
+          url: '/api/list/address',
+          success: (data) => {
+            if(data.data.length > 0) {
+          this.detail.address = data.data[0]
+        }
+
+        }
+        })
+      },
       // 获取订单信息
       getOrderInfo() {
+        if(this.customid) {  //  个性定制
+         // console.log(sessionStorage.getItem(this.$route.query.customid))
+          this.getAddress()
+          let d = JSON.parse(sessionStorage.getItem(this.customid) || {})
+          let img = d.imgs ? d.imgs.split(',') : []
+
+          this.detail.num = d.num
+          this.detail.title = '个性定制'
+          this.detail.imgUrl = img[0]||''
+          this.detail.purchase = {
+            fontFamily: d.fontFamily || '',
+            remark: d.remark,
+            imgs: img
+          }
+
+        }else {
+         // return
+        }
+return
+/*
         this.loading.show('加载中')
 
         this.$http({
@@ -66,7 +114,7 @@
           }
 
 
-        })
+        })*/
 
 
 
@@ -75,20 +123,34 @@
       confirm() {
         this.loading.show()
 
+        let d = {}
+
+        if(this.customid) {
+          d = {
+            imgs: this.detail.purchase.imgs.join(','),
+            fontFamily: this.detail.purchase.fontFamily,
+            num: this.detail.num,
+            remark: this.detail.purchase.remark,
+            addressid: sessionStorage.getItem('siyj-customid'+this.customid) || this.detail.address.id
+          }
+        }
+
         this.$http({
           url: '',
           method: 'post',
-          data: {
-            sn: this.$route.query.orderid
-          },
+          data: d,
           success: (data) => {
+            let orderid = data.data.orderid || ''
 
             this.loading.hide()
-            this.$router.push({name: 'orderresult', query: {orderid: this.$route.query.orderid, status: data.status ? 1 : 2}})
+            this.$router.push({name: 'orderresult', query: {orderid: orderid, status: 1}})
           },
           error: (data) => {
+          let orderid = data.data.orderid || ''
+
             this.loading.hide()
-            this.$message.error('提交失败，请重试')
+           // this.$message.error('提交失败，请重试')
+          this.$router.push({name: 'orderresult', query: {orderid: orderid, status: 2}})
           }
 
 
