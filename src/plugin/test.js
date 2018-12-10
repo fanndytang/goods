@@ -157,10 +157,10 @@ let obj = {
       fontColor: 'blue',
       fontFamily: '微软雅黑',
       back: {
-        backgroundImg: './static/img/g1.png',
+        backgroundImg: './static/img/goods.png',
         scale: 1,
         params: [
-          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '平安', title: '祝福祝福', top: 92, type: 1},
+          {enable: true, fontsize: '38', left: 104, radio: '', rotate: '', text: '张北海', title: '祝福祝福', top: 135, type: 1},
           {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
           {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
           {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
@@ -169,10 +169,12 @@ let obj = {
       },
       front: {
         backgroundImg: './static/img/goods.png',
-        scale: 0.7967914438502673,
+      //  scale: 0.7967914438502673,
+        scale: 1,
         params: [
+          {enable: true, fontsize: '38', left: 104, radio: '', rotate: '', text: '张北海', title: '祝福祝福', top: 135, type: 1},
           {enable: true, fontsize: '24', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
-          {enable: true, fontsize: '30', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
+      //    {enable: true, fontsize: '30', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
           {enable: true, fontsize: '24', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
           {enable: true, fontsize: '24', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
           {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},

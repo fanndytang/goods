@@ -33,11 +33,12 @@
       <div v-if="show2 && purchase.front && purchase.front.params">
         <div class="list-item" v-for="item,i in purchase.front.params" :key="i">
           <label class="label">{{item.title}}：</label>
-          <span v-if="item.type == 1 || item.type == 2">{{item.text}}</span>
-          <img v-if="item.type == 3 || item.type == 4" :src="item.url" alt="">
+          <span v-if="item.type == 1">{{item.text}}</span>
+          <span v-if="item.type == 2">{{item.selText}}</span>
+          <span v-if="item.type == 3 && item.istext">{{item.text}}</span>
+          <img v-if="(item.type == 3 && !item.istext) || item.type == 4" :src="item.url" alt="">
         </div>
       </div>
-
 
     </div>
 
@@ -50,8 +51,10 @@
       <div v-if="show3 && purchase.back && purchase.back.params">
         <div class="list-item" v-for="item,i in purchase.back.params" :key="i">
           <label class="label">{{item.title}}：</label>
-          <span v-if="item.type == 1 || item.type == 2">{{item.text}}</span>
-          <img v-if="item.type == 3 || item.type == 4" :src="item.url" alt="">
+          <span v-if="item.type == 1">{{item.text}}</span>
+          <span v-if="item.type == 2">{{item.selText}}</span>
+          <span v-if="item.type == 3 && item.istext">{{item.text}}</span>
+          <img v-if="(item.type == 3 && !item.istext) || item.type == 4" :src="item.url" alt="">
         </div>
       </div>
 

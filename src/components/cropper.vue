@@ -83,8 +83,8 @@
         let url = this.cropperBox.getCroppedCanvas().toDataURL()
         let d = new FormData()
 
-       // d.append('file', this.dataURLtoBlob(url))
-        d.append('file', url)
+        d.append('file', this.dataURLtoBlob(url))
+     //   d.append('file', url)
         d.append('source', this.source)
 
         this.$http({

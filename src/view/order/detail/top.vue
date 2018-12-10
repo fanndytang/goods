@@ -6,7 +6,7 @@
       <div class="text">
         <div class="title">
           <span style="font-size: 14px;margin-bottom:2px;display:inline-block;">{{detail.title}}</span><br>
-          <span>{{detail.fineness}}&nbsp;{{detail.weight}}&nbsp;{{detail.format}}</span>
+          <span v-for="item,i in detail.dict">{{item}}&nbsp;</span>
         </div>
         <div class="number">定购数量：{{detail.num}}件</div>
       </div>

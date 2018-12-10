@@ -1,7 +1,7 @@
 <!-- 商品定制 -->
 <template>
   <div>
-    <head-bar :back="true" title="商品订制" :menu="true"></head-bar>
+    <head-bar :back="true" title="商品订制" :menu="true" :backpath="$route.query.designid ? {name: 'goodsdetail', query:{id: $route.query.id}} : ''"></head-bar>
 
     <div style="height: 37px;"></div>
     <div class="tab-bar">
@@ -51,13 +51,15 @@
       <div class="list-item">
         <div class="label">数量：</div>
         <div class="flex-center">
-          <form-number v-model="num" style="margin-left:5px;"></form-number>
+          <form-number v-model="detail.num" style="margin-left:5px;"></form-number>
         </div>
       </div>
 
     </div>
 
-    <button class="btn btn-red btn-block" type="button" @click="confirm()">提交订单</button>
+    <modal-login :callback="confirm">
+      <button class="btn btn-red btn-block" type="button">提交订单</button>
+    </modal-login>
     <div style="height:.45rem;"></div>
 
   </div>
@@ -89,7 +91,6 @@
         wordFront: {},
         wordBack: {},
         dict: [],                                 //  商品参数
-        num: 1,      // 商品数量
         designid: this.$route.query.designid
       }
     },
@@ -109,10 +110,20 @@
             id: id
           },
           success: (data) => {
-
             this.loading.hide()
-            this.detail = data.data
+            if(this.designid && sessionStorage.getItem(this.designid)) {
+              let d = JSON.parse(sessionStorage.getItem(this.designid) || "{}")
+              let dict = d.dict
+              for(let k in data.data.dict) {
+                data.data.dict[k].activeText = dict[k]
+              }
+              d.dict = data.data.dict
+              this.detail = d
 
+            }else {
+              data.data.num = data.data.num || 1
+              this.detail = data.data
+            }
             this.dataFormat()
           },
           error: (data) => {
@@ -136,7 +147,15 @@
         //  商品参数格式化
         this.dict = dict.map(item => {
           item.list = (item.text || '').toString().replace(/，/g, ',').split(',')   // 替换中文的逗号
-          item.activeIndex = -1
+          if(item.activeText) {
+            for(let i in item.list) {
+              if(item.list[i] == item.activeText) {
+                item.activeIndex = i
+                break;
+              }
+            }
+          }
+          item.activeIndex = item.activeIndex || -1
           return item
         })
 
@@ -194,7 +213,7 @@
               }
 
               if(item.type == 3) {
-                      item.lastImgUrl = item.url || ''
+                item.lastImgUrl = item.url || ''
               }
 
               //  判断缩放比
@@ -237,7 +256,7 @@
           d = data.params.map(item => {
             let r = {}
             for(let k in item) {
-              if(k !== 'selList' && k !== 'iconlist') {
+              if(k !== 'selList') {
                 r[k] = item[k]
               }
 
@@ -247,6 +266,14 @@
 
             if(r.fontsize) {
               r.fontsize = data.natural_height * parseFloat(item.fontsize) / data.web_height
+            }
+
+            if(r.width) {
+              r.width = data.natural_height * parseFloat(item.width) / data.web_height
+            }
+
+            if(r.height) {
+              r.height = data.natural_height * parseFloat(item.height) / data.web_height
             }
 
             return r
@@ -272,8 +299,8 @@
           method: 'post',
           data: this.getPurchaseResult(d),
           success: (data) => {
-                  // 下载图片
-                  this.loading.hide()
+            // 下载图片
+            this.loading.hide()
           },
           error: (data) => {
             this.loading.hide()
@@ -283,8 +310,6 @@
       },
       // 提交订单
       confirm() {
-        this.loading.show()
-
         let dict = []
 
         for(let k in this.dict) {
@@ -295,33 +320,21 @@
         let data = {
           id: this.$route.query.id,
           purchase: {
-            front: this.front,
-            back: this.back,
+            front: this.getPurchaseResult(this.front),
+            back: this.getPurchaseResult(this.back),
             fontFamily: this.purchase.fontFamily,
+            fontColor: this.purchase.fontColor,
             remark: this.purchase.remark,
           },
+          title: this.detail.title || this.$route.query.title,
           dict: dict,
-          num: this.num
+          imgUrl: this.detail.imgUrl || this.$route.query.imgUrl,
+          num: this.detail.num
         }
 
-
-     /*   this.$http({
-          url: '/api/order/design',
-          method: 'post',
-          data: data,
-          success: (data) => {
-            this.loading.hide()*/
-
-            let str = this.designid || 'design'+new Date().getTime()
-            sessionStorage.setItem(str, JSON.stringify(data))
-            this.$router.push({name: "orderdetail", query: {type: 0, designid: str}})
-        /*  },
-          error: (data) => {
-            this.loading.hide()
-          }
-
-        })*/
-
+        let str = this.designid || 'design'+new Date().getTime()
+        sessionStorage.setItem(str, JSON.stringify(data))
+        this.$router.push({name: "orderdetail", query: {type: 0, designid: str}})
       }
     },
     components: {
@@ -352,7 +365,7 @@
         }
       }
       input[type="text"] {
-       // border: none;
+        // border: none;
         border: 1px solid #eaeaea;
         -webkit-appearance: none;
       }

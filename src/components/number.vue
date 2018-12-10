@@ -17,6 +17,9 @@
       value: Number
     },
     watch: {
+      value() {
+        if(this.val !== this.value) this.val = this.value
+      },
       val(val, oldVal) {
         this.$nextTick(() => {
           this.width = this.$refs.spannum.clientWidth

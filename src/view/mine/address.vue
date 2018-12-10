@@ -45,6 +45,7 @@
         },
         orderid: this.$route.query.orderid || false,   // 是否需要选择地址
         customid: this.$route.query.customid,
+        designid: this.$route.query.designid,
       }
     },
     methods: {
@@ -77,6 +78,9 @@
 
         }else if(this.customid) {
           sessionStorage.setItem('siyj-customid'+this.customid, JSON.stringify(item))
+          this.$router.go(-1)
+        }else if(this.designid) {
+          sessionStorage.setItem('siyj-designid'+this.designid, JSON.stringify(item))
           this.$router.go(-1)
         }
       },
