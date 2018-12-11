@@ -1,6 +1,6 @@
 <template>
   <div class="full-gray" style="padding-top:1px;">
-    <head-bar :back="true" title="订单信息" :menu="type != 1" :backpath="backpath">
+    <head-bar :back="true" title="订单信息" :menu="type != 1">
       <span class="text-primary f14" @click="cancel()" v-if="type == 1">取消订单</span>
     </head-bar>
 
@@ -41,19 +41,6 @@
           purchase: {},
           address: {}
         }
-      }
-    },
-    computed: {
-      backpath() {
-        let back = ''
-        if(this.customid) {
-          back = {name: 'customized', query: {customid: this.customid}}
-        }else if(this.designid) {
-          let d = JSON.parse(sessionStorage.getItem(this.designid) || "{}")
-          back = {name: 'design', query: {designid: this.designid, id: d.id}}
-        }
-
-        return back
       }
     },
     mounted() {
@@ -136,8 +123,10 @@
             remark: this.detail.purchase.remark,
             addressid: this.detail.address.id
           }
+          sessionStorage.removeItem(this.customid)
         }else if(this.designid) {  // 商品定制
           d = this.detail
+          sessionStorage.removeItem(this.designid)
         }
         this.$http({
           url: '',

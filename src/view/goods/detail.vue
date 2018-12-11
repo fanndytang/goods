@@ -34,7 +34,7 @@
 
     <div class="foot">
       <div class="item"><img height="22px" :src="require('@/assets/icons/icon_kefu.png')" alt="">在线客服</div>
-      <div class="item"  @click="$router.push({name: 'design', query: {id: detail.id, imgUrl:detail.imgs&&detail.imgs[0] ? detail.imgs[0]:'',title: detail.title}})"><img height="22px" :src="require('@/assets/icons/icon_cart.png')" alt="">定制购买</div>
+      <div class="item"  @click="$router.push({name: 'design', query: {designid: setId(), id: detail.id, imgUrl:detail.imgs&&detail.imgs[0] ? detail.imgs[0]:'',title: detail.title}})"><img height="22px" :src="require('@/assets/icons/icon_cart.png')" alt="">定制购买</div>
     </div>
 
   </div>
@@ -61,6 +61,9 @@
       this.getDetail()
     },
     methods: {
+      setId() {
+        return  'design'+new Date().getTime()
+      },
       getDetail () {
         let id = this.$route.query.id
         if(id) {

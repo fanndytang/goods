@@ -1,7 +1,7 @@
 <!-- 商品定制 -->
 <template>
   <div>
-    <head-bar :back="true" title="商品订制" :menu="true" :backpath="$route.query.designid ? {name: 'goodsdetail', query:{id: $route.query.id}} : ''"></head-bar>
+    <head-bar :back="true" title="商品订制" :menu="true"></head-bar>
 
     <div style="height: 37px;"></div>
     <div class="tab-bar">
@@ -94,6 +94,35 @@
         designid: this.$route.query.designid
       }
     },
+    watch: {
+      front: {
+        handler() {
+          this.save()
+        },
+        deep: true
+      },
+      back: {
+        handler() {
+          this.save()
+        },
+        deep: true
+      },
+      dict: {
+        handler() {
+          this.save()
+        },
+        deep: true
+      },
+      'purchase.fontFamily' () {
+        this.save()
+      },
+      'purchase.remark' () {
+        this.save()
+      },
+      'detail.num' () {
+        this.save()
+      }
+    },
     mounted () {
       this.getDetail()
     },
@@ -111,7 +140,8 @@
           },
           success: (data) => {
             this.loading.hide()
-            if(this.designid && sessionStorage.getItem(this.designid)) {
+
+            if(sessionStorage.getItem(this.designid)) {
               let d = JSON.parse(sessionStorage.getItem(this.designid) || "{}")
               let dict = d.dict
               for(let k in data.data.dict) {
@@ -308,8 +338,8 @@
 
         })
       },
-      // 提交订单
-      confirm() {
+
+      save() {
         let dict = []
 
         for(let k in this.dict) {
@@ -332,9 +362,12 @@
           num: this.detail.num
         }
 
-        let str = this.designid || 'design'+new Date().getTime()
-        sessionStorage.setItem(str, JSON.stringify(data))
-        this.$router.push({name: "orderdetail", query: {type: 0, designid: str}})
+        sessionStorage.setItem(this.designid, JSON.stringify(data))
+      },
+      // 提交订单
+      confirm() {
+        this.save()
+        this.$router.push({name: "orderdetail", query: {type: 0, designid: this.designid}})
       }
     },
     components: {

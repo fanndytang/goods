@@ -4,7 +4,7 @@
     <div class="menu">
       <router-link class="item" :class="{'active': active==1}" to="/"><img :src="setIcon('home', active === 1)">首页</router-link>
       <router-link class="item" :class="{'active': active==2}" to="/goodlist"><img :src="setIcon('dg', active === 2)">商品定购</router-link>
-      <router-link class="item" :class="{'active': active==3}" to="/customized"><img :src="setIcon('gx', active === 3)">个性定制</router-link>
+      <router-link class="item" :class="{'active': active==3}" :to="{name: 'customized', query: {customid: setId()}}"><img :src="setIcon('gx', active === 3)">个性定制</router-link>
       <router-link class="item" :class="{'active': active==4}" to="/mine"><img :src="setIcon('my', active === 4)">商家中心</router-link>
     </div>
   </div>
@@ -22,6 +22,9 @@
       this.active = str[this.$route.path] || 1
     },
     methods: {
+        setId() {
+          return  'custom'+new Date().getTime()
+        },
           setIcon(mark, active) {
               return active ?
                 require('@/assets/icons/'+mark+'1.png') :

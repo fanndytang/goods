@@ -56,16 +56,22 @@
         customid: this.$route.query.customid
       }
     },
+    watch: {
+      'params': {
+        handler() {
+          sessionStorage.setItem(this.customid, JSON.stringify(this.params))
+        },
+        deep: true
+      }
+    },
     mounted () {
-      if(this.customid) {
-        let d = JSON.parse(sessionStorage.getItem(this.customid) || "{}")
+      let d = JSON.parse(sessionStorage.getItem(this.customid) || "{}")
 
-        this.params = {
-          imgs: d.imgs || '',
-          fontFamily: d.fontFamily || '微软雅黑',
-          num: d.num || 1,
-          remark: d.remark || ''
-        }
+      this.params = {
+        imgs: d.imgs || '',
+        fontFamily: d.fontFamily || '微软雅黑',
+        num: d.num || 1,
+        remark: d.remark || ''
       }
     },
     methods: {
@@ -78,12 +84,9 @@
         }else if(!this.params.num) {
           this.$message.error('请设置定制数量')
         }else {
+          sessionStorage.setItem(this.customid, JSON.stringify(this.params))
 
-          let str = this.customid || 'custom'+new Date().getTime()
-
-          sessionStorage.setItem(str, JSON.stringify(this.params))
-
-          this.$router.push({name: 'orderdetail', query: {customid: str, type: 0}})
+          this.$router.push({name: 'orderdetail', query: {customid: this.customid, type: 0}})
 
         }
 
