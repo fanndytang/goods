@@ -1,7 +1,7 @@
 <template>
   <div class="set-design-box">
 
-    <div class="list-item" v-for="item,i in box.params" :key="i">
+    <div class="list-item" v-for="item,i in box.params" :key="i" v-if="item.enable">
       <div class="label">
         {{item.title}}：
         <div class="other-modal" v-if="item.type == 4" @click="getIcon(item, i, box)">其它模板&emsp;</div>
@@ -15,7 +15,7 @@
         <div v-if="item.type==3 && !item.istext">
           <cropper-img v-model="item.url" @change="uploadCropperChange(item, i)" @cancel="cancelCropper(item,i)">
             <div slot="up-trigger" slot-scope="p" class="upload">
-              <upload-img-1 :no-up="true" :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
+              <upload-img-1 class="design-img-upload" :no-up="true" :ref="'upload'+i" @change="p.upload(item.url)" style="margin: 7px 0 0 0;"
                             :url.sync="item.url" v-model="item.url"></upload-img-1>
             </div>
 
@@ -72,20 +72,23 @@
         if(val.length) {
           let that = this
           val.each(function(i) {
-                  let d = new MyDrag({
-                    el: $(this)[0],
-                    parent: $(this).parent()[0],
-                    callback: function() {
-                      let params = that.box.params[i]
-                      if(params && (params.top != d.y || params.left != d.x) ) {
-                        params.top = d.y
-                        params.left = d.x
-                        that.box.params.splice(i, 1, params)
+                  if(that.box.params[i].enable) {
+                    let d = new MyDrag({
+                      el: $(this)[0],
+                      parent: $(this).parent()[0],
+                      callback: function() {
+                        let params = that.box.params[i]
+                        if(params && (params.top != d.y || params.left != d.x) ) {
+                          params.top = d.y
+                          params.left = d.x
+                          that.box.params.splice(i, 1, params)
+                        }
                       }
-                    }
-                  })
+                    })
 
-            that.setDesign(that.box, i, that.wordEle)
+                    that.setDesign(that.box, i, that.wordEle)
+                  }
+
           })
         }
       }
@@ -174,7 +177,7 @@
         if(p.type == 1 || p.type == 2) {
           let radio = p.radio, radius
           if(p.type == 2)  ele.params.splice(i, 1, p)
-          if(word.eq(i).find('span').length > 0)  word.eq(i).arctext('destroy')
+          if(word.eq(i).find('span').length > 1) word.eq(i).arctext('destroy')
           if(p.type == 1){
             word.eq(i).text(p.text)
           }else if(p.type == 2) {
@@ -221,6 +224,17 @@
     .form-select .sel-text {
       //  height: 28px;
       border: solid 1px rgba(204, 204, 204, 1);
+    }
+  }
+  .design-img-upload.upload {
+    .img-box {
+      height: 76px;
+      line-height: 76px;
+      img {
+        height: auto;
+        max-width: 76px;
+
+      }
     }
   }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div class="design-box">
+  <div class="design-box preview-design-box">
 
     <img :src="box.backgroundImg" alt="">
 
-    <div class="item" v-for="item,i in box.params" :key="i" :style="setStyle(item)">
+    <div class="item" v-for="item,i in box.params" :key="i" :style="setStyle(item)" v-show="item.enable">
 
       <span v-if="item.type == 1">{{item.text}}</span>
       <span v-if="item.type == 2">{{item.selText}}</span>
@@ -45,7 +45,11 @@
     }
   }
 </script>
-
+<style lang="less">
+  .preview-design-box .item span {
+    line-height:1;
+  }
+</style>
 <style lang="less" scoped>
   .design-box {
     height: 100%;
@@ -53,6 +57,7 @@
     position: relative;
     .item {
       position: absolute;
+      line-height: 1;
     }
     img {
       max-width: 100%;

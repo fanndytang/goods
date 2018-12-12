@@ -18,7 +18,7 @@
     </div>
 
     <div class="section design-purchase">
-      <div class="sec-title">定制参数</div>
+      <div class="sec-title flex-between">定制参数 <span class="text-primary" @click="reset()">恢复原图</span></div>
 
       <set-box v-show="active == 1" :box="front" :word-ele="wordFront"></set-box>
 
@@ -91,7 +91,8 @@
         wordFront: {},
         wordBack: {},
         dict: [],                                 //  商品参数
-        designid: this.$route.query.designid
+        designid: this.$route.query.designid,
+        originData: {}         // 原始数据
       }
     },
     watch: {
@@ -149,12 +150,13 @@
               }
               d.dict = data.data.dict
               this.detail = d
-
+              this.dataFormat(data.data.purchase || {})
             }else {
               data.data.num = data.data.num || 1
               this.detail = data.data
+              this.dataFormat()
             }
-            this.dataFormat()
+
           },
           error: (data) => {
             this.loading.hide()
@@ -162,8 +164,8 @@
         })
 
       },
-      // 处理异步获取的数据
-      dataFormat() {
+      // 处理异步获取的数据  hasOrigin:是否存储过原始数据
+      dataFormat(origin) {
         let that = this,
           purchase = this.detail.purchase || {},
           front = purchase.front || {},
@@ -173,6 +175,7 @@
           dict = this.detail.dict || []
 
         this.purchase = purchase
+        if(!origin) this.originData.purchase = this.deepClone(this.purchase)
 
         //  商品参数格式化
         this.dict = dict.map(item => {
@@ -193,12 +196,27 @@
         //  定制参数格式化
         paramsFormat(frontFormat, (data) => {
           this.front = data
+          if(!origin) this.originData.front = this.deepClone(this.front)
+
           that.$nextTick(() => {that.wordFront = $('#front-box .item')})
         })
         paramsFormat(backFormat, (data) => {
           this.back = data
+          if(!origin) this.originData.back = this.deepClone(this.back)
+
           that.$nextTick(() => {that.wordBack = $('#back-box .item')})
         })
+
+        if(origin) {  // 刷新页面或返回页面是恢复原图的数据
+          let front = origin.front || {},
+            back = origin.back || {},
+            f = {backgroundImg : front.backgroundImg || '', params: front.params || [], scale: front.scale || 1},
+            b = {backgroundImg: back.backgroundImg || '', params: back.params || [], scale: front.scale || 1}
+
+          this.originData.purchase = origin || {}
+          paramsFormat(f, (data) => {this.originData.front = this.deepClone(data)})
+          paramsFormat(b, (data) => {this.originData.back = this.deepClone(data)})
+        }
 
         function paramsFormat(data, callback) {
           let backUrl = data.backgroundImg
@@ -271,6 +289,42 @@
 
           return data
         }
+      },
+      deepClone(originData) {  // 克隆对象
+        let result = {}
+        for(let k in originData) {
+          if(k == 'params') {
+            result.params = []
+            for(let m in originData.params) {
+              let p = {}
+              for(let n in originData.params[m]) {
+                p[n] = originData.params[m][n]
+              }
+              result.params.push(p)
+            }
+          }else {
+            result[k] = originData[k]
+          }
+        }
+
+        return result
+
+      },
+      reset() {  // 恢复原图
+        this.front = {}
+        this.back = {}
+        this.$nextTick(() => {
+          this.front = this.deepClone(this.originData.front)
+          this.back = this.deepClone(this.originData.back)
+          this.purchase = this.deepClone(this.originData.purchase)
+
+          this.$nextTick(() => {
+            this.wordFront = $('#front-box .item')
+            this.wordBack = $('#back-box .item')
+          })
+
+        })
+
       },
       // 设置字体和颜色
       setGlobalFont() {
@@ -492,7 +546,8 @@
     position: relative;
     text-align: center;
     padding: 14px 0;
-    height: 2.15rem;
+  //  height: 2.15rem;
+    height: 3rem;
     .download {
       position: absolute;
       right: 20px;

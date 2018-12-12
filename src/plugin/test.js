@@ -153,33 +153,78 @@ let obj = {
   '/api/download': {},  //??不知道改怎么返回的额
 
   '/api/design/detail': {
-    purchase: {   // 定制参数
-      fontColor: 'blue',
+ "id":"5",
+    "title":"\u5546\u54c1\u540d\u79f0\u4e94",
+    "imgs":["\/uploads\/goods\/7c5ad7ad9a6cff190b7410cb2df3e81f.jpg","\/uploads\/goods\/0830af6fcba0f9d540ef799e55e1e94c.jpg"],
+    "tag":[
+      {"name":"\u70ed\u9500","value":"#ccc"},
+      {"name":"\u7279\u5356","value":"#666"},
+      {"name":"\u7cbe\u54c1","value":"#ff0000"}
+      ],
+    "process":"< img src=\"\/uploads\/goods_content\/b1385f93ad9a6d0136a446ee19475580.png\" alt=\"\" \/><br \/>",
+    "rules":"< img src=\"\/uploads\/goods_content\/d9d9587e848b1c486a8e2dbb56d49ff6.png\" alt=\"\" \/>",
+    "detail":"< img src=\"\/uploads\/goods_content\/d3.jpg\" alt=\"\" \/>",
+    "dict":[{"title":"\u6210\u8272","text":"PT950"},{"title":"\u91cd\u91cf","text":"30G"},{"title":"\u89c4\u683c","text":"10*15MM"}],
+    "purchase":{
+   "fontColor":"#FF3311",
+      "fontFamily":"Arial",
+      "front": {
+     "backgroundImg":"./static/img/t2.jpg",
+          "params":[
+            {"type":1,"title":"1213325","rotate":"30","enable":false,"top":0,"left":0,"text":"10","fontsize":20,"radio":"40"},
+            {"type":4,"title":"\u5b9d\u5b9d\u751f\u8096","rotate":"6","enable":true,"top":87,"left":394,"width":32,"height":32,"iconsid":"2",
+              "url":"\/uploads\/icons\/4e0d626285b3875ae7f78e7509704c40.png",
+              "iconlist":[
+                {"url":"\/uploads\/icons\/4e0d626285b3875ae7f78e7509704c40.png","text":"\u767d\u7f8a\u5ea7","id":"2"},
+                {"url":"\/uploads\/icons\/1042228aa810fedd4268fae933360e24.png","text":"\u91d1\u725b\u5ea7","id":"1"},
+                {"url":"\/uploads\/icons\/7440a632a3703b76456e7fbe32d3d157.png","text":"\u53cc\u5b50\u5ea7","id":"3"}
+                ]
+            },
+            {"type":3,"title":"\u5b9d\u5b9d\u7167\u7247","rotate":"7","enable":true,"top":12,"left":569,"width":180,"height":40,
+              "url":"./static/img/t3.jpg","istext":true},
+            {"type":2,"title":"\u51fa\u751f\u65f6\u95f4","rotate":"45","enable":true,"top":210,"left":48,"text":"AM,PM","fontsize":25,"radio":"35"},
+            {"type":1,"title":"\u5b9d\u5b9d\u59d3\u540d","rotate":"10","enable":true,"top":195,"left":609,"text":"\u738b\u5c0f\u6d77","fontsize":20,"radio":"5"}
+            ],
+          "scale":1
+      },
+      "back":{
+     "backgroundImg":"./static/img/t1.png",
+        "params":[
+          {"type":1,"title":"\u795d\u798f\u8bed\u5f55","rotate":"20","enable":true,"top":172,"left":654,"text":"\u5065\u5eb7","fontsize":30,"radio":"10"},
+          {"type":3,"title":"\u5b9d\u5b9d\u56fe\u7247","rotate":"","enable":true,"top":136,"left":14,"width":"","height":"","url":"./static/img/t3.jpg","istext":false}
+          ],
+        "scale":1
+   }
+ }
+    /*purchase: {   // 定制参数
+      fontColor: 'red',
       fontFamily: '微软雅黑',
-      back: {
-        backgroundImg: './static/img/goods.png',
+      front: {
+     //   backgroundImg: './static/img/goods.png',
+        backgroundImg: './static/img/ad3.jpg',
         scale: 1,
         params: [
-          {enable: true, fontsize: '38', left: 104, radio: '', rotate: '', text: '张北海', title: '祝福祝福', top: 135, type: 1},
-          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
+          {enable: true, height: 40, width:180, istext:false, left: 567.233, radio: '', rotate: '7', title: '位置测试', url: './static/img/logo.jpg', top: 12.1808, type: 3},
+         /!* {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '健康', title: '祝福祝福', top: 92, type: 1},
           {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '活泼', title: '祝福祝福', top: 92, type: 1},
           {enable: true, fontsize: '', left: 150, radio: '', rotate: '', text: '', title: '祝福祝福', top: 92, type: 1},
-          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}
+          {enable: true, fontsize: '', left: 150, radio: '', rotate: '', title: '宝宝照片', top: 92, istext: false, type: 3}*!/
         ]
       },
-      front: {
-        backgroundImg: './static/img/goods.png',
+      back: {
+       // backgroundImg: './static/img/goods.png',
+        backgroundImg: './static/img/ad2.png',
       //  scale: 0.7967914438502673,
         scale: 1,
         params: [
-          {enable: true, fontsize: '38', left: 104, radio: '', rotate: '', text: '张北海', title: '祝福祝福', top: 135, type: 1},
-          {enable: true, fontsize: '24', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
+          {enable: true, fontsize: '20', left: 661.68, radio: '', rotate: '30', text: "健康", title: "位置测试", top: 177.34, type: 1},
+     //     {enable: false, fontsize: '24', left: 221, radio: '40', rotate: '50', text: '50CM', title: '宝宝身高', top: 128, type: 1},
       //    {enable: true, fontsize: '30', left: 106.67959050484066, radio: '', rotate: '', text: '张北海', title: '宝宝姓名', top: 129.26845637583892, type: 1},
-          {enable: true, fontsize: '24', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
-          {enable: true, fontsize: '24', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
-          {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
-          {enable: true, fontsize: '24', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
-          {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
+        //  {enable: true, fontsize: '24', left: 92, radio: '50', rotate: '180', text: '2018.07.14', title: '出生日期', top: 305, type: 1},
+         // {enable: true, fontsize: '24', left: 44, radio: '', rotate: '', text: 'AM,PM', title: '上午下午', top: 210, type: 2},
+        //  {enable: true, left: 100, rotate: '', istext: true, text: '', title: '出生时间', top: 150, type: 3},
+        //  {enable: true, fontsize: '24', left: 23, radio: '70', rotate: '-50', text: '3700g', title: '宝宝重量', top: 120, type: 1},
+      /!*    {enable: true, left: 150, rotate: '30', title: '宝宝星座', top: 92, type: 4,
             width: 100,
             height: 100,
             url: '',
@@ -193,7 +238,7 @@ let obj = {
               {id: 5, text: '狮子座', url: "./static/img/xz/shizi.png",},
               {id: 6, text: '处女座', url: "./static/img/xz/chunv.png",},
             ]
-          }
+          }*!/
         ]
       }
     },
@@ -201,7 +246,7 @@ let obj = {
       {title: '成色', text: 'Ag999,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金,银镀金'},
       {title:  '重量', text: '20g,30g'},
       {title: '规格', text: '20*23.8mm,20*10.4mm'}
-    ]
+    ]*/
   },
 
   '/api/goods/detail': {
