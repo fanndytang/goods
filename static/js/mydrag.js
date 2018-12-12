@@ -13,6 +13,8 @@ function MyDrag(options) {
         y: 0
     }
 
+    this.callback = options.callback || function() {}
+
     this.init()
 }
 
@@ -52,6 +54,7 @@ MyDrag.prototype.move = function() {
 
         this.el.style.left = this.x+"px";
         this.el.style.top = this.y +"px";
+        this.callback()
         //阻止页面的滑动默认事件
         document.addEventListener("touchmove",function(){
             event.preventDefault();

@@ -72,10 +72,19 @@
         if(val.length) {
           let that = this
           val.each(function(i) {
-            new MyDrag({
-              el: $(this)[0],
-              parent: $(this).parent()[0]
-            })
+                  let d = new MyDrag({
+                    el: $(this)[0],
+                    parent: $(this).parent()[0],
+                    callback: function() {
+                      let params = that.box.params[i]
+                      if(params && (params.top != d.y || params.left != d.x) ) {
+                        params.top = d.y
+                        params.left = d.x
+                        that.box.params.splice(i, 1, params)
+                      }
+                    }
+                  })
+
             that.setDesign(that.box, i, that.wordEle)
           })
         }
@@ -93,13 +102,12 @@
           w = parseFloat(ele.data('width')),
           h = parseFloat(ele.data('height'))
 
-     //   console.log(w, h)
 
         if(isNaN(w) || isNaN(h)) return
 
         item.width = w * v
         item.height = h * v
-//console.log(item.width, item.height)
+
         this.box.params.splice(i, 1, item)
       },
       // 取消裁剪
