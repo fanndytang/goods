@@ -6,7 +6,7 @@
     <div style="height: 37px;"></div>
     <div class="tab-bar">
       <span class="item" :class="{'active': active==1}" @click="active=1">正面</span>
-      <span class="item" :class="{'active': active==2}" @click="active=2">背面</span>
+      <span class="item" :class="{'active': active==2}" @click="active=2;setImgSize();">背面</span>
     </div>
 
     <div class="imgs section" :style="setGlobalFont()" ref="design-img-box">
@@ -62,12 +62,24 @@
     </modal-login>
     <div style="height:.45rem;"></div>
 
+
+    <div class="modal-download" v-show="showDownload">
+      <div class="modal-body">
+        <div class="modal-title"><img @click="showDownload=false" :src="require('@/assets/icons/icon_guanbi.png')" height="20px" alt=""></div>
+        {{downloadUrl}}
+        <img :src="downloadUrl" alt="">
+        <p>长按图片保存</p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
   import previewBox from './design/preview.vue'
   import setbox from './design/setbox.vue'
+  import html2canvas from 'html2canvas';
+
 
   export default {
     data () {
@@ -92,7 +104,9 @@
         wordBack: {},
         dict: [],                                 //  商品参数
         designid: this.$route.query.designid,
-        originData: {}         // 原始数据
+        originData: {},         // 原始数据
+        downloadUrl: '',
+        showDownload: false,
       }
     },
     watch: {
@@ -128,6 +142,26 @@
       this.getDetail()
     },
     methods: {
+      setImgSize() {
+        let that = this
+        this.$nextTick(() => {
+          let items = $('#back-box .item')
+          items.each(function(i) {
+
+          let img = $(this).find('img')
+          if(img.length) {
+            let w = img.width(), h = img.height(), v = that.back.params[i].scaleNo
+
+            v = isNaN(v) ? 100 : v
+            if(v <= 0) v = 100
+
+            img.data('width', w * 100 / v)
+            img.data('height', h * 100 / v)
+          }
+        })
+        })
+
+      },
       //  获取页面初始数据
       getDetail() {
         let id = this.$route.query.id
@@ -375,21 +409,14 @@
 
       // 下载图片
       download() {
-        let d = this.active == 1 ? this.front : this.back
-
-        this.loading.show('正在请求')
-        this.$http({
-          url: '/api/download',
-          method: 'post',
-          data: this.getPurchaseResult(d),
-          success: (data) => {
-            // 下载图片
-            this.loading.hide()
-          },
-          error: (data) => {
-            this.loading.hide()
-          }
-
+        let that = this
+        this.loading.show()
+        html2canvas(this.active==1 ? $('#front-box').get(0) : $('#back-box').get(0)).then(function(canvas) {
+          that.downloadUrl = canvas.toDataURL()
+          that.showDownload = true
+          that.loading.hide()
+        }).catch(err => {
+          that.loading.hide()
         })
       },
 
@@ -563,5 +590,36 @@
     bottom: 0;
     left: 0;
     z-index: 10;
+  }
+
+  .modal-download {
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .5);
+    z-index: 200;
+    color: #000;
+    .modal-title {
+      text-align:right;
+      line-height: 30px;
+    }
+    .modal-body {
+      position: absolute;
+      background: #fff;
+      top: 50%;
+      left:0;
+      transform: translateY(-50%);
+      max-height: 75%;
+      width: 100%;
+      padding: 10px;
+      text-align: center;
+    }
+    img {
+      max-width: 100%;
+      max-height: 60%;
+    }
+
   }
 </style>

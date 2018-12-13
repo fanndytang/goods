@@ -88,8 +88,22 @@
 
                     that.setDesign(that.box, i, that.wordEle)
                   }
-
           })
+          setTimeout(() => {
+            val.each(function(i) {
+            let img = $(this).find('img')
+            if(img.length) {
+              let w = img.width(), h = img.height(), v = that.box.params[i].scaleNo
+
+              v = isNaN(v) ? 100 : v
+              if(v <= 0) v = 100
+
+              img.data('width', w * 100 / v)
+              img.data('height', h * 100 / v)
+            }
+          })
+
+        }, 100)
         }
       }
     },
@@ -105,7 +119,7 @@
           w = parseFloat(ele.data('width')),
           h = parseFloat(ele.data('height'))
 
-
+console.log(w, h)
         if(isNaN(w) || isNaN(h)) return
 
         item.width = w * v
@@ -125,6 +139,7 @@
         item.width = item.initWidth || ''
         item.height = item.initHeight || ''
         item.scaleNo = ''
+       // console.log(item.width, item.height, item.initWidth, item.initHeight)
 
         this.box.params.splice(i, 1, item)
 
