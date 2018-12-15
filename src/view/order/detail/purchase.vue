@@ -31,7 +31,8 @@
       </div>
 
       <div v-if="show2 && purchase.front && purchase.front.params">
-        <div class="list-item" v-for="item,i in purchase.front.params" :key="i">
+        <img class="avatar" :src="purchase.frontavatar" alt="">
+        <div class="list-item" v-for="item,i in purchase.front.params" :key="i" v-if="item.enable">
           <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1">{{item.text}}</span>
           <span v-if="item.type == 2">{{item.selText}}</span>
@@ -49,7 +50,8 @@
       </div>
 
       <div v-if="show3 && purchase.back && purchase.back.params">
-        <div class="list-item" v-for="item,i in purchase.back.params" :key="i">
+        <img class="avatar" :src="purchase.backavatar" alt="">
+        <div class="list-item" v-for="item,i in purchase.back.params" :key="i" v-if="item.enable">
           <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1">{{item.text}}</span>
           <span v-if="item.type == 2">{{item.selText}}</span>
@@ -125,5 +127,10 @@
     img {
       max-height: 80px;
     }
+  }
+  .avatar {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
   }
 </style>

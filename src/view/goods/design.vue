@@ -66,7 +66,6 @@
     <div class="modal-download" v-show="showDownload">
       <div class="modal-body">
         <div class="modal-title"><img @click="showDownload=false" :src="require('@/assets/icons/icon_guanbi.png')" height="20px" alt=""></div>
-        {{downloadUrl}}
         <img :src="downloadUrl" alt="">
         <p>长按图片保存</p>
       </div>
@@ -412,7 +411,14 @@
         let that = this
         this.loading.show()
         html2canvas(this.active==1 ? $('#front-box').get(0) : $('#back-box').get(0)).then(function(canvas) {
+         // console.log(canvas.toBlob())
+
           that.downloadUrl = canvas.toDataURL()
+
+          console.log(typeof that.downloadUrl)
+
+
+        //  console.log(that.downloadUrl)
           that.showDownload = true
           that.loading.hide()
         }).catch(err => {
@@ -420,7 +426,7 @@
         })
       },
 
-      save() {
+      save(callback) {
         let dict = []
 
         for(let k in this.dict) {
@@ -444,11 +450,44 @@
         }
 
         sessionStorage.setItem(this.designid, JSON.stringify(data))
+        callback ? callback(data) : ''
       },
       // 提交订单
       confirm() {
-        this.save()
-        this.$router.push({name: "orderdetail", query: {type: 0, designid: this.designid}})
+        this.loading.show()
+        this.save((data) => {
+          let that = this
+          data.purchase.frontavatar = ''
+          data.purchase.backavatar = ''
+
+          let str = {
+            1: {el: $('#front-box').get(0), key: 'frontavatar'},
+            2: {el: $('#back-box').get(0), key: 'backavatar'},
+          }
+
+          html2canvas(str[that.active].el).then(function(canvas1) {
+            data.purchase[str[that.active].key] = canvas1.toDataURL()
+            that.active = that.active == 1 ? 2 : 1
+
+            that.$nextTick(() => {
+              html2canvas(str[that.active].el).then(function(canvas2) {
+                data.purchase[str[that.active].key] = canvas2.toDataURL()
+                that.loading.hide()
+                sessionStorage.setItem(that.designid, JSON.stringify(data))
+                that.$router.push({name: "orderdetail", query: {type: 0, designid: that.designid}})
+              }).catch(err => {
+                that.loading.hide()
+                sessionStorage.setItem(that.designid, JSON.stringify(data))
+                that.$router.push({name: "orderdetail", query: {type: 0, designid: that.designid}})
+              })
+            })
+
+          }).catch(err => {
+            that.loading.hide()
+            sessionStorage.setItem(that.designid, JSON.stringify(data))
+            that.$router.push({name: "orderdetail", query: {type: 0, designid: that.designid}})
+          })
+        })
       }
     },
     components: {

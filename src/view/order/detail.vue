@@ -109,23 +109,31 @@
           this.detail.title = d.title
           this.detail.num = d.num
           this.detail.goodid = d.id
+
+          console.log(this.detail.purchase.frontavatar)
         }
       },
       //  确认订单
       confirm() {
         this.loading.show()
-        let d = {}
+        let d = new FormData()
+        let query = {}
         if(this.customid) {  // 个性定制
-          d = {
+          query = {
             imgs: this.detail.purchase.imgs.join(','),
             fontFamily: this.detail.purchase.fontFamily,
             num: this.detail.num,
             remark: this.detail.purchase.remark,
-            addressid: this.detail.address.id
+            addressid: this.detail.address.id,
+            orderType: 'custom'
           }
+          d.append('query', JSON.stringify(query))
           sessionStorage.removeItem(this.customid)
         }else if(this.designid) {  // 商品定制
-          d = this.detail
+          query = this.detail
+          query.orderType = 'custom'
+          d.append('query', JSON.stringify(query))
+
           sessionStorage.removeItem(this.designid)
         }
         this.$http({
