@@ -50,7 +50,7 @@
     line-height:1;
   }
 </style>
-<style lang="less" scoped>
+  <style lang="less" scoped>
   .design-box {
     max-height: 100%;
     display: inline-block;
@@ -61,7 +61,7 @@
       line-height: 1;
       max-width: 100%;
       max-height: 100%;
-      overflow: hidden;
+      //overflow: hidden;
     }
     img {
       max-width: 100%;
