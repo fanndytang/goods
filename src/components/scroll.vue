@@ -54,10 +54,13 @@
     },
     methods: {
       getData () {
-        if(this.list.data.length > 0 && this.list.data.length >= this.list.totals)   {
+              console.log(this.list.notInitHttp)
+        if(( this.list.notInitHttp && this.list.data.length <= 0 || this.list.data.length > 0 ) && this.list.data.length >= this.list.totals)   {
           this.infiniteLoading = false
           return false
         }
+
+        this.list.notInitHttp = true
 
         this.infiniteLoading = true
 
@@ -75,7 +78,7 @@
             params[k] = this.params[k]
           }
         }
-        console.log(this.params)
+      //  console.log(this.params)
 
         this.$http({
           url: this.url,

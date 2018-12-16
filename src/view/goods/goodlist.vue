@@ -119,6 +119,7 @@
         }
 
         if(len <= 0) {
+          this.$refs.scroll.list.notInitHttp = false
           this.$refs.scroll.getData()
         }else if(len > 0 && len < this.showData.totals) {
           this.loading = true

@@ -40,9 +40,10 @@
     data () {
       return {
         loading: new this.Loading('提交中'),
-       // type: this.$route.query.type,
+        // type: this.$route.query.type,
         show: true,
         form: {
+          sn: this.$route.query.orderid || '',
           img: '',
           question: ''
         }

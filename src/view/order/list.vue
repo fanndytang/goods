@@ -29,7 +29,7 @@
             <div class="desc">
               <div class="title">{{item.title}} <span class="num">{{item.number}}件</span></div>
               <div class="title">{{item.fineness}}&nbsp;{{item.weight}}&nbsp;{{item.format}}</div>
-              <div class="answer">客服回复：{{item.answer}}</div>
+              <div class="answer" v-show="item.answer">客服回复：{{item.answer}}</div>
             </div>
           </div>
         </router-link>
@@ -52,7 +52,7 @@
               {title: '待确认', type: 1},
               {title: '生产中', type: 2},
               {title: '已发货', type: 3},
-              {title: '已取消', type: 4}
+              {title: '已取消', type: 9}
             ],
             loading: false,
             dataAll: {},   //  总数据列表
@@ -71,19 +71,21 @@
       // 点击类别
       clickNav(item) {
         this.type = item.type
-       // this.showData = this.dataAll[this.type]
+
+        this.$refs.scroll.params.type = item.type
+
         let len = this.dataAll[this.type].data.length
-     //   let len = this.showData.data.length
 
         for(let k in this.dataAll[this.type]) {
           this.$refs.scroll.list[k] = this.dataAll[this.type][k]
         }
 
         if(len <= 0) {
+          this.$refs.scroll.list.notInitHttp = false
           this.$refs.scroll.getData()
         }else if(len > 0 && len < this.showData.totals) {
           this.loading = true
-          setTimeout(() => {this.loading = false}, 50)
+          setTimeout(() => {this.loading = false}, 500)
         }
       },
       // 类别处理
@@ -99,7 +101,9 @@
       },
       //  获取数据
       getData() {
-        this.dataAll[this.type] = this.showData
+        for(let k in this.showData) {
+          this.dataAll[this.type][k] = this.showData[k]
+        }
       },
       //  取消订单
       cancel(item, index) {
@@ -134,6 +138,7 @@
 <style lang="less" scoped>
   .full-gray {
     padding-top: 48px;
+    min-height: calc(100vh - .5rem);
   }
   .nav {
     position: fixed;
@@ -186,6 +191,9 @@
       align-items: center;
       padding: 12px 20px 24px 21px;
       border-bottom: 1px solid rgba(230, 230, 230, 1);
+      .desc {
+        flex: 1;
+      }
       .img {
         border: 1px solid #f6f6f6;
         width: 55px;

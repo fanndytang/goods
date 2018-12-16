@@ -49,9 +49,16 @@ let http = (options) => {
       }
       if(url == '/upload') {
         res.data = obj.img(request.data)
-      }else if(['/api/list/hot', '/api/list/news', '/api/list/goodlist', '/api/list/address', '/api/list/orderlist'].includes(url)) {
+      }else if(['/api/list/hot', '/api/list/news', '/api/list/goodlist', '/api/list/address'].includes(url)) {
         res.data = d.data
         res.page = d.page
+      }else if(['/api/list/orderlist'].includes(url)) {
+        let type = data.type
+        res.data = d.data[type]
+        res.page = {
+          totals: d.page[type]
+        }
+        console.log(type)
       }else {
         res.data = d
   //  console.log(res)

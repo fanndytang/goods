@@ -31,7 +31,7 @@
       </div>
 
       <div v-if="show2 && purchase.front && purchase.front.params">
-        <img class="avatar" :src="purchase.frontavatar" alt="">
+        <img class="avatar" :src="purchase.frontavatar || purchase.frontImg || ''" alt="">
         <div class="list-item" v-for="item,i in purchase.front.params" :key="i" v-if="item.enable">
           <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1">{{item.text}}</span>
@@ -50,7 +50,7 @@
       </div>
 
       <div v-if="show3 && purchase.back && purchase.back.params">
-        <img class="avatar" :src="purchase.backavatar" alt="">
+        <img class="avatar" :src="purchase.backavatar || purchase.backImg || ''" alt="">
         <div class="list-item" v-for="item,i in purchase.back.params" :key="i" v-if="item.enable">
           <label class="label">{{item.title}}：</label>
           <span v-if="item.type == 1">{{item.text}}</span>

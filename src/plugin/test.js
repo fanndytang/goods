@@ -79,21 +79,42 @@ let obj = {
   },
 
   '/api/list/orderlist': {
-    data: [
-      {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
-      {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+    data: {
+      1: [
+        {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+      /*  {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+*/
+      ],
+      2: [],
+      3: [
+        {id: 1, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 2, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 3, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 4, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 5, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 6, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 7, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 8, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 9, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
+        {id: 10, sn: '20181115093150001', date: '2018.11.15 09:31:50', imgUrl: './static/img/goods.png', title: '宝宝生辰定制牌', number: '100', fineness: 'Au999', weight: '20g', format: '20*23.8mm', answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页'},
 
-    ],
+      ],
+      9: []
+    },
     page: {
-      totals: 35
+      1: 2,
+      2: 0,
+      3: 35,
+      9: 0
+     // totals: 35
     }
   },
 
@@ -313,8 +334,9 @@ let obj = {
     date: '2018.11.15 09:31:50',
     imgUrl: './static/img/goods.png',
     title: '宝宝生辰定制牌',
-    number: '100',
+    num: '100',
     size: 'Au999 20g 20*23.8mm',
+    dict: ['Au999', '20g', '20*23.8mm'],
     answer: '请提供客服的详细资料和上传照片，具体内容请查看详情页',
     address: {
       name: '张三', tel: '13800018000', address: '广东省深圳市罗湖区田贝路金利1102室'
@@ -322,6 +344,10 @@ let obj = {
     purchase: {
       fontColor: 'blue',
       fontFamily: 'A',
+      remark: 'testetst',
+      backImg: './static/img/goods.png',
+      frontImg: './static/img/goods.png',
+
       back: {
         backgroundImg: '',
         params: [
